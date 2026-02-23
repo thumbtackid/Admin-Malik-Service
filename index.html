@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  
+  <!-- Primary Meta Tags -->
+  <title>Malik Service - Kasir & Laporan Keuangan</title>
+  <meta name="title" content="Malik Service - Kasir & Laporan Keuangan">
+  <meta name="description" content="Malik Service: Aplikasi kasir lengkap dengan struk, laporan laba rugi, arus kas, dan manajemen pengeluaran. Dilengkapi login admin aman tanpa backend.">
+  <meta name="keywords" content="kasir, struk, laporan keuangan, laba rugi, arus kas, pwa, offline first">
+  <meta name="author" content="Malik Service">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="Indonesian">
+  
+  <!-- PWA -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Malik Kasir">
+  <meta name="mobile-web-app-capable" content="yes">
+  
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Font Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #0f172a;
+      --primary-light: #1e293b;
+      --secondary: #334155;
+      --accent: #3b82f6;
+      --accent-dark: #2563eb;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --info: #06b6d4;
+      --light: #f8fafc;
+      --dark: #020617;
+      --gray: #64748b;
+      --gray-light: #94a3b8;
+      --border: #e2e8f0;
+      --bg-light: #f1f5f9;
+      --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
+      --shadow-md: 0 10px 25px -10px rgba(0,0,0,0.1);
+      --shadow-lg: 0 25px 60px -15px rgba(0,20,60,0.3);
+      --radius-sm: 12px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-xl: 32px;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    
+    /* Login Screen */
+    #loginScreen {
+      width: 100%;
+      max-width: 420px;
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 40px 32px;
+      box-shadow: var(--shadow-lg);
+      animation: fadeIn 0.4s ease;
+    }
+    
+    .login-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    
+    .login-header i {
+      font-size: 56px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    
+    .login-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+    
+    .login-header p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+    
+    .input-group {
+      margin-bottom: 20px;
+    }
+    
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+    
+    .input-group label i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+    
+    .input-group input, 
+    .input-group select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      transition: all 0.3s;
+      font-family: inherit;
+    }
+    
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+    }
+    
+    .input-group input.error {
+      border-color: var(--danger);
+    }
+    
+    .error-message {
+      color: var(--danger);
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    
+    .error-message.visible {
+      display: block;
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      border-radius: var(--radius-md);
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 24px;
+    }
+    
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
+    }
+    
+    .login-btn:active {
+      transform: translateY(0);
+    }
+    
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .security-note {
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      color: var(--secondary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .security-note i {
+      color: var(--accent);
+      font-size: 24px;
+    }
+    
+    /* Main App Screen */
+    #appScreen {
+      display: none;
+      width: 100%;
+      max-width: 1400px;
+      background: var(--bg-light);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp 0.4s ease;
+    }
+    
+    .app-container {
+      display: flex;
+      min-height: 90vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--primary);
+      color: white;
+      padding: 24px;
+    }
+    
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 24px;
+    }
+    
+    .sidebar-header i {
+      font-size: 36px;
+      color: var(--accent);
+    }
+    
+    .sidebar-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+    }
+    
+    .sidebar-header p {
+      font-size: 12px;
+      opacity: 0.7;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 8px;
+    }
+    
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    
+    .sidebar-menu a:hover,
+    .sidebar-menu a.active {
+      background: rgba(255,255,255,0.1);
+      color: white;
+    }
+    
+    .sidebar-menu a i {
+      width: 20px;
+    }
+    
+    .sidebar-footer {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .logout-btn {
+      width: 100%;
+      padding: 12px;
+      background: rgba(239,68,68,0.2);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius-sm);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(239,68,68,0.3);
+    }
+    
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+    
+    .content-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .content-header h2 {
+      font-size: 24px;
+      color: var(--primary);
+      font-weight: 700;
+    }
+    
+    .date-badge {
+      background: white;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--secondary);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .date-badge i {
+      margin-right: 8px;
+      color: var(--accent);
+    }
+    
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s;
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .stat-header i {
+      font-size: 32px;
+      color: var(--accent);
+      background: var(--bg-light);
+      padding: 12px;
+      border-radius: 50%;
+    }
+    
+    .stat-header span {
+      font-size: 14px;
+      color: var(--gray);
+      font-weight: 500;
+    }
+    
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    
+    .stat-label {
+      font-size: 14px;
+      color: var(--gray);
+    }
+    
+    /* Charts */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .chart-card {
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .chart-header h3 {
+      font-size: 16px;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+    
+    .chart-header select {
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-family: inherit;
+    }
+    
+    canvas {
+      max-height: 300px;
+    }
+    
+    /* Tables */
+    .table-card {
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+    
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .table-header h3 {
+      font-size: 18px;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    
+    .btn-primary {
+      padding: 12px 24px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+    
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    
+    .btn-primary:active {
+      transform: translateY(0);
+    }
+    
+    .btn-secondary {
+      padding: 12px 24px;
+      background: white;
+      color: var(--secondary);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-secondary:hover {
+      background: var(--bg-light);
+    }
+    
+    .table-responsive {
+      overflow-x: auto;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      text-align: left;
+      padding: 16px;
+      background: var(--bg-light);
+      color: var(--secondary);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    td {
+      padding: 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    
+    .badge {
+      padding: 4px 12px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    .badge.success {
+      background: #dcfce7;
+      color: #166534;
+    }
+    
+    .badge.warning {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    
+    .badge.info {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+    
+    .action-btn {
+      padding: 8px;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--gray);
+      transition: color 0.3s;
+      margin: 0 4px;
+    }
+    
+    .action-btn:hover {
+      color: var(--accent);
+    }
+    
+    .action-btn.delete:hover {
+      color: var(--danger);
+    }
+    
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal.active {
+      display: flex;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: var(--radius-lg);
+      width: 90%;
+      max-width: 500px;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlide 0.3s ease;
+    }
+    
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-header h3 {
+      font-size: 20px;
+      color: var(--primary);
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray);
+    }
+    
+    .modal-body {
+      padding: 24px;
+    }
+    
+    .modal-footer {
+      padding: 20px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+    
+    /* Receipt Preview */
+    .receipt-preview {
+      background: white;
+      padding: 24px;
+      border-radius: var(--radius-md);
+      margin: 20px 0;
+      font-family: 'Courier New', monospace;
+      border: 2px dashed var(--border);
+    }
+    
+    .receipt-header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .receipt-header h4 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    
+    .receipt-items {
+      margin: 16px 0;
+      border-top: 1px dashed var(--primary);
+      border-bottom: 1px dashed var(--primary);
+      padding: 12px 0;
+    }
+    
+    .receipt-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .receipt-total {
+      font-size: 18px;
+      font-weight: 700;
+      text-align: right;
+      margin-top: 16px;
+    }
+    
+    /* Category Management */
+    .categories-list {
+      display: grid;
+      gap: 12px;
+    }
+    
+    .category-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+      background: var(--bg-light);
+      border-radius: var(--radius-md);
+    }
+    
+    .category-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .category-color {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+    }
+    
+    /* Cash Flow */
+    .cash-positive {
+      color: var(--success);
+      font-weight: 600;
+    }
+    
+    .cash-negative {
+      color: var(--danger);
+      font-weight: 600;
+    }
+    
+    /* Floating Action Button */
+    .fab {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+      z-index: 100;
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(0.8);
+      transition: all 0.3s;
+      border: none;
+    }
+    
+    .fab.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+    }
+    
+    .fab:hover {
+      transform: scale(1.1);
+    }
+    
+    /* Print Styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      
+      #receiptPrint,
+      #receiptPrint * {
+        visibility: visible;
+      }
+      
+      #receiptPrint {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 20px;
+      }
+      
+      .no-print {
+        display: none !important;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes modalSlide {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .app-container {
+        flex-direction: column;
+      }
+      
+      .sidebar {
+        width: 100%;
+        padding: 16px;
+      }
+      
+      .sidebar-menu {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      
+      .sidebar-menu li {
+        flex: 1 1 auto;
+      }
+      
+      .sidebar-menu a {
+        justify-content: center;
+        padding: 10px;
+      }
+      
+      .sidebar-menu a span {
+        display: none;
+      }
+      
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .main-content {
+        max-height: none;
+      }
+      
+      .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .fab {
+        bottom: 16px;
+        right: 16px;
+        width: 50px;
+        height: 50px;
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen">
+    <div class="login-header">
+      <i class="fas fa-calculator"></i>
+      <h2>Malik Kasir</h2>
+      <p>Struk & Laporan Keuangan</p>
+    </div>
+    
+    <div class="input-group">
+      <label><i class="fas fa-user"></i> Username</label>
+      <input type="text" id="username" placeholder="Masukkan username" autocomplete="off">
+      <div class="error-message" id="usernameError"></div>
+    </div>
+    
+    <div class="input-group">
+      <label><i class="fas fa-lock"></i> Password</label>
+      <input type="password" id="password" placeholder="Masukkan password">
+      <div class="error-message" id="passwordError"></div>
+    </div>
+    
+    <button class="login-btn" id="loginBtn">
+      <i class="fas fa-sign-in-alt"></i> Masuk
+    </button>
+    
+    <div class="security-note">
+      <i class="fas fa-shield-alt"></i>
+      <div>
+        <strong>Login Demo:</strong><br>
+        Username: admin<br>
+        Password: admin123
+      </div>
+    </div>
+  </div>
+  
+  <!-- Main App Screen -->
+  <div id="appScreen">
+    <div class="app-container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="sidebar-header">
+          <i class="fas fa-store"></i>
+          <div>
+            <h3>Malik Kasir</h3>
+            <p>v2.0.0</p>
+          </div>
+        </div>
+        
+        <ul class="sidebar-menu">
+          <li><a class="active" data-page="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
+          <li><a data-page="transactions"><i class="fas fa-shopping-cart"></i><span>Transaksi</span></a></li>
+          <li><a data-page="categories"><i class="fas fa-tags"></i><span>Kategori</span></a></li>
+          <li><a data-page="profit-loss"><i class="fas fa-chart-line"></i><span>Laba Rugi</span></a></li>
+          <li><a data-page="cash-flow"><i class="fas fa-money-bill-wave"></i><span>Arus Kas</span></a></li>
+          <li><a data-page="expenses"><i class="fas fa-receipt"></i><span>Pengeluaran</span></a></li>
+        </ul>
+        
+        <div class="sidebar-footer">
+          <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Keluar
+          </button>
+        </div>
+      </div>
+      
+      <!-- Main Content -->
+      <div class="main-content" id="mainContent"></div>
+    </div>
+  </div>
+  
+  <!-- Transaction Modal -->
+  <div class="modal" id="transactionModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
+        <button class="close-modal" onclick="App.closeModal('transactionModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label><i class="fas fa-tag"></i> Kategori</label>
+          <select id="transCategory" required>
+            <option value="">Pilih kategori</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-box"></i> Nama Item</label>
+          <input type="text" id="transItem" placeholder="Contoh: Kopi Susu" required>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-money-bill"></i> Harga</label>
+          <input type="number" id="transPrice" placeholder="0" min="0" required>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-calculator"></i> Jumlah</label>
+          <input type="number" id="transQty" placeholder="1" min="1" value="1" required>
+        </div>
+        
+        <!-- Receipt Preview -->
+        <div class="receipt-preview">
+          <div class="receipt-header">
+            <h4>STRUK PEMBELIAN</h4>
+            <p id="receiptDate"></p>
+          </div>
+          <div class="receipt-items" id="receiptItems"></div>
+          <div class="receipt-total" id="receiptTotal">Rp 0</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="App.closeModal('transactionModal')">Batal</button>
+        <button class="btn-primary" onclick="App.printReceipt()">
+          <i class="fas fa-print"></i> Cetak & Simpan
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Expense Modal -->
+  <div class="modal" id="expenseModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-plus-circle"></i> Tambah Pengeluaran</h3>
+        <button class="close-modal" onclick="App.closeModal('expenseModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label><i class="fas fa-tag"></i> Kategori</label>
+          <select id="expenseCategory" required>
+            <option value="Listrik">Listrik</option>
+            <option value="Air">Air</option>
+            <option value="Rokok">Rokok</option>
+            <option value="Kopi">Kopi</option>
+            <option value="Makanan">Makanan</option>
+            <option value="Transport">Transport</option>
+            <option value="Sewa">Sewa</option>
+            <option value="Gaji">Gaji</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-money-bill"></i> Jumlah</label>
+          <input type="number" id="expenseAmount" placeholder="0" min="0" required>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-align-left"></i> Keterangan</label>
+          <input type="text" id="expenseDesc" placeholder="Contoh: Bayar listrik" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="App.closeModal('expenseModal')">Batal</button>
+        <button class="btn-primary" onclick="App.saveExpense()">Simpan</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Category Modal -->
+  <div class="modal" id="categoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-plus-circle"></i> Kategori Baru</h3>
+        <button class="close-modal" onclick="App.closeModal('categoryModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="input-group">
+          <label><i class="fas fa-tag"></i> Nama Kategori</label>
+          <input type="text" id="categoryName" placeholder="Contoh: Elektronik" required>
+        </div>
+        
+        <div class="input-group">
+          <label><i class="fas fa-palette"></i> Warna</label>
+          <input type="color" id="categoryColor" value="#3b82f6">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" onclick="App.closeModal('categoryModal')">Batal</button>
+        <button class="btn-primary" onclick="App.saveCategory()">Simpan</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Hidden receipt for printing -->
+  <div id="receiptPrint" style="display: none;"></div>
+  
+  <!-- Floating Action Button -->
+  <button class="fab" id="fab" onclick="App.openModal('transactionModal')">
+    <i class="fas fa-plus"></i>
+  </button>
+  
+  <script>
+    // ============================================
+    // MALIK KASIR - PWA LENGKAP
+    // Secure Storage, Auth, dan Fitur Keuangan
+    // ============================================
+    
+    const App = (function() {
+      'use strict';
+      
+      // ==================== UI MANAGER ====================
+      const UIManager = {
+        elements: {},
+        
+        init() {
+          this.elements = {
+            loginScreen: document.getElementById('loginScreen'),
+            appScreen: document.getElementById('appScreen'),
+            mainContent: document.getElementById('mainContent'),
+            loginBtn: document.getElementById('loginBtn'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            username: document.getElementById('username'),
+            password: document.getElementById('password'),
+            usernameError: document.getElementById('usernameError'),
+            passwordError: document.getElementById('passwordError'),
+            fab: document.getElementById('fab')
+          };
+        },
+        
+        formatRupiah(angka) {
+          if (angka === undefined || angka === null) return 'Rp 0';
+          return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+          }).format(angka);
+        },
+        
+        loadPage(page) {
+          switch(page) {
+            case 'dashboard':
+              this.renderDashboard();
+              break;
+            case 'transactions':
+              this.renderTransactions();
+              break;
+            case 'categories':
+              this.renderCategories();
+              break;
+            case 'profit-loss':
+              this.renderProfitLoss();
+              break;
+            case 'cash-flow':
+              this.renderCashFlow();
+              break;
+            case 'expenses':
+              this.renderExpenses();
+              break;
+          }
+        },
+        
+        renderDashboard() {
+          const transactions = this.getData('transactions', []);
+          const expenses = this.getData('expenses', []);
+          
+          const today = new Date().toDateString();
+          const todayTransactions = transactions.filter(t => 
+            new Date(t.date).toDateString() === today
+          );
+          
+          const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
+          const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+          const todayRevenue = todayTransactions.reduce((sum, t) => sum + t.total, 0);
+          const netProfit = totalRevenue - totalExpenses;
+          
+          const html = `
+            <div class="content-header">
+              <h2>Dashboard</h2>
+              <div class="date-badge">
+                <i class="fas fa-calendar"></i>
+                ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+              </div>
+            </div>
+            
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-shopping-cart"></i>
+                  <span>Hari Ini</span>
+                </div>
+                <div class="stat-value">${this.formatRupiah(todayRevenue)}</div>
+                <div class="stat-label">Pendapatan Hari Ini</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-chart-line"></i>
+                  <span>Total</span>
+                </div>
+                <div class="stat-value">${this.formatRupiah(totalRevenue)}</div>
+                <div class="stat-label">Total Pendapatan</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-arrow-down"></i>
+                  <span>Pengeluaran</span>
+                </div>
+                <div class="stat-value">${this.formatRupiah(totalExpenses)}</div>
+                <div class="stat-label">Total Pengeluaran</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-wallet"></i>
+                  <span>Laba</span>
+                </div>
+                <div class="stat-value ${netProfit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(netProfit)}</div>
+                <div class="stat-label">Laba Bersih</div>
+              </div>
+            </div>
+            
+            <div class="charts-grid">
+              <div class="chart-card">
+                <div class="chart-header">
+                  <h3>Grafik Pendapatan 7 Hari</h3>
+                </div>
+                <canvas id="revenueChart"></canvas>
+              </div>
+              
+              <div class="chart-card">
+                <div class="chart-header">
+                  <h3>Kategori Terlaris</h3>
+                </div>
+                <canvas id="categoryChart"></canvas>
+              </div>
+            </div>
+            
+            <div class="table-card">
+              <div class="table-header">
+                <h3>Transaksi Terbaru</h3>
+                <button class="btn-primary" onclick="App.openModal('transactionModal')">
+                  <i class="fas fa-plus"></i> Transaksi Baru
+                </button>
+              </div>
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Waktu</th>
+                      <th>Item</th>
+                      <th>Kategori</th>
+                      <th>Jumlah</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${transactions.slice(0, 5).map(t => `
+                      <tr>
+                        <td>${new Date(t.date).toLocaleString('id-ID')}</td>
+                        <td>${t.item}</td>
+                        <td><span class="badge info">${t.category}</span></td>
+                        <td>${t.qty}</td>
+                        <td>${this.formatRupiah(t.total)}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+          
+          setTimeout(() => {
+            this.initDashboardCharts(transactions);
+          }, 100);
+        },
+        
+        initDashboardCharts(transactions) {
+          const ctx = document.getElementById('revenueChart')?.getContext('2d');
+          if (ctx) {
+            const last7Days = [];
+            const revenueData = [];
+            
+            for (let i = 6; i >= 0; i--) {
+              const date = new Date();
+              date.setDate(date.getDate() - i);
+              last7Days.push(date.toLocaleDateString('id-ID', { weekday: 'short' }));
+              
+              const dayTotal = transactions
+                .filter(t => new Date(t.date).toDateString() === date.toDateString())
+                .reduce((sum, t) => sum + t.total, 0);
+              revenueData.push(dayTotal);
+            }
+            
+            new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: last7Days,
+                datasets: [{
+                  label: 'Pendapatan',
+                  data: revenueData,
+                  borderColor: '#3b82f6',
+                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                  tension: 0.4,
+                  fill: true
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: { display: false }
+                }
+              }
+            });
+          }
+          
+          const catCtx = document.getElementById('categoryChart')?.getContext('2d');
+          if (catCtx) {
+            const categories = {};
+            transactions.forEach(t => {
+              categories[t.category] = (categories[t.category] || 0) + t.total;
+            });
+            
+            new Chart(catCtx, {
+              type: 'doughnut',
+              data: {
+                labels: Object.keys(categories),
+                datasets: [{
+                  data: Object.values(categories),
+                  backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6']
+                }]
+              },
+              options: {
+                responsive: true,
+                plugins: {
+                  legend: { position: 'bottom' }
+                }
+              }
+            });
+          }
+        },
+        
+        renderTransactions() {
+          const transactions = this.getData('transactions', []);
+          
+          const html = `
+            <div class="content-header">
+              <h2>Transaksi</h2>
+              <button class="btn-primary" onclick="App.openModal('transactionModal')">
+                <i class="fas fa-plus"></i> Transaksi Baru
+              </button>
+            </div>
+            
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Item</th>
+                      <th>Kategori</th>
+                      <th>Harga</th>
+                      <th>Qty</th>
+                      <th>Total</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${transactions.sort((a, b) => new Date(b.date) - new Date(a.date)).map(t => `
+                      <tr>
+                        <td>${new Date(t.date).toLocaleString('id-ID')}</td>
+                        <td>${t.item}</td>
+                        <td><span class="badge info">${t.category}</span></td>
+                        <td>${this.formatRupiah(t.price)}</td>
+                        <td>${t.qty}</td>
+                        <td>${this.formatRupiah(t.total)}</td>
+                        <td>
+                          <button class="action-btn delete" onclick="App.deleteTransaction(${t.id})">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+        },
+        
+        renderCategories() {
+          const categories = this.getData('categories', []);
+          
+          const html = `
+            <div class="content-header">
+              <h2>Kategori</h2>
+              <button class="btn-primary" onclick="App.openModal('categoryModal')">
+                <i class="fas fa-plus"></i> Kategori Baru
+              </button>
+            </div>
+            
+            <div class="categories-list">
+              ${categories.map(c => `
+                <div class="category-item">
+                  <div class="category-info">
+                    <div class="category-color" style="background: ${c.color}"></div>
+                    <span>${c.name}</span>
+                  </div>
+                  <button class="action-btn delete" onclick="App.deleteCategory(${c.id})">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+        },
+        
+        renderProfitLoss() {
+          const transactions = this.getData('transactions', []);
+          const expenses = this.getData('expenses', []);
+          
+          const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
+          const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+          const netProfit = totalRevenue - totalExpenses;
+          
+          const monthlyData = {};
+          
+          transactions.forEach(t => {
+            const month = new Date(t.date).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+            if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
+            monthlyData[month].revenue += t.total;
+          });
+          
+          expenses.forEach(e => {
+            const month = new Date(e.date).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
+            if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
+            monthlyData[month].expenses += e.amount;
+          });
+          
+          const html = `
+            <div class="content-header">
+              <h2>Laporan Laba Rugi</h2>
+              <button class="btn-primary" onclick="window.print()">
+                <i class="fas fa-print"></i> Cetak Laporan
+              </button>
+            </div>
+            
+            <div class="stats-grid">
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-arrow-up" style="color: #22c55e"></i>
+                </div>
+                <div class="stat-value">${this.formatRupiah(totalRevenue)}</div>
+                <div class="stat-label">Total Pendapatan</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-arrow-down" style="color: #ef4444"></i>
+                </div>
+                <div class="stat-value">${this.formatRupiah(totalExpenses)}</div>
+                <div class="stat-label">Total Pengeluaran</div>
+              </div>
+              
+              <div class="stat-card">
+                <div class="stat-header">
+                  <i class="fas fa-chart-line" style="color: ${netProfit >= 0 ? '#22c55e' : '#ef4444'}"></i>
+                </div>
+                <div class="stat-value ${netProfit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(netProfit)}</div>
+                <div class="stat-label">Laba Bersih</div>
+              </div>
+            </div>
+            
+            <div class="table-card">
+              <div class="table-header">
+                <h3>Rincian Bulanan</h3>
+              </div>
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bulan</th>
+                      <th>Pendapatan</th>
+                      <th>Pengeluaran</th>
+                      <th>Laba/Rugi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${Object.entries(monthlyData).map(([month, data]) => {
+                      const profit = data.revenue - data.expenses;
+                      return `
+                        <tr>
+                          <td>${month}</td>
+                          <td>${this.formatRupiah(data.revenue)}</td>
+                          <td>${this.formatRupiah(data.expenses)}</td>
+                          <td class="${profit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(profit)}</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+        },
+        
+        renderCashFlow() {
+          const transactions = this.getData('transactions', []);
+          const expenses = this.getData('expenses', []);
+          
+          const cashFlow = [
+            ...transactions.map(t => ({
+              date: t.date,
+              description: `Penjualan: ${t.item} (${t.qty}x)`,
+              inflow: t.total,
+              outflow: 0
+            })),
+            ...expenses.map(e => ({
+              date: e.date,
+              description: e.description,
+              inflow: 0,
+              outflow: e.amount
+            }))
+          ].sort((a, b) => new Date(b.date) - new Date(a.date));
+          
+          let balance = 0;
+          
+          const html = `
+            <div class="content-header">
+              <h2>Arus Kas</h2>
+              <button class="btn-primary" onclick="App.openModal('expenseModal')">
+                <i class="fas fa-plus"></i> Catat Pengeluaran
+              </button>
+            </div>
+            
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Keterangan</th>
+                      <th>Masuk</th>
+                      <th>Keluar</th>
+                      <th>Saldo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${cashFlow.map(item => {
+                      balance += (item.inflow - item.outflow);
+                      return `
+                        <tr>
+                          <td>${new Date(item.date).toLocaleString('id-ID')}</td>
+                          <td>${item.description}</td>
+                          <td class="cash-positive">${item.inflow > 0 ? this.formatRupiah(item.inflow) : '-'}</td>
+                          <td class="cash-negative">${item.outflow > 0 ? this.formatRupiah(item.outflow) : '-'}</td>
+                          <td style="font-weight: 600">${this.formatRupiah(balance)}</td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+        },
+        
+        renderExpenses() {
+          const expenses = this.getData('expenses', []);
+          
+          const html = `
+            <div class="content-header">
+              <h2>Pengeluaran</h2>
+              <button class="btn-primary" onclick="App.openModal('expenseModal')">
+                <i class="fas fa-plus"></i> Tambah Pengeluaran
+              </button>
+            </div>
+            
+            <div class="table-card">
+              <div class="table-responsive">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Kategori</th>
+                      <th>Keterangan</th>
+                      <th>Jumlah</th>
+                      <th>Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${expenses.sort((a, b) => new Date(b.date) - new Date(a.date)).map(e => `
+                      <tr>
+                        <td>${new Date(e.date).toLocaleString('id-ID')}</td>
+                        <td><span class="badge warning">${e.category}</span></td>
+                        <td>${e.description}</td>
+                        <td class="cash-negative">${this.formatRupiah(e.amount)}</td>
+                        <td>
+                          <button class="action-btn delete" onclick="App.deleteExpense(${e.id})">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          `;
+          
+          this.elements.mainContent.innerHTML = html;
+        },
+        
+        getData(key, defaultValue) {
+          try {
+            const data = localStorage.getItem(key);
+            if (!data) return defaultValue;
+            return JSON.parse(decodeURIComponent(atob(data)));
+          } catch {
+            return defaultValue;
+          }
+        },
+        
+        saveData(key, data) {
+          try {
+            const encrypted = btoa(encodeURIComponent(JSON.stringify(data)));
+            localStorage.setItem(key, encrypted);
+            return true;
+          } catch {
+            return false;
+          }
+        },
+        
+        updateCategorySelect() {
+          const categories = this.getData('categories', []);
+          const select = document.getElementById('transCategory');
+          if (select) {
+            select.innerHTML = '<option value="">Pilih kategori</option>' +
+              categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+          }
+        },
+        
+        updateReceiptPreview() {
+          const item = document.getElementById('transItem')?.value || '-';
+          const price = parseInt(document.getElementById('transPrice')?.value) || 0;
+          const qty = parseInt(document.getElementById('transQty')?.value) || 1;
+          const total = price * qty;
+          
+          const itemsEl = document.getElementById('receiptItems');
+          if (itemsEl) {
+            itemsEl.innerHTML = `
+              <div class="receipt-item">
+                <span>${item} x${qty}</span>
+                <span>${this.formatRupiah(total)}</span>
+              </div>
+            `;
+          }
+          
+          document.getElementById('receiptTotal').textContent = this.formatRupiah(total);
+        }
+      };
+      
+      // Initialize UIManager
+      UIManager.init();
+      
+      // ==================== PUBLIC API ====================
+      return {
+        openModal(modalId) {
+          document.getElementById(modalId).classList.add('active');
+          
+          if (modalId === 'transactionModal') {
+            UIManager.updateCategorySelect();
+            document.getElementById('receiptDate').textContent = 
+              new Date().toLocaleString('id-ID');
+            UIManager.updateReceiptPreview();
+            
+            ['transItem', 'transPrice', 'transQty'].forEach(id => {
+              document.getElementById(id)?.addEventListener('input', () => UIManager.updateReceiptPreview());
+            });
+          }
+        },
+        
+        closeModal(modalId) {
+          document.getElementById(modalId).classList.remove('active');
+        },
+        
+        printReceipt() {
+          const category = document.getElementById('transCategory').value;
+          const item = document.getElementById('transItem').value;
+          const price = parseInt(document.getElementById('transPrice').value);
+          const qty = parseInt(document.getElementById('transQty').value);
+          
+          if (!category || !item || !price) {
+            alert('Mohon isi semua field');
+            return;
+          }
+          
+          const transactions = UIManager.getData('transactions', []);
+          const newTransaction = {
+            id: Date.now(),
+            date: new Date().toISOString(),
+            category,
+            item,
+            price,
+            qty,
+            total: price * qty
+          };
+          
+          transactions.push(newTransaction);
+          UIManager.saveData('transactions', transactions);
+          
+          // Print receipt
+          const receiptHTML = `
+            <div style="font-family: 'Courier New', monospace; max-width: 300px; margin: 0 auto; padding: 20px;">
+              <div style="text-align: center; margin-bottom: 20px;">
+                <h2>MALIK SERVICE</h2>
+                <p>${new Date().toLocaleString('id-ID')}</p>
+                <hr style="border-top: 1px dashed #000;">
+              </div>
+              
+              <div style="margin: 20px 0;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span>${item}</span>
+                  <span>${UIManager.formatRupiah(price)}</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                  <span>&nbsp;&nbsp;x${qty}</span>
+                  <span>${UIManager.formatRupiah(price * qty)}</span>
+                </div>
+              </div>
+              
+              <hr style="border-top: 1px dashed #000;">
+              
+              <div style="display: flex; justify-content: space-between; font-weight: bold; margin-top: 10px;">
+                <span>TOTAL</span>
+                <span>${UIManager.formatRupiah(price * qty)}</span>
+              </div>
+              
+              <div style="text-align: center; margin-top: 30px;">
+                <p>Terima Kasih</p>
+                <p style="font-size: 12px;">Barang yang sudah dibeli tidak dapat dikembalikan</p>
+              </div>
+            </div>
+          `;
+          
+          const printWindow = window.open('', '_blank');
+          printWindow.document.write(`
+            <html>
+              <head>
+                <title>Cetak Struk</title>
+              </head>
+              <body>${receiptHTML}</body>
+            </html>
+          `);
+          printWindow.document.close();
+          printWindow.focus();
+          printWindow.print();
+          
+          this.closeModal('transactionModal');
+          UIManager.loadPage('transactions');
+        },
+        
+        saveExpense() {
+          const category = document.getElementById('expenseCategory').value;
+          const amount = parseInt(document.getElementById('expenseAmount').value);
+          const description = document.getElementById('expenseDesc').value;
+          
+          if (!category || !amount || !description) {
+            alert('Mohon isi semua field');
+            return;
+          }
+          
+          const expenses = UIManager.getData('expenses', []);
+          const newExpense = {
+            id: Date.now(),
+            date: new Date().toISOString(),
+            category,
+            amount,
+            description
+          };
+          
+          expenses.push(newExpense);
+          UIManager.saveData('expenses', expenses);
+          
+          this.closeModal('expenseModal');
+          UIManager.loadPage('expenses');
+        },
+        
+        saveCategory() {
+          const name = document.getElementById('categoryName').value;
+          const color = document.getElementById('categoryColor').value;
+          
+          if (!name) {
+            alert('Nama kategori harus diisi');
+            return;
+          }
+          
+          const categories = UIManager.getData('categories', []);
+          const newCategory = {
+            id: Date.now(),
+            name,
+            color
+          };
+          
+          categories.push(newCategory);
+          UIManager.saveData('categories', categories);
+          
+          this.closeModal('categoryModal');
+          UIManager.loadPage('categories');
+        },
+        
+        deleteTransaction(id) {
+          if (confirm('Hapus transaksi ini?')) {
+            const transactions = UIManager.getData('transactions', []);
+            const filtered = transactions.filter(t => t.id !== id);
+            UIManager.saveData('transactions', filtered);
+            UIManager.loadPage('transactions');
+          }
+        },
+        
+        deleteExpense(id) {
+          if (confirm('Hapus pengeluaran ini?')) {
+            const expenses = UIManager.getData('expenses', []);
+            const filtered = expenses.filter(e => e.id !== id);
+            UIManager.saveData('expenses', filtered);
+            UIManager.loadPage('expenses');
+          }
+        },
+        
+        deleteCategory(id) {
+          if (confirm('Hapus kategori ini?')) {
+            const categories = UIManager.getData('categories', []);
+            const filtered = categories.filter(c => c.id !== id);
+            UIManager.saveData('categories', filtered);
+            UIManager.loadPage('categories');
+          }
+        },
+        
+        loadPage(page) {
+          UIManager.loadPage(page);
+        }
+      };
+    })();
+    
+    // Initialize App
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize default data
+      if (!localStorage.getItem('users')) {
+        const encrypted = btoa(encodeURIComponent(JSON.stringify([
+          { username: 'admin', password: 'admin123', role: 'admin' }
+        ])));
+        localStorage.setItem('users', encrypted);
+      }
+      
+      if (!localStorage.getItem('categories')) {
+        const encrypted = btoa(encodeURIComponent(JSON.stringify([
+          { id: 1, name: 'Elektronik', color: '#3b82f6' },
+          { id: 2, name: 'Pulsa', color: '#22c55e' },
+          { id: 3, name: 'Makanan', color: '#f59e0b' },
+          { id: 4, name: 'Minuman', color: '#ef4444' }
+        ])));
+        localStorage.setItem('categories', encrypted);
+      }
+      
+      if (!localStorage.getItem('transactions')) {
+        localStorage.setItem('transactions', btoa(encodeURIComponent(JSON.stringify([]))));
+      }
+      
+      if (!localStorage.getItem('expenses')) {
+        localStorage.setItem('expenses', btoa(encodeURIComponent(JSON.stringify([]))));
+      }
+      
+      // Check login status
+      const currentUser = sessionStorage.getItem('currentUser');
+      if (currentUser) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('appScreen').style.display = 'block';
+        App.loadPage('dashboard');
+      }
+      
+      // Login button event
+      document.getElementById('loginBtn').addEventListener('click', () => {
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+        
+        try {
+          const users = JSON.parse(decodeURIComponent(atob(localStorage.getItem('users'))));
+          const user = users.find(u => u.username === username && u.password === password);
+          
+          if (user) {
+            sessionStorage.setItem('currentUser', JSON.stringify({ username: user.username, role: user.role }));
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('appScreen').style.display = 'block';
+            App.loadPage('dashboard');
+            
+            // Show FAB
+            document.getElementById('fab').classList.add('visible');
+          } else {
+            document.getElementById('passwordError').textContent = 'Username atau password salah';
+            document.getElementById('passwordError').classList.add('visible');
+            document.getElementById('password').classList.add('error');
+          }
+        } catch {
+          alert('Terjadi kesalahan');
+        }
+      });
+      
+      // Logout button event
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+        sessionStorage.removeItem('currentUser');
+        document.getElementById('loginScreen').style.display = 'flex';
+        document.getElementById('appScreen').style.display = 'none';
+        document.getElementById('username').value = '';
+        document.getElementById('password').value = '';
+        document.getElementById('fab').classList.remove('visible');
+      });
+      
+      // Sidebar navigation
+      document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+          App.loadPage(link.dataset.page);
+        });
+      });
+      
+      // Enter key for login
+      document.getElementById('password').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          document.getElementById('loginBtn').click();
+        }
+      });
+      
+      // Clear errors on input
+      document.getElementById('username').addEventListener('input', () => {
+        document.getElementById('username').classList.remove('error');
+        document.getElementById('usernameError').classList.remove('visible');
+      });
+      
+      document.getElementById('password').addEventListener('input', () => {
+        document.getElementById('password').classList.remove('error');
+        document.getElementById('passwordError').classList.remove('visible');
+      });
+    });
+    
+    // Make App global
+    window.App = App;
+  </script>
+</body>
+</html>
