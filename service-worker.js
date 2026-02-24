@@ -1,14 +1,17 @@
-// Service Worker untuk Malik Kasir PWA
-const CACHE_NAME = 'malik-kasir-v2';
+// ============================================
+// MALIK SERVICE - SERVICE WORKER
+// ============================================
+
+const CACHE_NAME = 'malik-service-v1';
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css',
-  'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js',
-  'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
+  'https://challenges.cloudflare.com/turnstile/v0/api.js'
 ];
 
+// Install Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -19,12 +22,14 @@ self.addEventListener('install', event => {
   );
 });
 
+// Activate and clean old caches
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(cacheNames => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -33,24 +38,29 @@ self.addEventListener('activate', event => {
   );
 });
 
+// Fetch with offline fallback
 self.addEventListener('fetch', event => {
   event.respondWith(
     fetch(event.request)
       .then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
+        if (response && response.status === 200) {
+          const responseToCache = response.clone();
+          caches.open(CACHE_NAME)
+            .then(cache => {
+              cache.put(event.request, responseToCache);
+            });
         }
-        
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME)
-          .then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-        
         return response;
       })
       .catch(() => {
-        return caches.match(event.request);
+        return caches.match(event.request)
+          .then(cached => {
+            if (cached) return cached;
+            if (event.request.mode === 'navigate') {
+              return caches.match('./index.html');
+            }
+            return new Response('Offline', { status: 503 });
+          });
       })
   );
 });
