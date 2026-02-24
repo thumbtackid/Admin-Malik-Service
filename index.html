@@ -28,7 +28,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Malik Service",
-    "description": "Servis HP Android & Laptop profesional di Semarang",
+    "description": "Servis HP & Laptop profesional di Semarang",
     "url": "https://malik-service.pages.dev",
     "telephone": "+6285713087659",
     "address": {
@@ -227,19 +227,6 @@
     .login-btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
-    }
-    
-    .login-note {
-      background: var(--bg-light);
-      padding: 16px;
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      color: var(--text-muted);
-      border: 1px solid var(--border-color);
-    }
-    
-    .login-note strong {
-      color: var(--text-dark);
     }
     
     /* ========== MAIN CARD ========== */
@@ -780,6 +767,28 @@
       font-weight: 600;
     }
     
+    /* Tombol Cetak */
+    .print-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      margin-right: 4px;
+    }
+    
+    .print-btn i {
+      margin-right: 4px;
+    }
+    
+    .action-cell {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    
     /* Floating WA */
     .floating-wa {
       position: fixed;
@@ -876,6 +885,119 @@
       color: var(--text-muted);
     }
     
+    /* Modal Cetak */
+    .print-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .print-modal.active {
+      display: flex;
+    }
+    
+    .print-modal-content {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      max-width: 400px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    .print-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .print-modal-header h3 {
+      font-size: 20px;
+      color: var(--text-dark);
+    }
+    
+    .close-print-modal {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    
+    .print-preview {
+      font-family: 'Courier New', monospace;
+      background: #f8fafc;
+      padding: 20px;
+      border-radius: var(--radius-md);
+      margin: 20px 0;
+      border: 1px dashed var(--primary);
+    }
+    
+    .print-preview .header {
+      background: none;
+      color: var(--text-dark);
+      padding: 0 0 10px 0;
+      text-align: center;
+    }
+    
+    .print-preview .header h4 {
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+    
+    .print-preview hr {
+      border: 1px dashed var(--border-color);
+      margin: 10px 0;
+    }
+    
+    .print-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+    
+    .print-total {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 10px;
+      text-align: right;
+    }
+    
+    .print-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .print-actions button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .btn-print {
+      background: var(--primary);
+      color: white;
+    }
+    
+    .btn-cancel {
+      background: var(--bg-light);
+      color: var(--text-dark);
+    }
+    
     /* Animations */
     @keyframes slideDown {
       from { opacity: 0; transform: translateY(-20px); }
@@ -903,7 +1025,7 @@
       </button>
     </div>
     
-    <!-- Login Modal (TANPA DEMO AKUN) -->
+    <!-- Login Modal -->
     <div class="login-modal" id="loginModal">
       <div class="login-header">
         <i class="fas fa-store"></i>
@@ -921,14 +1043,13 @@
         <input type="password" id="password" placeholder="••••••••">
       </div>
       
-      <!-- Cloudflare Turnstile - ISI SITE KEY NANTI -->
+      <!-- Cloudflare Turnstile -->
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAChNwxuVixGlxwEf"></div>
       
       <button class="login-btn" id="loginBtn">
         <i class="fas fa-sign-in-alt"></i> Login
       </button>
       
-      <!-- TIDAK ADA DEMO AKUN - HANYA ADMIN YANG TAHU -->
       <div style="margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-muted);">
         <i class="fas fa-shield-alt"></i> Area terbatas - hanya untuk petugas
       </div>
@@ -1136,14 +1257,24 @@
           <div class="admin-tab" data-tab="users" id="usersTab">Manajemen User</div>
         </div>
         
-        <!-- Tab: Transaksi -->
+        <!-- Tab: Transaksi (DENGAN TOMBOL CETAK) -->
         <div class="tab-content active" id="tab-transaksi">
+          <button id="tambahTransaksiBtn" style="margin-bottom: 16px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+            <i class="fas fa-plus"></i> Transaksi Baru
+          </button>
           <table>
             <thead>
-              <tr><th>ID</th><th>Tanggal</th><th>Item</th><th>Total</th><th>Kasir</th></tr>
+              <tr>
+                <th>ID</th>
+                <th>Tanggal</th>
+                <th>Item</th>
+                <th>Total</th>
+                <th>Kasir</th>
+                <th>Aksi</th>
+              </tr>
             </thead>
             <tbody id="transaksiTable">
-              <tr><td colspan="5" style="text-align: center;">Belum ada transaksi</td></tr>
+              <tr><td colspan="6" style="text-align: center;">Belum ada transaksi</td></tr>
             </tbody>
           </table>
         </div>
@@ -1183,6 +1314,56 @@
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Tambah Transaksi -->
+  <div class="print-modal" id="tambahTransaksiModal">
+    <div class="print-modal-content">
+      <div class="print-modal-header">
+        <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
+        <button class="close-print-modal" id="closeTambahModal">&times;</button>
+      </div>
+      <div style="padding: 10px 0;">
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nama Pelanggan</label>
+          <input type="text" id="transNama" placeholder="Nama pelanggan" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Item Servis</label>
+          <input type="text" id="transItem" placeholder="Contoh: LCD Pecah" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+        </div>
+        <div style="margin-bottom: 15px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Harga</label>
+          <input type="number" id="transHarga" placeholder="0" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+        </div>
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Pickup?</label>
+          <select id="transPickup" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+            <option value="tidak">Tidak (0)</option>
+            <option value="ya">Ya (+Rp25.000)</option>
+          </select>
+        </div>
+        <div class="print-actions">
+          <button class="btn-cancel" id="batalTambah">Batal</button>
+          <button class="btn-print" id="simpanTransaksiBtn">Simpan & Cetak</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal Cetak Resi -->
+  <div class="print-modal" id="printResiModal">
+    <div class="print-modal-content">
+      <div class="print-modal-header">
+        <h3><i class="fas fa-print"></i> Cetak Resi</h3>
+        <button class="close-print-modal" id="closePrintModal">&times;</button>
+      </div>
+      <div id="printPreviewContent" class="print-preview"></div>
+      <div class="print-actions">
+        <button class="btn-cancel" id="cancelPrint">Tutup</button>
+        <button class="btn-print" id="doPrintBtn"><i class="fas fa-print"></i> Cetak</button>
       </div>
     </div>
   </div>
@@ -1564,6 +1745,95 @@
         </tr>`;
       });
       document.getElementById('usersTable').innerHTML = usersHtml;
+      
+      // Transaksi Table dengan tombol cetak
+      let transaksiHtml = '';
+      if (transactions.length === 0) {
+        transaksiHtml = '<tr><td colspan="6" style="text-align: center;">Belum ada transaksi</td></tr>';
+      } else {
+        transactions.slice(0, 20).forEach((t, index) => {
+          transaksiHtml += `<tr>
+            <td>${t.id || index+1}</td>
+            <td>${t.tanggal || new Date().toLocaleString('id-ID')}</td>
+            <td>${t.item || '-'}</td>
+            <td>${formatRupiah(t.total || 0)}</td>
+            <td>${t.kasir || currentUser?.name || 'Admin'}</td>
+            <td class="action-cell">
+              <button class="print-btn" onclick="previewPrint('${t.item || '-'}', ${t.total || 0}, '${t.nama || 'Pelanggan'}')">
+                <i class="fas fa-print"></i> Cetak
+              </button>
+            </td>
+          </tr>`;
+        });
+      }
+      document.getElementById('transaksiTable').innerHTML = transaksiHtml;
+    }
+    
+    // ============================================
+    // FUNGSI CETAK RESI
+    // ============================================
+    function previewPrint(item, total, nama) {
+      const modal = document.getElementById('printResiModal');
+      const preview = document.getElementById('printPreviewContent');
+      
+      const tanggal = new Date().toLocaleString('id-ID');
+      const kasir = currentUser?.name || 'Admin';
+      const idTransaksi = 'TRX-' + Date.now().toString().slice(-8);
+      
+      preview.innerHTML = `
+        <div style="text-align: center; margin-bottom: 15px;">
+          <h4 style="font-size: 18px; margin-bottom: 4px;">MALIK SERVICE</h4>
+          <p style="font-size: 12px;">One Stop Service Semarang</p>
+          <p style="font-size: 11px;">Jl. Untung Suropati No.52, Kedungpane</p>
+          <p style="font-size: 11px;">Telp: 0857-1308-7659</p>
+        </div>
+        <hr>
+        <div style="margin: 10px 0;">
+          <div class="print-row"><span>No. Resi:</span> <span>${idTransaksi}</span></div>
+          <div class="print-row"><span>Tanggal:</span> <span>${tanggal}</span></div>
+          <div class="print-row"><span>Kasir:</span> <span>${kasir}</span></div>
+          <div class="print-row"><span>Pelanggan:</span> <span>${nama}</span></div>
+        </div>
+        <hr>
+        <div style="margin: 10px 0;">
+          <div class="print-row"><span>Item Servis:</span> <span>${item}</span></div>
+        </div>
+        <hr>
+        <div class="print-total">
+          Total: ${formatRupiah(total)}
+        </div>
+        <hr>
+        <div style="text-align: center; margin-top: 15px; font-size: 11px;">
+          <p>Terima kasih telah menggunakan layanan kami</p>
+          <p>Barang yang sudah dibeli tidak dapat dikembalikan</p>
+        </div>
+      `;
+      
+      modal.classList.add('active');
+    }
+    
+    function doPrint() {
+      const printContent = document.getElementById('printPreviewContent').innerHTML;
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Cetak Resi - Malik Service</title>
+            <style>
+              body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
+              .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+              hr { border: 1px dashed #000; }
+              .print-total { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
+            </style>
+          </head>
+          <body>
+            ${printContent}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
     }
     
     // ============================================
@@ -1831,7 +2101,74 @@ Mohon konfirmasi. Terima kasih.`;
           modal.classList.remove('active');
         }
       });
+      
+      // Modal Transaksi
+      document.getElementById('tambahTransaksiBtn').addEventListener('click', function() {
+        document.getElementById('tambahTransaksiModal').classList.add('active');
+      });
+      
+      document.getElementById('closeTambahModal').addEventListener('click', function() {
+        document.getElementById('tambahTransaksiModal').classList.remove('active');
+      });
+      
+      document.getElementById('batalTambah').addEventListener('click', function() {
+        document.getElementById('tambahTransaksiModal').classList.remove('active');
+      });
+      
+      document.getElementById('simpanTransaksiBtn').addEventListener('click', function() {
+        const nama = document.getElementById('transNama').value;
+        const item = document.getElementById('transItem').value;
+        const harga = parseInt(document.getElementById('transHarga').value) || 0;
+        const pickup = document.getElementById('transPickup').value;
+        
+        if (!nama || !item || !harga) {
+          alert('Semua field harus diisi');
+          return;
+        }
+        
+        const total = harga + (pickup === 'ya' ? 25000 : 0);
+        
+        const newTrans = {
+          id: 'TRX-' + Date.now().toString().slice(-6),
+          tanggal: new Date().toLocaleString('id-ID'),
+          item: item,
+          total: total,
+          kasir: currentUser?.name || 'Admin',
+          nama: nama
+        };
+        
+        transactions.unshift(newTrans);
+        document.getElementById('tambahTransaksiModal').classList.remove('active');
+        loadAdminData();
+        
+        // Preview cetak
+        setTimeout(() => {
+          previewPrint(item, total, nama);
+        }, 200);
+        
+        // Reset form
+        document.getElementById('transNama').value = '';
+        document.getElementById('transItem').value = '';
+        document.getElementById('transHarga').value = '';
+      });
+      
+      // Modal Cetak
+      document.getElementById('closePrintModal').addEventListener('click', function() {
+        document.getElementById('printResiModal').classList.remove('active');
+      });
+      
+      document.getElementById('cancelPrint').addEventListener('click', function() {
+        document.getElementById('printResiModal').classList.remove('active');
+      });
+      
+      document.getElementById('doPrintBtn').addEventListener('click', function() {
+        doPrint();
+        document.getElementById('printResiModal').classList.remove('active');
+      });
     });
+    
+    // Expose fungsi untuk global
+    window.previewPrint = previewPrint;
     
     // ============================================
     // REGISTER SERVICE WORKER
@@ -1846,5 +2183,3 @@ Mohon konfirmasi. Terima kasih.`;
   </script>
 </body>
 </html>
-
-
