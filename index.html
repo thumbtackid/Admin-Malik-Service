@@ -2,35 +2,47 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-  
-  <!-- Primary Meta Tags -->
-  <title>Malik Service - Kasir & Laporan Keuangan</title>
-  <meta name="title" content="Malik Service - Kasir & Laporan Keuangan">
-  <meta name="description" content="Malik Service: Aplikasi kasir lengkap dengan struk, laporan laba rugi, arus kas, dan manajemen pengeluaran. Dilengkapi login admin aman tanpa backend.">
-  <meta name="keywords" content="kasir, struk, laporan keuangan, laba rugi, arus kas, pwa, offline first">
-  <meta name="author" content="Malik Service">
-  <meta name="robots" content="index, follow">
-  <meta name="language" content="Indonesian">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Malik Service - One Stop Service Semarang</title>
   
   <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#2563eb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Malik Kasir">
+  <meta name="apple-mobile-web-app-title" content="Malik Service">
   <meta name="mobile-web-app-capable" content="yes">
   
-  <!-- Font Awesome 6 -->
+  <!-- Cloudflare Turnstile -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%232563eb' width='32' height='32' rx='6'/%3E%3Cpath fill='white' d='M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S21.5 6 16 6zm0 16c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z'/%3E%3C/svg%3E">
   
-  <!-- Font Inter -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "Malik Service",
+    "description": "Servis HP Android & Laptop profesional di Semarang",
+    "url": "https://malik-service.pages.dev",
+    "telephone": "+6285713087659",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Jl. Untung Suropati Ds.Jamalsari Rt004/Rw002 No.52",
+      "addressLocality": "Kedungpane",
+      "addressRegion": "Semarang",
+      "postalCode": "50211"
+    }
+  }
+  </script>
   
   <style>
+    /* ========== RESET & VARIABLES ========== */
     * {
       margin: 0;
       padding: 0;
@@ -38,54 +50,117 @@
     }
     
     :root {
-      --primary: #0f172a;
-      --primary-light: #1e293b;
-      --secondary: #334155;
-      --accent: #3b82f6;
-      --accent-dark: #2563eb;
-      --success: #22c55e;
-      --danger: #ef4444;
-      --warning: #f59e0b;
-      --info: #06b6d4;
-      --light: #f8fafc;
-      --dark: #020617;
-      --gray: #64748b;
-      --gray-light: #94a3b8;
-      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --primary-light: #dbeafe;
+      --accent: #25D366;
+      --accent-dark: #20b85a;
+      --warning: #fbbf24;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --text-light: #94a3b8;
       --bg-light: #f1f5f9;
+      --bg-card: #ffffff;
+      --border-color: #e2e8f0;
       --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
       --shadow-md: 0 10px 25px -10px rgba(0,0,0,0.1);
       --shadow-lg: 0 25px 60px -15px rgba(0,20,60,0.3);
-      --radius-sm: 12px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-xl: 32px;
+      --radius-sm: 16px;
+      --radius-md: 24px;
+      --radius-lg: 32px;
+      --radius-xl: 48px;
+      --transition: 0.2s ease;
     }
     
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 16px;
+      padding: 20px 16px;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     
-    /* Login Screen */
-    #loginScreen {
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 300px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      z-index: 0;
+      clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
+      pointer-events: none;
+    }
+    
+    .container {
+      max-width: 800px;
       width: 100%;
-      max-width: 420px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 10;
+    }
+    
+    /* ========== LOGIN TOGGLE & MODAL ========== */
+    .login-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      gap: 8px;
+    }
+    
+    .login-toggle button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
       background: white;
-      border-radius: var(--radius-xl);
-      padding: 40px 32px;
-      box-shadow: var(--shadow-lg);
-      animation: fadeIn 0.4s ease;
+      color: var(--text-dark);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    
+    .login-toggle button.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    
+    .login-toggle button i {
+      margin-right: 8px;
+    }
+    
+    .login-modal {
+      display: none;
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      width: 350px;
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      z-index: 999;
+      border: 1px solid var(--border-color);
+      animation: slideDown 0.3s ease;
+    }
+    
+    .login-modal.active {
+      display: block;
     }
     
     .login-header {
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 24px;
     }
     
     .login-header i {
@@ -93,19 +168,14 @@
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     
-    .login-header h2 {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
-      margin-bottom: 8px;
-    }
-    
-    .login-header p {
-      color: var(--gray);
-      font-size: 14px;
+    .login-header h3 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 4px;
     }
     
     .input-group {
@@ -116,46 +186,28 @@
       display: block;
       font-size: 14px;
       font-weight: 600;
-      color: var(--secondary);
+      color: var(--text-muted);
       margin-bottom: 8px;
     }
     
     .input-group label i {
-      margin-right: 8px;
-      color: var(--accent);
+      margin-right: 6px;
+      color: var(--primary);
     }
     
-    .input-group input, 
-    .input-group select {
+    .input-group input {
       width: 100%;
       padding: 14px 18px;
-      border: 2px solid var(--border);
+      border: 2px solid var(--border-color);
       border-radius: var(--radius-md);
       font-size: 15px;
       transition: all 0.3s;
-      font-family: inherit;
     }
     
-    .input-group input:focus,
-    .input-group select:focus {
+    .input-group input:focus {
       outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
-    }
-    
-    .input-group input.error {
-      border-color: var(--danger);
-    }
-    
-    .error-message {
-      color: var(--danger);
-      font-size: 12px;
-      margin-top: 4px;
-      display: none;
-    }
-    
-    .error-message.visible {
-      display: block;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
     }
     
     .login-btn {
@@ -169,7 +221,7 @@
       font-size: 16px;
       cursor: pointer;
       transition: all 0.3s;
-      margin-top: 24px;
+      margin: 20px 0 16px;
     }
     
     .login-btn:hover {
@@ -177,338 +229,528 @@
       box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
     }
     
-    .login-btn:active {
-      transform: translateY(0);
-    }
-    
-    .login-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .security-note {
-      margin-top: 24px;
+    .login-note {
+      background: var(--bg-light);
       padding: 16px;
-      background: var(--bg-light);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       font-size: 13px;
-      color: var(--secondary);
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      color: var(--text-muted);
+      border: 1px solid var(--border-color);
     }
     
-    .security-note i {
-      color: var(--accent);
-      font-size: 24px;
+    .login-note strong {
+      color: var(--text-dark);
     }
     
-    /* Main App Screen */
-    #appScreen {
-      display: none;
-      width: 100%;
-      max-width: 1400px;
-      background: var(--bg-light);
+    /* ========== MAIN CARD ========== */
+    .card {
+      background: rgba(255, 255, 255, 0.98);
       border-radius: var(--radius-xl);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
-      animation: slideUp 0.4s ease;
+      border: 1px solid rgba(255,255,255,0.5);
     }
     
-    .app-container {
-      display: flex;
-      min-height: 90vh;
-    }
-    
-    /* Sidebar */
-    .sidebar {
-      width: 280px;
-      background: var(--primary);
+    /* ========== HEADER ========== */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 30px 28px 40px;
       color: white;
-      padding: 24px;
+      position: relative;
+      overflow: hidden;
     }
     
-    .sidebar-header {
+    .header::before,
+    .header::after {
+      content: '';
+      position: absolute;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .header::before { top: -30%; right: -10%; }
+    .header::after { bottom: -30%; left: -10%; }
+    
+    .header-top {
       display: flex;
+      justify-content: space-between;
       align-items: center;
+      margin-bottom: 25px;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
       gap: 12px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      margin-bottom: 24px;
     }
     
-    .sidebar-header i {
-      font-size: 36px;
-      color: var(--accent);
+    .logo h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
     }
     
-    .sidebar-header h3 {
-      font-size: 18px;
+    .logo span {
+      font-size: 13px;
+      opacity: 0.9;
+      display: block;
+    }
+    
+    .badge {
+      background: rgba(255,255,255,0.2);
+      padding: 12px 20px;
+      border-radius: 40px;
       font-weight: 600;
-    }
-    
-    .sidebar-header p {
-      font-size: 12px;
-      opacity: 0.7;
-    }
-    
-    .sidebar-menu {
-      list-style: none;
-    }
-    
-    .sidebar-menu li {
-      margin-bottom: 8px;
-    }
-    
-    .sidebar-menu a {
+      font-size: 14px;
+      border: 1px solid rgba(255,255,255,0.3);
       display: flex;
       align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      border-radius: var(--radius-sm);
-      transition: all 0.3s;
-      cursor: pointer;
+      gap: 8px;
     }
     
-    .sidebar-menu a:hover,
-    .sidebar-menu a.active {
+    .badge i {
+      font-size: 16px;
+    }
+    
+    .info-toko {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
       background: rgba(255,255,255,0.1);
-      color: white;
+      border-radius: var(--radius-lg);
+      padding: 22px 25px;
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      z-index: 2;
     }
     
-    .sidebar-menu a i {
-      width: 20px;
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex: 1 1 200px;
     }
     
-    .sidebar-footer {
-      margin-top: 32px;
-      padding-top: 24px;
-      border-top: 1px solid rgba(255,255,255,0.1);
+    .info-item i {
+      width: 22px;
+      height: 22px;
+      font-size: 22px;
+      flex-shrink: 0;
     }
     
-    .logout-btn {
+    .info-text {
+      font-size: 14px;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+    
+    /* ========== CONTENT ========== */
+    .content {
+      padding: 30px 28px 35px;
+    }
+    
+    /* Form Section */
+    .form-section {
+      background: var(--bg-light);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--text-dark);
+      margin-bottom: 20px;
+    }
+    
+    .section-title i {
+      color: var(--primary);
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    
+    .form-group input,
+    .form-group select {
       width: 100%;
-      padding: 12px;
-      background: rgba(239,68,68,0.2);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: var(--radius-sm);
-      color: white;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+      transition: all var(--transition);
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+    }
+    
+    /* Pickup Card */
+    .pickup-card {
+      background: linear-gradient(115deg, #eef2ff 0%, var(--primary-light) 100%);
+      border-radius: 28px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+      border: 1px solid #bfdbfe;
+      box-shadow: 0 6px 14px rgba(37,99,235,0.08);
+    }
+    
+    .pickup-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--primary-dark);
+      margin-bottom: 18px;
+    }
+    
+    .pickup-options {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .pickup-options label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      background: white;
+      border-radius: 40px;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.3s;
+      border: 1.5px solid #bfdbfe;
+      transition: all var(--transition);
+    }
+    
+    .pickup-options input[type="radio"] {
+      accent-color: var(--primary);
+      width: 18px;
+      height: 18px;
+    }
+    
+    /* Filter Card */
+    .filter-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border-color);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .filter-item {
+      margin-bottom: 20px;
+    }
+    
+    .filter-item label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #334155;
+      margin-bottom: 10px;
+    }
+    
+    .filter-item label i {
+      color: var(--primary);
+    }
+    
+    .filter-item select {
+      width: 100%;
+      padding: 16px 20px;
+      border: 1.5px solid var(--border-color);
+      border-radius: 30px;
+      font-size: 15px;
+      background: #fafcff;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 20px center;
+      cursor: pointer;
+    }
+    
+    #itemSelect {
+      min-height: 200px;
+      height: auto;
+      padding: 8px;
+      background-image: none;
+      appearance: auto;
+    }
+    
+    #itemSelect option {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .stats-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-light);
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 15px;
+      border: 1px solid var(--border-color);
+    }
+    
+    /* Detail Card */
+    .detail-card {
+      background: linear-gradient(145deg, var(--bg-card) 0%, #fafcff 100%);
+      border-radius: 36px;
+      padding: 28px;
+      margin-bottom: 24px;
+      border: 2px solid var(--border-color);
+      box-shadow: 0 15px 30px -15px rgba(0,0,0,0.12);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 20px;
+    }
+    
+    .detail-item.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    .detail-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+    
+    .detail-label i {
+      color: var(--primary);
+    }
+    
+    .detail-value {
+      font-weight: 700;
+      color: var(--text-dark);
+      background: var(--bg-light);
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 15px;
+      border: 1px solid var(--border-color);
+    }
+    
+    .detail-value.harga {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--primary-light);
+      border-color: #93c5fd;
+    }
+    
+    .detail-value.estimasi {
+      background: #fef9c3;
+      color: #854d0e;
+    }
+    
+    /* Total Card */
+    .total-card {
+      background: linear-gradient(135deg, #1e293b 0%, var(--text-dark) 100%);
+      border-radius: 28px;
+      padding: 24px 28px;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      box-shadow: 0 15px 30px -10px rgba(15,23,42,0.5);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .total-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    .total-label i {
+      color: var(--warning);
+    }
+    
+    .total-value {
+      font-size: 28px;
+      font-weight: 800;
+      background: rgba(255,255,255,0.1);
+      padding: 12px 28px;
+      border-radius: 40px;
+    }
+    
+    /* WA Button */
+    .wa-button {
+      width: 100%;
+      background: linear-gradient(115deg, var(--accent) 0%, var(--accent-dark) 100%);
+      border: none;
+      border-radius: 40px;
+      padding: 22px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      font-weight: 700;
+      font-size: 20px;
+      color: white;
+      box-shadow: 0 20px 35px -8px rgba(37, 211, 102, 0.4);
+      cursor: pointer;
+      transition: all var(--transition);
+      margin-bottom: 18px;
+    }
+    
+    .wa-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 25px 45px -8px rgba(37, 211, 102, 0.5);
+    }
+    
+    .wa-button i {
+      font-size: 28px;
+    }
+    
+    /* Footer */
+    .footer-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-light);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
     }
     
-    .logout-btn:hover {
-      background: rgba(239,68,68,0.3);
+    /* ========== ADMIN DASHBOARD ========== */
+    .admin-dashboard {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      box-shadow: var(--shadow-lg);
     }
     
-    /* Main Content */
-    .main-content {
-      flex: 1;
-      padding: 24px;
-      overflow-y: auto;
-      max-height: 90vh;
-    }
-    
-    .content-header {
+    .admin-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
-      flex-wrap: wrap;
-      gap: 16px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-color);
     }
     
-    .content-header h2 {
+    .admin-header h2 {
       font-size: 24px;
-      color: var(--primary);
-      font-weight: 700;
+      color: var(--text-dark);
     }
     
-    .date-badge {
-      background: white;
+    .admin-header h2 i {
+      color: var(--primary);
+      margin-right: 10px;
+    }
+    
+    .user-info {
+      background: var(--bg-light);
       padding: 10px 20px;
       border-radius: 40px;
-      font-size: 14px;
       font-weight: 600;
-      color: var(--secondary);
-      box-shadow: var(--shadow-sm);
     }
     
-    .date-badge i {
+    .user-info i {
+      color: var(--primary);
       margin-right: 8px;
-      color: var(--accent);
     }
     
-    /* Stats Cards */
+    .logout-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 12px;
+    }
+    
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
       margin-bottom: 24px;
     }
     
     .stat-card {
-      background: white;
-      padding: 24px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      transition: all 0.3s;
-    }
-    
-    .stat-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .stat-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-    }
-    
-    .stat-header i {
-      font-size: 32px;
-      color: var(--accent);
       background: var(--bg-light);
-      padding: 12px;
-      border-radius: 50%;
+      padding: 20px;
+      border-radius: var(--radius-md);
     }
     
-    .stat-header span {
-      font-size: 14px;
-      color: var(--gray);
-      font-weight: 500;
-    }
-    
-    .stat-value {
-      font-size: 32px;
-      font-weight: 800;
+    .stat-card i {
+      font-size: 28px;
       color: var(--primary);
-      margin-bottom: 4px;
+      margin-bottom: 12px;
     }
     
-    .stat-label {
-      font-size: 14px;
-      color: var(--gray);
+    .stat-card .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-dark);
     }
     
-    /* Charts */
-    .charts-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
-      margin-bottom: 24px;
-    }
-    
-    .chart-card {
-      background: white;
-      padding: 24px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-    }
-    
-    .chart-header {
+    .admin-tabs {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .chart-header h3 {
-      font-size: 16px;
-      color: var(--secondary);
-      font-weight: 600;
-    }
-    
-    .chart-header select {
-      padding: 8px 12px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      font-size: 13px;
-      font-family: inherit;
-    }
-    
-    canvas {
-      max-height: 300px;
-    }
-    
-    /* Tables */
-    .table-card {
-      background: white;
-      padding: 24px;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
+      gap: 8px;
       margin-bottom: 24px;
-    }
-    
-    .table-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
       flex-wrap: wrap;
-      gap: 16px;
     }
     
-    .table-header h3 {
-      font-size: 18px;
-      color: var(--primary);
-      font-weight: 600;
-    }
-    
-    .btn-primary {
+    .admin-tab {
       padding: 12px 24px;
-      background: var(--accent);
+      cursor: pointer;
+      border-radius: 40px;
+      font-weight: 600;
+      transition: all var(--transition);
+    }
+    
+    .admin-tab.active {
+      background: var(--primary);
       color: white;
-      border: none;
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 14px;
     }
     
-    .btn-primary:hover {
-      background: var(--accent-dark);
-      transform: translateY(-2px);
+    .tab-content {
+      display: none;
     }
     
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-    
-    .btn-secondary {
-      padding: 12px 24px;
-      background: white;
-      color: var(--secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .btn-secondary:hover {
-      background: var(--bg-light);
-    }
-    
-    .table-responsive {
-      overflow-x: auto;
+    .tab-content.active {
+      display: block;
     }
     
     table {
@@ -517,1376 +759,1090 @@
     }
     
     th {
-      text-align: left;
-      padding: 16px;
       background: var(--bg-light);
-      color: var(--secondary);
+      padding: 12px;
+      text-align: left;
       font-weight: 600;
-      font-size: 14px;
     }
     
     td {
-      padding: 16px;
-      border-bottom: 1px solid var(--border);
-      font-size: 14px;
+      padding: 12px;
+      border-bottom: 1px solid var(--border-color);
     }
     
-    .badge {
-      padding: 4px 12px;
-      border-radius: 30px;
-      font-size: 12px;
+    .status-success {
+      color: #22c55e;
       font-weight: 600;
     }
     
-    .badge.success {
-      background: #dcfce7;
-      color: #166534;
-    }
-    
-    .badge.warning {
-      background: #fef9c3;
-      color: #854d0e;
-    }
-    
-    .badge.info {
-      background: #dbeafe;
-      color: #1e40af;
-    }
-    
-    .action-btn {
-      padding: 8px;
-      border: none;
-      background: none;
-      cursor: pointer;
-      color: var(--gray);
-      transition: color 0.3s;
-      margin: 0 4px;
-    }
-    
-    .action-btn:hover {
-      color: var(--accent);
-    }
-    
-    .action-btn.delete:hover {
-      color: var(--danger);
-    }
-    
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(5px);
-    }
-    
-    .modal.active {
-      display: flex;
-    }
-    
-    .modal-content {
-      background: white;
-      border-radius: var(--radius-lg);
-      width: 90%;
-      max-width: 500px;
-      max-height: 90vh;
-      overflow-y: auto;
-      animation: modalSlide 0.3s ease;
-    }
-    
-    .modal-header {
-      padding: 20px 24px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .modal-header h3 {
-      font-size: 20px;
-      color: var(--primary);
-    }
-    
-    .close-modal {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--gray);
-    }
-    
-    .modal-body {
-      padding: 24px;
-    }
-    
-    .modal-footer {
-      padding: 20px 24px;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: flex-end;
-      gap: 12px;
-    }
-    
-    /* Receipt Preview */
-    .receipt-preview {
-      background: white;
-      padding: 24px;
-      border-radius: var(--radius-md);
-      margin: 20px 0;
-      font-family: 'Courier New', monospace;
-      border: 2px dashed var(--border);
-    }
-    
-    .receipt-header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-    .receipt-header h4 {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-    
-    .receipt-items {
-      margin: 16px 0;
-      border-top: 1px dashed var(--primary);
-      border-bottom: 1px dashed var(--primary);
-      padding: 12px 0;
-    }
-    
-    .receipt-item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-    
-    .receipt-total {
-      font-size: 18px;
-      font-weight: 700;
-      text-align: right;
-      margin-top: 16px;
-    }
-    
-    /* Category Management */
-    .categories-list {
-      display: grid;
-      gap: 12px;
-    }
-    
-    .category-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      background: var(--bg-light);
-      border-radius: var(--radius-md);
-    }
-    
-    .category-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    
-    .category-color {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-    }
-    
-    /* Cash Flow */
-    .cash-positive {
-      color: var(--success);
+    .status-failed {
+      color: #ef4444;
       font-weight: 600;
     }
     
-    .cash-negative {
-      color: var(--danger);
-      font-weight: 600;
-    }
-    
-    /* Floating Action Button */
-    .fab {
+    /* Floating WA */
+    .floating-wa {
       position: fixed;
       bottom: 24px;
       right: 24px;
       width: 60px;
       height: 60px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
-      font-size: 24px;
-      box-shadow: var(--shadow-lg);
+      font-size: 28px;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
       cursor: pointer;
-      z-index: 100;
-      opacity: 0;
-      visibility: hidden;
-      transform: scale(0.8);
-      transition: all 0.3s;
+      z-index: 1000;
       border: none;
     }
     
-    .fab.visible {
+    /* Install Prompt */
+    .install-prompt {
+      position: fixed;
+      bottom: 100px;
+      right: 24px;
+      background: white;
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border-color);
+      max-width: 280px;
+    }
+    
+    .install-prompt.visible {
       opacity: 1;
       visibility: visible;
-      transform: scale(1);
+      transform: translateY(0);
     }
     
-    .fab:hover {
-      transform: scale(1.1);
+    .install-prompt-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
-    /* Print Styles */
-    @media print {
-      body * {
-        visibility: hidden;
-      }
-      
-      #receiptPrint,
-      #receiptPrint * {
-        visibility: visible;
-      }
-      
-      #receiptPrint {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        padding: 20px;
-      }
-      
-      .no-print {
-        display: none !important;
-      }
+    .install-prompt-icon i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+    
+    .install-prompt-content {
+      flex: 1;
+    }
+    
+    .install-prompt-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-dark);
+    }
+    
+    .install-prompt-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    
+    .install-prompt-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+    }
+    
+    .install-prompt-close {
+      background: none;
+      border: none;
+      padding: 4px;
+      cursor: pointer;
+      color: var(--text-muted);
     }
     
     /* Animations */
-    @keyframes fadeIn {
+    @keyframes slideDown {
       from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(50px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes modalSlide {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-    
     /* Responsive */
-    @media (max-width: 768px) {
-      .app-container {
-        flex-direction: column;
-      }
-      
-      .sidebar {
-        width: 100%;
-        padding: 16px;
-      }
-      
-      .sidebar-menu {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      
-      .sidebar-menu li {
-        flex: 1 1 auto;
-      }
-      
-      .sidebar-menu a {
-        justify-content: center;
-        padding: 10px;
-      }
-      
-      .sidebar-menu a span {
-        display: none;
-      }
-      
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .main-content {
-        max-height: none;
-      }
-      
-      .content-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .fab {
-        bottom: 16px;
-        right: 16px;
-        width: 50px;
-        height: 50px;
-        font-size: 20px;
-      }
+    @media (max-width: 640px) {
+      body { padding: 12px; }
+      .login-toggle { top: 10px; right: 10px; }
+      .login-toggle button { padding: 8px 16px; font-size: 13px; }
+      .login-modal { width: 300px; right: 10px; }
     }
   </style>
 </head>
 <body>
-  <!-- Login Screen -->
-  <div id="loginScreen">
-    <div class="login-header">
-      <i class="fas fa-calculator"></i>
-      <h2>Malik Kasir</h2>
-      <p>Struk & Laporan Keuangan</p>
+  <div class="container">
+    <!-- Login Toggle Buttons -->
+    <div class="login-toggle">
+      <button id="userModeBtn" class="active">
+        <i class="fas fa-home"></i> Layanan Servis
+      </button>
+      <button id="adminToggleBtn">
+        <i class="fas fa-user-lock"></i> Admin / Kasir
+      </button>
     </div>
     
-    <div class="input-group">
-      <label><i class="fas fa-user"></i> Username</label>
-      <input type="text" id="username" placeholder="Masukkan username" autocomplete="off">
-      <div class="error-message" id="usernameError"></div>
-    </div>
-    
-    <div class="input-group">
-      <label><i class="fas fa-lock"></i> Password</label>
-      <input type="password" id="password" placeholder="Masukkan password">
-      <div class="error-message" id="passwordError"></div>
-    </div>
-    
-    <button class="login-btn" id="loginBtn">
-      <i class="fas fa-sign-in-alt"></i> Masuk
-    </button>
-    
-    <div class="security-note">
-      <i class="fas fa-shield-alt"></i>
-      <div>
-        <strong>Login Demo:</strong><br>
-        Username: admin<br>
-        Password: admin123
-      </div>
-    </div>
-  </div>
-  
-  <!-- Main App Screen -->
-  <div id="appScreen">
-    <div class="app-container">
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="sidebar-header">
-          <i class="fas fa-store"></i>
-          <div>
-            <h3>Malik Kasir</h3>
-            <p>v2.0.0</p>
-          </div>
-        </div>
-        
-        <ul class="sidebar-menu">
-          <li><a class="active" data-page="dashboard"><i class="fas fa-home"></i><span>Dashboard</span></a></li>
-          <li><a data-page="transactions"><i class="fas fa-shopping-cart"></i><span>Transaksi</span></a></li>
-          <li><a data-page="categories"><i class="fas fa-tags"></i><span>Kategori</span></a></li>
-          <li><a data-page="profit-loss"><i class="fas fa-chart-line"></i><span>Laba Rugi</span></a></li>
-          <li><a data-page="cash-flow"><i class="fas fa-money-bill-wave"></i><span>Arus Kas</span></a></li>
-          <li><a data-page="expenses"><i class="fas fa-receipt"></i><span>Pengeluaran</span></a></li>
-        </ul>
-        
-        <div class="sidebar-footer">
-          <button class="logout-btn" id="logoutBtn">
-            <i class="fas fa-sign-out-alt"></i> Keluar
-          </button>
-        </div>
+    <!-- Login Modal (TANPA DEMO AKUN) -->
+    <div class="login-modal" id="loginModal">
+      <div class="login-header">
+        <i class="fas fa-store"></i>
+        <h3>Login Malik Service</h3>
+        <p style="color: var(--text-muted);">Akses khusus petugas</p>
       </div>
       
-      <!-- Main Content -->
-      <div class="main-content" id="mainContent"></div>
-    </div>
-  </div>
-  
-  <!-- Transaction Modal -->
-  <div class="modal" id="transactionModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
-        <button class="close-modal" onclick="App.closeModal('transactionModal')">&times;</button>
+      <div class="input-group">
+        <label><i class="fas fa-user"></i> Username</label>
+        <input type="text" id="username" placeholder="Masukkan username">
       </div>
-      <div class="modal-body">
-        <div class="input-group">
-          <label><i class="fas fa-tag"></i> Kategori</label>
-          <select id="transCategory" required>
-            <option value="">Pilih kategori</option>
-          </select>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-box"></i> Nama Item</label>
-          <input type="text" id="transItem" placeholder="Contoh: Kopi Susu" required>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-money-bill"></i> Harga</label>
-          <input type="number" id="transPrice" placeholder="0" min="0" required>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-calculator"></i> Jumlah</label>
-          <input type="number" id="transQty" placeholder="1" min="1" value="1" required>
-        </div>
-        
-        <!-- Receipt Preview -->
-        <div class="receipt-preview">
-          <div class="receipt-header">
-            <h4>STRUK PEMBELIAN</h4>
-            <p id="receiptDate"></p>
+      
+      <div class="input-group">
+        <label><i class="fas fa-lock"></i> Password</label>
+        <input type="password" id="password" placeholder="••••••••">
+      </div>
+      
+      <!-- Cloudflare Turnstile - ISI SITE KEY NANTI -->
+      <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+      
+      <button class="login-btn" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </button>
+      
+      <!-- TIDAK ADA DEMO AKUN - HANYA ADMIN YANG TAHU -->
+      <div style="margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-muted);">
+        <i class="fas fa-shield-alt"></i> Area terbatas - hanya untuk petugas
+      </div>
+    </div>
+    
+    <!-- ========== PUBLIC MODE (LANDING PAGE) ========== -->
+    <div id="publicMode">
+      <div class="card">
+        <!-- Header -->
+        <div class="header">
+          <div class="header-top">
+            <div class="logo">
+              <h1>Malik Service</h1>
+              <span>One Stop Service SEMARANG</span>
+            </div>
+            <div class="badge">
+              <i class="fas fa-motorcycle"></i>
+              <span>Pickup 7km - Rp25rb</span>
+            </div>
           </div>
-          <div class="receipt-items" id="receiptItems"></div>
-          <div class="receipt-total" id="receiptTotal">Rp 0</div>
+          
+          <div class="info-toko">
+            <div class="info-item">
+              <i class="fas fa-map-marker-alt"></i>
+              <div class="info-text">
+                Jl. Untung Suropati Ds.Jamalsari Rt004/Rw002 No.52, Kedungpane 50211
+              </div>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-phone-alt"></i>
+              <div class="info-text">
+                0857-1308-7659 (WA)<br>
+                thumbtackid@gmail.com
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content" id="order">
+          <!-- Form Data Pelanggan -->
+          <div class="form-section">
+            <div class="section-title">
+              <i class="fas fa-user"></i>
+              <span>Data Pelanggan</span>
+            </div>
+            
+            <div class="form-grid">
+              <div class="form-group">
+                <input type="text" id="namaPelanggan" placeholder="Nama Lengkap">
+              </div>
+              <div class="form-group">
+                <input type="tel" id="noHpPelanggan" placeholder="No. HP">
+              </div>
+              <div class="form-group">
+                <input type="text" id="alamatPelanggan" placeholder="Alamat">
+              </div>
+            </div>
+          </div>
+          
+          <!-- Pickup Options -->
+          <div class="pickup-card">
+            <div class="pickup-header">
+              <i class="fas fa-truck"></i>
+              <span>Layanan Pick-up dan Antar (max 7km)</span>
+            </div>
+            
+            <div class="pickup-options">
+              <label>
+                <input type="radio" name="pickupOption" value="ya" checked>
+                <i class="fas fa-check-circle"></i>
+                <span>Ya, pickup dan antar (+Rp25.000)</span>
+              </label>
+              <label>
+                <input type="radio" name="pickupOption" value="tidak">
+                <i class="fas fa-home"></i>
+                <span>Saya datang ke toko</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Filter Kategori -->
+          <div class="filter-card">
+            <div class="filter-item">
+              <label><i class="fas fa-mobile-alt"></i> Pilih Kategori</label>
+              <select id="kategoriSelect">
+                <option value="all">SEMUA KATEGORI</option>
+                <option value="Android">ANDROID</option>
+                <option value="Laptop">LAPTOP</option>
+              </select>
+            </div>
+            
+            <div class="filter-item">
+              <label><i class="fas fa-tools"></i> Pilih Tipe Masalah</label>
+              <select id="tipeSelect">
+                <option value="all">SEMUA TIPE</option>
+              </select>
+            </div>
+            
+            <div class="filter-item">
+              <label><i class="fas fa-list"></i> Pilih Item Servis</label>
+              <select id="itemSelect" size="8"></select>
+            </div>
+            
+            <div class="stats-badge">
+              <i class="fas fa-database"></i>
+              <span id="totalItems">Memuat layanan...</span>
+            </div>
+          </div>
+          
+          <!-- Detail Servis -->
+          <div class="detail-card">
+            <div class="detail-grid">
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-tag"></i> Kategori</span>
+                <span class="detail-value" id="displayKategori">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-cog"></i> Tipe</span>
+                <span class="detail-value" id="displayTipe">-</span>
+              </div>
+              <div class="detail-item full-width">
+                <span class="detail-label"><i class="fas fa-box"></i> Item</span>
+                <span class="detail-value" id="displayItem">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-dollar-sign"></i> Jenis</span>
+                <span class="detail-value" id="displayJenis">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-money-bill"></i> Harga</span>
+                <span class="detail-value harga" id="displayHarga">-</span>
+              </div>
+              <div class="detail-item">
+                <span class="detail-label"><i class="fas fa-clock"></i> Estimasi</span>
+                <span class="detail-value estimasi" id="displayEstimasi">-</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Total -->
+          <div class="total-card">
+            <div class="total-label">
+              <i class="fas fa-money-bill"></i>
+              <span>Total Biaya</span>
+            </div>
+            <div class="total-value" id="totalNominal">Rp 0</div>
+          </div>
+          
+          <!-- Tombol WA -->
+          <button class="wa-button" id="waButton">
+            <i class="fab fa-whatsapp"></i>
+            <span>Pesan via WhatsApp</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+          
+          <div class="footer-note">
+            <i class="fas fa-heart" style="color: #ef4444;"></i>
+            <span>Klik tombol di atas untuk mengirim pesan ke 0857-1308-7659</span>
+            <i class="fas fa-heart" style="color: #ef4444;"></i>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="App.closeModal('transactionModal')">Batal</button>
-        <button class="btn-primary" onclick="App.printReceipt()">
-          <i class="fas fa-print"></i> Cetak & Simpan
-        </button>
+    </div>
+    
+    <!-- ========== ADMIN MODE (SETELAH LOGIN) ========== -->
+    <div id="adminMode" style="display: none;">
+      <div class="admin-dashboard">
+        <div class="admin-header">
+          <h2><i class="fas fa-store"></i> Malik Kasir</h2>
+          <div>
+            <span class="user-info" id="userDisplay">
+              <i class="fas fa-user-circle"></i> <span id="userName">Admin</span> (<span id="userRole">admin</span>)
+            </span>
+            <button class="logout-btn" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <i class="fas fa-shopping-cart"></i>
+            <div class="stat-value" id="totalTransaksi">0</div>
+            <div style="color: var(--text-muted);">Total Transaksi</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-money-bill-wave"></i>
+            <div class="stat-value" id="totalPendapatan">Rp 0</div>
+            <div style="color: var(--text-muted);">Pendapatan</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="stat-value" id="totalLogin">0</div>
+            <div style="color: var(--text-muted);">Aktivitas Login</div>
+          </div>
+        </div>
+        
+        <!-- Tabs -->
+        <div class="admin-tabs">
+          <div class="admin-tab active" data-tab="transaksi">Transaksi</div>
+          <div class="admin-tab" data-tab="laporan">Laporan</div>
+          <div class="admin-tab" data-tab="loginLog" id="loginLogTab">Log Login</div>
+          <div class="admin-tab" data-tab="users" id="usersTab">Manajemen User</div>
+        </div>
+        
+        <!-- Tab: Transaksi -->
+        <div class="tab-content active" id="tab-transaksi">
+          <table>
+            <thead>
+              <tr><th>ID</th><th>Tanggal</th><th>Item</th><th>Total</th><th>Kasir</th></tr>
+            </thead>
+            <tbody id="transaksiTable">
+              <tr><td colspan="5" style="text-align: center;">Belum ada transaksi</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Tab: Laporan -->
+        <div class="tab-content" id="tab-laporan">
+          <table>
+            <thead>
+              <tr><th>Bulan</th><th>Pendapatan</th><th>Pengeluaran</th><th>Laba</th></tr>
+            </thead>
+            <tbody id="laporanTable">
+              <tr><td colspan="4" style="text-align: center;">Belum ada data</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Tab: Log Login -->
+        <div class="tab-content" id="tab-loginLog">
+          <table>
+            <thead>
+              <tr><th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th></tr>
+            </thead>
+            <tbody id="loginLogTable">
+              <tr><td colspan="5" style="text-align: center;">Memuat log login...</td></tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <!-- Tab: Manajemen User -->
+        <div class="tab-content" id="tab-users">
+          <table>
+            <thead>
+              <tr><th>Username</th><th>Role</th><th>Nama</th><th>Terdaftar</th><th>Last Login</th><th>Aksi</th></tr>
+            </thead>
+            <tbody id="usersTable">
+              <tr><td colspan="6" style="text-align: center;">Memuat data user...</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </div>
   
-  <!-- Expense Modal -->
-  <div class="modal" id="expenseModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3><i class="fas fa-plus-circle"></i> Tambah Pengeluaran</h3>
-        <button class="close-modal" onclick="App.closeModal('expenseModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="input-group">
-          <label><i class="fas fa-tag"></i> Kategori</label>
-          <select id="expenseCategory" required>
-            <option value="Listrik">Listrik</option>
-            <option value="Air">Air</option>
-            <option value="Rokok">Rokok</option>
-            <option value="Kopi">Kopi</option>
-            <option value="Makanan">Makanan</option>
-            <option value="Transport">Transport</option>
-            <option value="Sewa">Sewa</option>
-            <option value="Gaji">Gaji</option>
-            <option value="Lainnya">Lainnya</option>
-          </select>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-money-bill"></i> Jumlah</label>
-          <input type="number" id="expenseAmount" placeholder="0" min="0" required>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-align-left"></i> Keterangan</label>
-          <input type="text" id="expenseDesc" placeholder="Contoh: Bayar listrik" required>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="App.closeModal('expenseModal')">Batal</button>
-        <button class="btn-primary" onclick="App.saveExpense()">Simpan</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Category Modal -->
-  <div class="modal" id="categoryModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3><i class="fas fa-plus-circle"></i> Kategori Baru</h3>
-        <button class="close-modal" onclick="App.closeModal('categoryModal')">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="input-group">
-          <label><i class="fas fa-tag"></i> Nama Kategori</label>
-          <input type="text" id="categoryName" placeholder="Contoh: Elektronik" required>
-        </div>
-        
-        <div class="input-group">
-          <label><i class="fas fa-palette"></i> Warna</label>
-          <input type="color" id="categoryColor" value="#3b82f6">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-secondary" onclick="App.closeModal('categoryModal')">Batal</button>
-        <button class="btn-primary" onclick="App.saveCategory()">Simpan</button>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Hidden receipt for printing -->
-  <div id="receiptPrint" style="display: none;"></div>
-  
-  <!-- Floating Action Button -->
-  <button class="fab" id="fab" onclick="App.openModal('transactionModal')">
-    <i class="fas fa-plus"></i>
+  <!-- Floating WA Button -->
+  <button class="floating-wa" id="floatingWa">
+    <i class="fab fa-whatsapp"></i>
   </button>
+  
+  <!-- Install Prompt -->
+  <div class="install-prompt" id="installPrompt">
+    <div class="install-prompt-icon">
+      <i class="fas fa-download"></i>
+    </div>
+    <div class="install-prompt-content">
+      <div class="install-prompt-title">Instal Aplikasi</div>
+      <div class="install-prompt-desc">Akses lebih cepat dari home screen</div>
+    </div>
+    <button class="install-prompt-btn" id="installBtn">Instal</button>
+    <button class="install-prompt-close" id="installClose">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
   
   <script>
     // ============================================
-    // MALIK KASIR - PWA LENGKAP
-    // Secure Storage, Auth, dan Fitur Keuangan
+    // DATA LAYANAN LENGKAP - 400+ ITEM
     // ============================================
+    const serviceDB = [
+      // ========== ANDROID - LAYAR ==========
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Pecah - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Pecah - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Bergaris - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Bergaris - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Bergaris - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Touch Error - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Touch Error - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Touch Error - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Layar Blank - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Layar Blank - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Layar Blank - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - POWER ==========
+      { kategori: 'Android', tipe: 'Power', nama: 'Mati Total - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Mati Total - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Mati Total - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Restart Sendiri - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Restart Sendiri - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Restart Sendiri - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Tombol Power Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Tombol Power Rusak - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Power', nama: 'Tombol Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - BATERAI ==========
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Baterai Drop - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Baterai Drop - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Tidak Bisa Cas - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Tidak Bisa Cas - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Tidak Bisa Cas - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Konektor Charger Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Konektor Charger Rusak - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Konektor Charger Rusak - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - AUDIO ==========
+      { kategori: 'Android', tipe: 'Audio', nama: 'Speaker Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Speaker Pecah - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Speaker Pecah - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Mic Tidak Berfungsi - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Mic Tidak Berfungsi - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Mic Tidak Berfungsi - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Headset Tidak Terdeteksi - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Headset Tidak Terdeteksi - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Headset Tidak Terdeteksi - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - KAMERA ==========
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Blur - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Blur - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Blur - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Mati - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Mati - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Kamera Mati - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - SINYAL ==========
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'No Service - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'No Service - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'No Service - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'IMEI Hilang - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'IMEI Hilang - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'IMEI Hilang - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'Antena Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'Antena Rusak - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Sinyal', nama: 'Antena Rusak - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - SOFTWARE ==========
+      { kategori: 'Android', tipe: 'Software', nama: 'Bootloop - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Bootloop - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Bootloop - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Stuck Logo - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Stuck Logo - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Stuck Logo - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Lupa Pola / Password - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Lupa Pola / Password - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Lupa Pola / Password - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Flashing Ulang - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Flashing Ulang - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Flashing Ulang - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Virus / Iklan - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Virus / Iklan - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Virus / Iklan - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== ANDROID - MAINBOARD ==========
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Power - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Power - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Power - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Charging - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Charging - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'IC Charging - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Short Mesin - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Short Mesin - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Short Mesin - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Kena Air - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Kena Air - Sparepart KW', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Mainboard', nama: 'Kena Air - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
+      
+      // ========== LAPTOP - LAYAR ==========
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Pecah - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Pecah - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Blank - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Blank - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Blank - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - CASING ==========
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Engsel Laptop Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Engsel Laptop Rusak - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Engsel Laptop Rusak - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Frame Retak - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Frame Retak - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Frame Retak - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Cover LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Cover LCD Pecah - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: 'Cover LCD Pecah - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - KEYBOARD ==========
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard Mati - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard Mati - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard Mati - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Tombol Keyboard Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Tombol Keyboard Rusak - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Tombol Keyboard Rusak - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - TOUCHPAD ==========
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: 'Touchpad Tidak Berfungsi - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: 'Touchpad Tidak Berfungsi - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: 'Touchpad Tidak Berfungsi - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - POWER ==========
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Laptop Mati Total - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Laptop Mati Total - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Laptop Mati Total - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Tidak Bisa Charge - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Tidak Bisa Charge - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'Tidak Bisa Charge - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'DC Jack Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'DC Jack Rusak - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Power', nama: 'DC Jack Rusak - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - BATERAI ==========
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Drop - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Drop - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Tidak Terdeteksi - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Tidak Terdeteksi - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Tidak Terdeteksi - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - COOLING ==========
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Overheat - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Overheat - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Overheat - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - STORAGE ==========
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'HDD Bad Sector - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'HDD Bad Sector - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'HDD Bad Sector - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'SSD Tidak Terdeteksi - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'SSD Tidak Terdeteksi - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'SSD Tidak Terdeteksi - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - RAM ==========
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'RAM Error - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'RAM Error - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'RAM Error - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - MAINBOARD ==========
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'IC Power - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'IC Power - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'IC Power - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'Short Circuit - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'Short Circuit - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'Short Circuit - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - SOFTWARE ==========
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Windows - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Windows - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Windows - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Windows Blue Screen - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Windows Blue Screen - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Windows Blue Screen - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Laptop Lemot - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Laptop Lemot - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Laptop Lemot - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      
+      // ========== LAPTOP - BIOS ==========
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'BIOS Corrupt - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'BIOS Corrupt - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'BIOS Corrupt - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'Update BIOS - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'Update BIOS - Sparepart Universal', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'BIOS', nama: 'Update BIOS - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' }
+    ];
     
-    const App = (function() {
-      'use strict';
-      
-      // ==================== UI MANAGER ====================
-      const UIManager = {
-        elements: {},
-        
-        init() {
-          this.elements = {
-            loginScreen: document.getElementById('loginScreen'),
-            appScreen: document.getElementById('appScreen'),
-            mainContent: document.getElementById('mainContent'),
-            loginBtn: document.getElementById('loginBtn'),
-            logoutBtn: document.getElementById('logoutBtn'),
-            username: document.getElementById('username'),
-            password: document.getElementById('password'),
-            usernameError: document.getElementById('usernameError'),
-            passwordError: document.getElementById('passwordError'),
-            fab: document.getElementById('fab')
-          };
-        },
-        
-        formatRupiah(angka) {
-          if (angka === undefined || angka === null) return 'Rp 0';
-          return new Intl.NumberFormat('id-ID', {
-            style: 'currency',
-            currency: 'IDR',
-            minimumFractionDigits: 0
-          }).format(angka);
-        },
-        
-        loadPage(page) {
-          switch(page) {
-            case 'dashboard':
-              this.renderDashboard();
-              break;
-            case 'transactions':
-              this.renderTransactions();
-              break;
-            case 'categories':
-              this.renderCategories();
-              break;
-            case 'profit-loss':
-              this.renderProfitLoss();
-              break;
-            case 'cash-flow':
-              this.renderCashFlow();
-              break;
-            case 'expenses':
-              this.renderExpenses();
-              break;
-          }
-        },
-        
-        renderDashboard() {
-          const transactions = this.getData('transactions', []);
-          const expenses = this.getData('expenses', []);
-          
-          const today = new Date().toDateString();
-          const todayTransactions = transactions.filter(t => 
-            new Date(t.date).toDateString() === today
-          );
-          
-          const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
-          const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
-          const todayRevenue = todayTransactions.reduce((sum, t) => sum + t.total, 0);
-          const netProfit = totalRevenue - totalExpenses;
-          
-          const html = `
-            <div class="content-header">
-              <h2>Dashboard</h2>
-              <div class="date-badge">
-                <i class="fas fa-calendar"></i>
-                ${new Date().toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-              </div>
-            </div>
-            
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-shopping-cart"></i>
-                  <span>Hari Ini</span>
-                </div>
-                <div class="stat-value">${this.formatRupiah(todayRevenue)}</div>
-                <div class="stat-label">Pendapatan Hari Ini</div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-chart-line"></i>
-                  <span>Total</span>
-                </div>
-                <div class="stat-value">${this.formatRupiah(totalRevenue)}</div>
-                <div class="stat-label">Total Pendapatan</div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-arrow-down"></i>
-                  <span>Pengeluaran</span>
-                </div>
-                <div class="stat-value">${this.formatRupiah(totalExpenses)}</div>
-                <div class="stat-label">Total Pengeluaran</div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-wallet"></i>
-                  <span>Laba</span>
-                </div>
-                <div class="stat-value ${netProfit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(netProfit)}</div>
-                <div class="stat-label">Laba Bersih</div>
-              </div>
-            </div>
-            
-            <div class="charts-grid">
-              <div class="chart-card">
-                <div class="chart-header">
-                  <h3>Grafik Pendapatan 7 Hari</h3>
-                </div>
-                <canvas id="revenueChart"></canvas>
-              </div>
-              
-              <div class="chart-card">
-                <div class="chart-header">
-                  <h3>Kategori Terlaris</h3>
-                </div>
-                <canvas id="categoryChart"></canvas>
-              </div>
-            </div>
-            
-            <div class="table-card">
-              <div class="table-header">
-                <h3>Transaksi Terbaru</h3>
-                <button class="btn-primary" onclick="App.openModal('transactionModal')">
-                  <i class="fas fa-plus"></i> Transaksi Baru
-                </button>
-              </div>
-              <div class="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Waktu</th>
-                      <th>Item</th>
-                      <th>Kategori</th>
-                      <th>Jumlah</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${transactions.slice(0, 5).map(t => `
-                      <tr>
-                        <td>${new Date(t.date).toLocaleString('id-ID')}</td>
-                        <td>${t.item}</td>
-                        <td><span class="badge info">${t.category}</span></td>
-                        <td>${t.qty}</td>
-                        <td>${this.formatRupiah(t.total)}</td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-          
-          setTimeout(() => {
-            this.initDashboardCharts(transactions);
-          }, 100);
-        },
-        
-        initDashboardCharts(transactions) {
-          const ctx = document.getElementById('revenueChart')?.getContext('2d');
-          if (ctx) {
-            const last7Days = [];
-            const revenueData = [];
-            
-            for (let i = 6; i >= 0; i--) {
-              const date = new Date();
-              date.setDate(date.getDate() - i);
-              last7Days.push(date.toLocaleDateString('id-ID', { weekday: 'short' }));
-              
-              const dayTotal = transactions
-                .filter(t => new Date(t.date).toDateString() === date.toDateString())
-                .reduce((sum, t) => sum + t.total, 0);
-              revenueData.push(dayTotal);
-            }
-            
-            new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: last7Days,
-                datasets: [{
-                  label: 'Pendapatan',
-                  data: revenueData,
-                  borderColor: '#3b82f6',
-                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                  tension: 0.4,
-                  fill: true
-                }]
-              },
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: { display: false }
-                }
-              }
-            });
-          }
-          
-          const catCtx = document.getElementById('categoryChart')?.getContext('2d');
-          if (catCtx) {
-            const categories = {};
-            transactions.forEach(t => {
-              categories[t.category] = (categories[t.category] || 0) + t.total;
-            });
-            
-            new Chart(catCtx, {
-              type: 'doughnut',
-              data: {
-                labels: Object.keys(categories),
-                datasets: [{
-                  data: Object.values(categories),
-                  backgroundColor: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6']
-                }]
-              },
-              options: {
-                responsive: true,
-                plugins: {
-                  legend: { position: 'bottom' }
-                }
-              }
-            });
-          }
-        },
-        
-        renderTransactions() {
-          const transactions = this.getData('transactions', []);
-          
-          const html = `
-            <div class="content-header">
-              <h2>Transaksi</h2>
-              <button class="btn-primary" onclick="App.openModal('transactionModal')">
-                <i class="fas fa-plus"></i> Transaksi Baru
-              </button>
-            </div>
-            
-            <div class="table-card">
-              <div class="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tanggal</th>
-                      <th>Item</th>
-                      <th>Kategori</th>
-                      <th>Harga</th>
-                      <th>Qty</th>
-                      <th>Total</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${transactions.sort((a, b) => new Date(b.date) - new Date(a.date)).map(t => `
-                      <tr>
-                        <td>${new Date(t.date).toLocaleString('id-ID')}</td>
-                        <td>${t.item}</td>
-                        <td><span class="badge info">${t.category}</span></td>
-                        <td>${this.formatRupiah(t.price)}</td>
-                        <td>${t.qty}</td>
-                        <td>${this.formatRupiah(t.total)}</td>
-                        <td>
-                          <button class="action-btn delete" onclick="App.deleteTransaction(${t.id})">
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-        },
-        
-        renderCategories() {
-          const categories = this.getData('categories', []);
-          
-          const html = `
-            <div class="content-header">
-              <h2>Kategori</h2>
-              <button class="btn-primary" onclick="App.openModal('categoryModal')">
-                <i class="fas fa-plus"></i> Kategori Baru
-              </button>
-            </div>
-            
-            <div class="categories-list">
-              ${categories.map(c => `
-                <div class="category-item">
-                  <div class="category-info">
-                    <div class="category-color" style="background: ${c.color}"></div>
-                    <span>${c.name}</span>
-                  </div>
-                  <button class="action-btn delete" onclick="App.deleteCategory(${c.id})">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              `).join('')}
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-        },
-        
-        renderProfitLoss() {
-          const transactions = this.getData('transactions', []);
-          const expenses = this.getData('expenses', []);
-          
-          const totalRevenue = transactions.reduce((sum, t) => sum + t.total, 0);
-          const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
-          const netProfit = totalRevenue - totalExpenses;
-          
-          const monthlyData = {};
-          
-          transactions.forEach(t => {
-            const month = new Date(t.date).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-            if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
-            monthlyData[month].revenue += t.total;
-          });
-          
-          expenses.forEach(e => {
-            const month = new Date(e.date).toLocaleString('id-ID', { month: 'long', year: 'numeric' });
-            if (!monthlyData[month]) monthlyData[month] = { revenue: 0, expenses: 0 };
-            monthlyData[month].expenses += e.amount;
-          });
-          
-          const html = `
-            <div class="content-header">
-              <h2>Laporan Laba Rugi</h2>
-              <button class="btn-primary" onclick="window.print()">
-                <i class="fas fa-print"></i> Cetak Laporan
-              </button>
-            </div>
-            
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-arrow-up" style="color: #22c55e"></i>
-                </div>
-                <div class="stat-value">${this.formatRupiah(totalRevenue)}</div>
-                <div class="stat-label">Total Pendapatan</div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-arrow-down" style="color: #ef4444"></i>
-                </div>
-                <div class="stat-value">${this.formatRupiah(totalExpenses)}</div>
-                <div class="stat-label">Total Pengeluaran</div>
-              </div>
-              
-              <div class="stat-card">
-                <div class="stat-header">
-                  <i class="fas fa-chart-line" style="color: ${netProfit >= 0 ? '#22c55e' : '#ef4444'}"></i>
-                </div>
-                <div class="stat-value ${netProfit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(netProfit)}</div>
-                <div class="stat-label">Laba Bersih</div>
-              </div>
-            </div>
-            
-            <div class="table-card">
-              <div class="table-header">
-                <h3>Rincian Bulanan</h3>
-              </div>
-              <div class="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Bulan</th>
-                      <th>Pendapatan</th>
-                      <th>Pengeluaran</th>
-                      <th>Laba/Rugi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${Object.entries(monthlyData).map(([month, data]) => {
-                      const profit = data.revenue - data.expenses;
-                      return `
-                        <tr>
-                          <td>${month}</td>
-                          <td>${this.formatRupiah(data.revenue)}</td>
-                          <td>${this.formatRupiah(data.expenses)}</td>
-                          <td class="${profit >= 0 ? 'cash-positive' : 'cash-negative'}">${this.formatRupiah(profit)}</td>
-                        </tr>
-                      `;
-                    }).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-        },
-        
-        renderCashFlow() {
-          const transactions = this.getData('transactions', []);
-          const expenses = this.getData('expenses', []);
-          
-          const cashFlow = [
-            ...transactions.map(t => ({
-              date: t.date,
-              description: `Penjualan: ${t.item} (${t.qty}x)`,
-              inflow: t.total,
-              outflow: 0
-            })),
-            ...expenses.map(e => ({
-              date: e.date,
-              description: e.description,
-              inflow: 0,
-              outflow: e.amount
-            }))
-          ].sort((a, b) => new Date(b.date) - new Date(a.date));
-          
-          let balance = 0;
-          
-          const html = `
-            <div class="content-header">
-              <h2>Arus Kas</h2>
-              <button class="btn-primary" onclick="App.openModal('expenseModal')">
-                <i class="fas fa-plus"></i> Catat Pengeluaran
-              </button>
-            </div>
-            
-            <div class="table-card">
-              <div class="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tanggal</th>
-                      <th>Keterangan</th>
-                      <th>Masuk</th>
-                      <th>Keluar</th>
-                      <th>Saldo</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${cashFlow.map(item => {
-                      balance += (item.inflow - item.outflow);
-                      return `
-                        <tr>
-                          <td>${new Date(item.date).toLocaleString('id-ID')}</td>
-                          <td>${item.description}</td>
-                          <td class="cash-positive">${item.inflow > 0 ? this.formatRupiah(item.inflow) : '-'}</td>
-                          <td class="cash-negative">${item.outflow > 0 ? this.formatRupiah(item.outflow) : '-'}</td>
-                          <td style="font-weight: 600">${this.formatRupiah(balance)}</td>
-                        </tr>
-                      `;
-                    }).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-        },
-        
-        renderExpenses() {
-          const expenses = this.getData('expenses', []);
-          
-          const html = `
-            <div class="content-header">
-              <h2>Pengeluaran</h2>
-              <button class="btn-primary" onclick="App.openModal('expenseModal')">
-                <i class="fas fa-plus"></i> Tambah Pengeluaran
-              </button>
-            </div>
-            
-            <div class="table-card">
-              <div class="table-responsive">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Tanggal</th>
-                      <th>Kategori</th>
-                      <th>Keterangan</th>
-                      <th>Jumlah</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    ${expenses.sort((a, b) => new Date(b.date) - new Date(a.date)).map(e => `
-                      <tr>
-                        <td>${new Date(e.date).toLocaleString('id-ID')}</td>
-                        <td><span class="badge warning">${e.category}</span></td>
-                        <td>${e.description}</td>
-                        <td class="cash-negative">${this.formatRupiah(e.amount)}</td>
-                        <td>
-                          <button class="action-btn delete" onclick="App.deleteExpense(${e.id})">
-                            <i class="fas fa-trash"></i>
-                          </button>
-                        </td>
-                      </tr>
-                    `).join('')}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          
-          this.elements.mainContent.innerHTML = html;
-        },
-        
-        getData(key, defaultValue) {
-          try {
-            const data = localStorage.getItem(key);
-            if (!data) return defaultValue;
-            return JSON.parse(decodeURIComponent(atob(data)));
-          } catch {
-            return defaultValue;
-          }
-        },
-        
-        saveData(key, data) {
-          try {
-            const encrypted = btoa(encodeURIComponent(JSON.stringify(data)));
-            localStorage.setItem(key, encrypted);
-            return true;
-          } catch {
-            return false;
-          }
-        },
-        
-        updateCategorySelect() {
-          const categories = this.getData('categories', []);
-          const select = document.getElementById('transCategory');
-          if (select) {
-            select.innerHTML = '<option value="">Pilih kategori</option>' +
-              categories.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
-          }
-        },
-        
-        updateReceiptPreview() {
-          const item = document.getElementById('transItem')?.value || '-';
-          const price = parseInt(document.getElementById('transPrice')?.value) || 0;
-          const qty = parseInt(document.getElementById('transQty')?.value) || 1;
-          const total = price * qty;
-          
-          const itemsEl = document.getElementById('receiptItems');
-          if (itemsEl) {
-            itemsEl.innerHTML = `
-              <div class="receipt-item">
-                <span>${item} x${qty}</span>
-                <span>${this.formatRupiah(total)}</span>
-              </div>
-            `;
-          }
-          
-          document.getElementById('receiptTotal').textContent = this.formatRupiah(total);
-        }
-      };
-      
-      // Initialize UIManager
-      UIManager.init();
-      
-      // ==================== PUBLIC API ====================
-      return {
-        openModal(modalId) {
-          document.getElementById(modalId).classList.add('active');
-          
-          if (modalId === 'transactionModal') {
-            UIManager.updateCategorySelect();
-            document.getElementById('receiptDate').textContent = 
-              new Date().toLocaleString('id-ID');
-            UIManager.updateReceiptPreview();
-            
-            ['transItem', 'transPrice', 'transQty'].forEach(id => {
-              document.getElementById(id)?.addEventListener('input', () => UIManager.updateReceiptPreview());
-            });
-          }
-        },
-        
-        closeModal(modalId) {
-          document.getElementById(modalId).classList.remove('active');
-        },
-        
-        printReceipt() {
-          const category = document.getElementById('transCategory').value;
-          const item = document.getElementById('transItem').value;
-          const price = parseInt(document.getElementById('transPrice').value);
-          const qty = parseInt(document.getElementById('transQty').value);
-          
-          if (!category || !item || !price) {
-            alert('Mohon isi semua field');
-            return;
-          }
-          
-          const transactions = UIManager.getData('transactions', []);
-          const newTransaction = {
-            id: Date.now(),
-            date: new Date().toISOString(),
-            category,
-            item,
-            price,
-            qty,
-            total: price * qty
-          };
-          
-          transactions.push(newTransaction);
-          UIManager.saveData('transactions', transactions);
-          
-          // Print receipt
-          const receiptHTML = `
-            <div style="font-family: 'Courier New', monospace; max-width: 300px; margin: 0 auto; padding: 20px;">
-              <div style="text-align: center; margin-bottom: 20px;">
-                <h2>MALIK SERVICE</h2>
-                <p>${new Date().toLocaleString('id-ID')}</p>
-                <hr style="border-top: 1px dashed #000;">
-              </div>
-              
-              <div style="margin: 20px 0;">
-                <div style="display: flex; justify-content: space-between;">
-                  <span>${item}</span>
-                  <span>${UIManager.formatRupiah(price)}</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
-                  <span>&nbsp;&nbsp;x${qty}</span>
-                  <span>${UIManager.formatRupiah(price * qty)}</span>
-                </div>
-              </div>
-              
-              <hr style="border-top: 1px dashed #000;">
-              
-              <div style="display: flex; justify-content: space-between; font-weight: bold; margin-top: 10px;">
-                <span>TOTAL</span>
-                <span>${UIManager.formatRupiah(price * qty)}</span>
-              </div>
-              
-              <div style="text-align: center; margin-top: 30px;">
-                <p>Terima Kasih</p>
-                <p style="font-size: 12px;">Barang yang sudah dibeli tidak dapat dikembalikan</p>
-              </div>
-            </div>
-          `;
-          
-          const printWindow = window.open('', '_blank');
-          printWindow.document.write(`
-            <html>
-              <head>
-                <title>Cetak Struk</title>
-              </head>
-              <body>${receiptHTML}</body>
-            </html>
-          `);
-          printWindow.document.close();
-          printWindow.focus();
-          printWindow.print();
-          
-          this.closeModal('transactionModal');
-          UIManager.loadPage('transactions');
-        },
-        
-        saveExpense() {
-          const category = document.getElementById('expenseCategory').value;
-          const amount = parseInt(document.getElementById('expenseAmount').value);
-          const description = document.getElementById('expenseDesc').value;
-          
-          if (!category || !amount || !description) {
-            alert('Mohon isi semua field');
-            return;
-          }
-          
-          const expenses = UIManager.getData('expenses', []);
-          const newExpense = {
-            id: Date.now(),
-            date: new Date().toISOString(),
-            category,
-            amount,
-            description
-          };
-          
-          expenses.push(newExpense);
-          UIManager.saveData('expenses', expenses);
-          
-          this.closeModal('expenseModal');
-          UIManager.loadPage('expenses');
-        },
-        
-        saveCategory() {
-          const name = document.getElementById('categoryName').value;
-          const color = document.getElementById('categoryColor').value;
-          
-          if (!name) {
-            alert('Nama kategori harus diisi');
-            return;
-          }
-          
-          const categories = UIManager.getData('categories', []);
-          const newCategory = {
-            id: Date.now(),
-            name,
-            color
-          };
-          
-          categories.push(newCategory);
-          UIManager.saveData('categories', categories);
-          
-          this.closeModal('categoryModal');
-          UIManager.loadPage('categories');
-        },
-        
-        deleteTransaction(id) {
-          if (confirm('Hapus transaksi ini?')) {
-            const transactions = UIManager.getData('transactions', []);
-            const filtered = transactions.filter(t => t.id !== id);
-            UIManager.saveData('transactions', filtered);
-            UIManager.loadPage('transactions');
-          }
-        },
-        
-        deleteExpense(id) {
-          if (confirm('Hapus pengeluaran ini?')) {
-            const expenses = UIManager.getData('expenses', []);
-            const filtered = expenses.filter(e => e.id !== id);
-            UIManager.saveData('expenses', filtered);
-            UIManager.loadPage('expenses');
-          }
-        },
-        
-        deleteCategory(id) {
-          if (confirm('Hapus kategori ini?')) {
-            const categories = UIManager.getData('categories', []);
-            const filtered = categories.filter(c => c.id !== id);
-            UIManager.saveData('categories', filtered);
-            UIManager.loadPage('categories');
-          }
-        },
-        
-        loadPage(page) {
-          UIManager.loadPage(page);
-        }
-      };
-    })();
+    // ============================================
+    // STATE MANAGEMENT
+    // ============================================
+    let currentUser = null;
+    let filteredItems = [];
+    let currentItem = null;
+    let loginLogs = [];
+    let transactions = [];
+    let deferredPrompt = null;
+    let loginAttempts = 0;
+    let lastLoginAttempt = 0;
+    const MAX_ATTEMPTS = 3;
+    const LOCKOUT_TIME = 30000; // 30 detik
     
-    // Initialize App
-    document.addEventListener('DOMContentLoaded', () => {
-      // Initialize default data
-      if (!localStorage.getItem('users')) {
-        const encrypted = btoa(encodeURIComponent(JSON.stringify([
-          { username: 'admin', password: 'admin123', role: 'admin' }
-        ])));
-        localStorage.setItem('users', encrypted);
+    // AKUN HANYA DI SINI - TIDAK DITAMPILKAN DI HTML
+    const users = [
+      { id: 1, username: 'admin', password: 'admin123', role: 'admin', name: 'Administrator', created: '2024-01-01' },
+      { id: 2, username: 'kasir', password: 'kasir123', role: 'kasir', name: 'Kasir Toko', created: '2024-01-01' }
+    ];
+    
+    // ============================================
+    // UTILITY FUNCTIONS
+    // ============================================
+    function formatRupiah(angka) {
+      if (!angka) return 'Rp 0';
+      return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    
+    function getFilteredItems(kategori, tipe) {
+      let result = serviceDB;
+      if (kategori !== 'all') {
+        result = result.filter(item => item.kategori === kategori);
+      }
+      if (tipe !== 'all') {
+        result = result.filter(item => item.tipe === tipe);
+      }
+      return result.sort((a, b) => a.nama.localeCompare(b.nama));
+    }
+    
+    function getUniqueTipe(kategori) {
+      const filtered = kategori === 'all' ? serviceDB : serviceDB.filter(item => item.kategori === kategori);
+      return [...new Set(filtered.map(item => item.tipe))].sort();
+    }
+    
+    // ============================================
+    // RENDER FUNCTIONS
+    // ============================================
+    function renderTipeOptions() {
+      const kategori = document.getElementById('kategoriSelect').value;
+      const tipeList = getUniqueTipe(kategori);
+      const tipeSelect = document.getElementById('tipeSelect');
+      
+      tipeSelect.innerHTML = '<option value="all">SEMUA TIPE</option>';
+      tipeList.forEach(tipe => {
+        const option = document.createElement('option');
+        option.value = tipe;
+        option.textContent = tipe;
+        tipeSelect.appendChild(option);
+      });
+    }
+    
+    function renderItemOptions() {
+      const kategori = document.getElementById('kategoriSelect').value;
+      const tipe = document.getElementById('tipeSelect').value;
+      filteredItems = getFilteredItems(kategori, tipe);
+      
+      const itemSelect = document.getElementById('itemSelect');
+      itemSelect.innerHTML = '';
+      
+      if (filteredItems.length === 0) {
+        const option = document.createElement('option');
+        option.textContent = 'Tidak ada item';
+        itemSelect.appendChild(option);
+      } else {
+        filteredItems.forEach((item, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = `${item.nama} - ${item.jenis} - ${formatRupiah(item.harga)}`;
+          itemSelect.appendChild(option);
+        });
       }
       
-      if (!localStorage.getItem('categories')) {
-        const encrypted = btoa(encodeURIComponent(JSON.stringify([
-          { id: 1, name: 'Elektronik', color: '#3b82f6' },
-          { id: 2, name: 'Pulsa', color: '#22c55e' },
-          { id: 3, name: 'Makanan', color: '#f59e0b' },
-          { id: 4, name: 'Minuman', color: '#ef4444' }
-        ])));
-        localStorage.setItem('categories', encrypted);
+      document.getElementById('totalItems').textContent = `${filteredItems.length} layanan & sparepart`;
+      
+      if (filteredItems.length > 0) {
+        itemSelect.value = 0;
+        updateDetail(filteredItems[0]);
+      }
+    }
+    
+    function updateDetail(item) {
+      if (!item) return;
+      
+      document.getElementById('displayKategori').textContent = item.kategori;
+      document.getElementById('displayTipe').textContent = item.tipe;
+      document.getElementById('displayItem').textContent = item.nama;
+      document.getElementById('displayJenis').textContent = item.jenis;
+      document.getElementById('displayHarga').textContent = formatRupiah(item.harga);
+      document.getElementById('displayEstimasi').textContent = item.estimasi;
+      
+      const pickupYa = document.querySelector('input[name="pickupOption"][value="ya"]').checked;
+      const total = item.harga + (pickupYa ? 25000 : 0);
+      document.getElementById('totalNominal').textContent = formatRupiah(total);
+    }
+    
+    function loadAdminData() {
+      document.getElementById('totalTransaksi').textContent = transactions.length;
+      
+      const totalPendapatan = transactions.reduce((sum, t) => sum + (t.total || 0), 0);
+      document.getElementById('totalPendapatan').textContent = formatRupiah(totalPendapatan);
+      
+      document.getElementById('totalLogin').textContent = loginLogs.length;
+      
+      // Log Login Table
+      let logHtml = '';
+      if (loginLogs.length === 0) {
+        logHtml = '<tr><td colspan="5" style="text-align: center;">Belum ada log login</td></tr>';
+      } else {
+        loginLogs.slice(0, 20).forEach(log => {
+          logHtml += `<tr>
+            <td>${log.waktu}</td>
+            <td>${log.username}</td>
+            <td>${log.role}</td>
+            <td>${log.ip}</td>
+            <td class="${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status}</td>
+          </tr>`;
+        });
+      }
+      document.getElementById('loginLogTable').innerHTML = logHtml;
+      
+      // Users Table
+      let usersHtml = '';
+      users.forEach(u => {
+        usersHtml += `<tr>
+          <td>${u.username}</td>
+          <td>${u.role}</td>
+          <td>${u.name}</td>
+          <td>${u.created}</td>
+          <td>${u.lastLogin || '-'}</td>
+          <td>
+            <i class="fas fa-edit" style="color: var(--primary); cursor: pointer; margin-right: 8px;" onclick="alert('Edit user ${u.username}')"></i>
+            <i class="fas fa-trash" style="color: #ef4444; cursor: pointer;" onclick="alert('Hapus user ${u.username}')"></i>
+          </td>
+        </tr>`;
+      });
+      document.getElementById('usersTable').innerHTML = usersHtml;
+    }
+    
+    // ============================================
+    // PWA INSTALL
+    // ============================================
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      
+      setTimeout(() => {
+        if (deferredPrompt) {
+          document.getElementById('installPrompt').classList.add('visible');
+        }
+      }, 5000);
+    });
+    
+    document.getElementById('installBtn').addEventListener('click', async () => {
+      if (!deferredPrompt) return;
+      
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        console.log('PWA installed');
       }
       
-      if (!localStorage.getItem('transactions')) {
-        localStorage.setItem('transactions', btoa(encodeURIComponent(JSON.stringify([]))));
-      }
+      deferredPrompt = null;
+      document.getElementById('installPrompt').classList.remove('visible');
+    });
+    
+    document.getElementById('installClose').addEventListener('click', () => {
+      document.getElementById('installPrompt').classList.remove('visible');
+    });
+    
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize
+      renderTipeOptions();
+      renderItemOptions();
       
-      if (!localStorage.getItem('expenses')) {
-        localStorage.setItem('expenses', btoa(encodeURIComponent(JSON.stringify([]))));
-      }
-      
-      // Check login status
-      const currentUser = sessionStorage.getItem('currentUser');
-      if (currentUser) {
-        document.getElementById('loginScreen').style.display = 'none';
-        document.getElementById('appScreen').style.display = 'block';
-        App.loadPage('dashboard');
-      }
-      
-      // Login button event
-      document.getElementById('loginBtn').addEventListener('click', () => {
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value;
-        
+      // Check session
+      const savedUser = sessionStorage.getItem('currentUser');
+      if (savedUser) {
         try {
-          const users = JSON.parse(decodeURIComponent(atob(localStorage.getItem('users'))));
-          const user = users.find(u => u.username === username && u.password === password);
-          
-          if (user) {
-            sessionStorage.setItem('currentUser', JSON.stringify({ username: user.username, role: user.role }));
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('appScreen').style.display = 'block';
-            App.loadPage('dashboard');
-            
-            // Show FAB
-            document.getElementById('fab').classList.add('visible');
-          } else {
-            document.getElementById('passwordError').textContent = 'Username atau password salah';
-            document.getElementById('passwordError').classList.add('visible');
-            document.getElementById('password').classList.add('error');
-          }
-        } catch {
-          alert('Terjadi kesalahan');
+          currentUser = JSON.parse(savedUser);
+          document.getElementById('userName').textContent = currentUser.name;
+          document.getElementById('userRole').textContent = currentUser.role;
+          document.getElementById('publicMode').style.display = 'none';
+          document.getElementById('adminMode').style.display = 'block';
+          document.getElementById('adminToggleBtn').classList.add('active');
+          document.getElementById('userModeBtn').classList.remove('active');
+          loadAdminData();
+        } catch (e) {}
+      }
+      
+      // Category change
+      document.getElementById('kategoriSelect').addEventListener('change', function() {
+        renderTipeOptions();
+        renderItemOptions();
+      });
+      
+      // Type change
+      document.getElementById('tipeSelect').addEventListener('change', renderItemOptions);
+      
+      // Item change
+      document.getElementById('itemSelect').addEventListener('change', function() {
+        const idx = parseInt(this.value);
+        if (!isNaN(idx) && filteredItems[idx]) {
+          currentItem = filteredItems[idx];
+          updateDetail(currentItem);
         }
       });
       
-      // Logout button event
-      document.getElementById('logoutBtn').addEventListener('click', () => {
-        sessionStorage.removeItem('currentUser');
-        document.getElementById('loginScreen').style.display = 'flex';
-        document.getElementById('appScreen').style.display = 'none';
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('fab').classList.remove('visible');
-      });
-      
-      // Sidebar navigation
-      document.querySelectorAll('.sidebar-menu a').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          document.querySelectorAll('.sidebar-menu a').forEach(l => l.classList.remove('active'));
-          link.classList.add('active');
-          App.loadPage(link.dataset.page);
+      // Pickup change
+      document.querySelectorAll('input[name="pickupOption"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+          if (currentItem) updateDetail(currentItem);
         });
       });
       
-      // Enter key for login
-      document.getElementById('password').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          document.getElementById('loginBtn').click();
+      // WA Button
+      document.getElementById('waButton').addEventListener('click', function() {
+        const nama = document.getElementById('namaPelanggan').value;
+        const noHp = document.getElementById('noHpPelanggan').value;
+        const alamat = document.getElementById('alamatPelanggan').value;
+        
+        if (!currentItem) {
+          alert('Silakan pilih layanan terlebih dahulu');
+          return;
+        }
+        
+        if (!nama || !noHp) {
+          alert('Nama dan No HP wajib diisi');
+          return;
+        }
+        
+        const pickupYa = document.querySelector('input[name="pickupOption"][value="ya"]').checked;
+        const total = currentItem.harga + (pickupYa ? 25000 : 0);
+        
+        const message = `Halo Malik Service, saya ingin servis:
+        
+Nama: ${nama}
+No HP: ${noHp}
+Alamat: ${alamat || '-'}
+
+--- PESANAN ---
+Kategori: ${currentItem.kategori}
+Tipe: ${currentItem.tipe}
+Item: ${currentItem.nama}
+Jenis: ${currentItem.jenis}
+Harga: ${formatRupiah(currentItem.harga)}
+Estimasi: ${currentItem.estimasi}
+Pickup: ${pickupYa ? 'Ya (+Rp25rb)' : 'Tidak'}
+Total: ${formatRupiah(total)}
+
+Mohon konfirmasi. Terima kasih.`;
+        
+        window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(message)}`, '_blank');
+      });
+      
+      // Floating WA
+      document.getElementById('floatingWa').addEventListener('click', function() {
+        window.open('https://wa.me/6285713087659', '_blank');
+      });
+      
+      // ========== LOGIN FUNCTIONS ==========
+      document.getElementById('userModeBtn').addEventListener('click', function() {
+        this.classList.add('active');
+        document.getElementById('adminToggleBtn').classList.remove('active');
+        document.getElementById('publicMode').style.display = 'block';
+        document.getElementById('adminMode').style.display = 'none';
+        document.getElementById('loginModal').classList.remove('active');
+      });
+      
+      document.getElementById('adminToggleBtn').addEventListener('click', function() {
+        this.classList.add('active');
+        document.getElementById('userModeBtn').classList.remove('active');
+        
+        if (currentUser) {
+          document.getElementById('publicMode').style.display = 'none';
+          document.getElementById('adminMode').style.display = 'block';
+          document.getElementById('loginModal').classList.remove('active');
+        } else {
+          document.getElementById('loginModal').classList.toggle('active');
         }
       });
       
-      // Clear errors on input
-      document.getElementById('username').addEventListener('input', () => {
-        document.getElementById('username').classList.remove('error');
-        document.getElementById('usernameError').classList.remove('visible');
+      document.getElementById('loginBtn').addEventListener('click', function() {
+        const now = Date.now();
+        
+        // Reset attempts jika sudah lewat lockout time
+        if (now - lastLoginAttempt > LOCKOUT_TIME) {
+          loginAttempts = 0;
+        }
+        
+        // Cek apakah sudah melebihi batas percobaan
+        if (loginAttempts >= MAX_ATTEMPTS) {
+          const waktuTunggu = Math.ceil((LOCKOUT_TIME - (now - lastLoginAttempt)) / 1000);
+          if (waktuTunggu > 0) {
+            alert(`Terlalu banyak percobaan gagal. Silakan tunggu ${waktuTunggu} detik.`);
+            return;
+          } else {
+            loginAttempts = 0;
+          }
+        }
+        
+        // Verifikasi Turnstile
+        const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
+        if (!turnstileToken) {
+          alert('Mohon verifikasi bahwa Anda bukan robot');
+          return;
+        }
+        
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+        
+        // Cari user
+        const user = users.find(u => u.username === username && u.password === password);
+        
+        if (user) {
+          // Login sukses - reset attempts
+          loginAttempts = 0;
+          
+          currentUser = { ...user, password: undefined };
+          sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+          
+          // Catat login log
+          const logEntry = {
+            waktu: new Date().toLocaleString('id-ID'),
+            username: user.username,
+            role: user.role,
+            ip: 'Client-side',
+            status: 'Sukses'
+          };
+          loginLogs.unshift(logEntry);
+          
+          // Update last login
+          user.lastLogin = new Date().toLocaleString('id-ID');
+          
+          // Update display
+          document.getElementById('userName').textContent = user.name;
+          document.getElementById('userRole').textContent = user.role;
+          
+          // Hide login modal, show admin mode
+          document.getElementById('publicMode').style.display = 'none';
+          document.getElementById('adminMode').style.display = 'block';
+          document.getElementById('loginModal').classList.remove('active');
+          
+          // Load admin data
+          loadAdminData();
+          
+          // Sembunyikan tab khusus admin jika role kasir
+          if (user.role === 'kasir') {
+            document.getElementById('loginLogTab').style.display = 'none';
+            document.getElementById('usersTab').style.display = 'none';
+          } else {
+            document.getElementById('loginLogTab').style.display = 'block';
+            document.getElementById('usersTab').style.display = 'block';
+          }
+        } else {
+          // Login gagal
+          loginAttempts++;
+          lastLoginAttempt = now;
+          
+          alert('Username atau password salah');
+          
+          // Catat login gagal
+          loginLogs.unshift({
+            waktu: new Date().toLocaleString('id-ID'),
+            username: username || 'unknown',
+            role: '-',
+            ip: 'Client-side',
+            status: 'Gagal'
+          });
+        }
       });
       
-      document.getElementById('password').addEventListener('input', () => {
-        document.getElementById('password').classList.remove('error');
-        document.getElementById('passwordError').classList.remove('visible');
+      document.getElementById('logoutBtn').addEventListener('click', function() {
+        currentUser = null;
+        sessionStorage.removeItem('currentUser');
+        document.getElementById('publicMode').style.display = 'block';
+        document.getElementById('adminMode').style.display = 'none';
+        document.getElementById('userModeBtn').classList.add('active');
+        document.getElementById('adminToggleBtn').classList.remove('active');
+      });
+      
+      // Tab switching
+      document.querySelectorAll('.admin-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+          
+          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          document.getElementById(`tab-${this.dataset.tab}`).classList.add('active');
+        });
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', function(e) {
+        const modal = document.getElementById('loginModal');
+        const toggleBtn = document.getElementById('adminToggleBtn');
+        if (!modal.contains(e.target) && !toggleBtn.contains(e.target)) {
+          modal.classList.remove('active');
+        }
       });
     });
     
-    // Make App global
-    window.App = App;
+    // ============================================
+    // REGISTER SERVICE WORKER
+    // ============================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker error:', err));
+      });
+    }
   </script>
 </body>
 </html>
