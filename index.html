@@ -910,7 +910,7 @@
       background: white;
       border-radius: var(--radius-lg);
       padding: 28px;
-      max-width: 400px;
+      max-width: 500px;
       width: 90%;
       max-height: 90vh;
       overflow-y: auto;
@@ -1013,6 +1013,8 @@
       .login-toggle { top: 10px; right: 10px; }
       .login-toggle button { padding: 8px 16px; font-size: 13px; }
       .login-modal { width: 300px; right: 10px; }
+      .print-modal-content { padding: 15px; }
+      .item-row .item-grid { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
@@ -1321,7 +1323,7 @@
     </div>
   </div>
   
-  <!-- Modal Tambah Transaksi -->
+  <!-- Modal Tambah Transaksi (MULTIPLE ITEM) -->
   <div class="print-modal" id="tambahTransaksiModal">
     <div class="print-modal-content">
       <div class="print-modal-header">
@@ -1329,28 +1331,48 @@
         <button class="close-print-modal" id="closeTambahModal">&times;</button>
       </div>
       <div style="padding: 10px 0;">
-        <div style="margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nama Pelanggan</label>
-          <input type="text" id="transNama" placeholder="Nama pelanggan" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+        <!-- Data Pelanggan -->
+        <div style="margin-bottom: 20px; padding: 15px; background: #f8fafc; border-radius: 12px;">
+          <h4 style="margin-bottom: 15px; color: var(--primary);"><i class="fas fa-user"></i> Data Pelanggan</h4>
+          <div style="margin-bottom: 10px;">
+            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nama Pelanggan</label>
+            <input type="text" id="transNama" placeholder="Nama pelanggan" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+          </div>
+          <div style="margin-bottom: 10px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+              <input type="checkbox" id="transPickupCheckbox" value="ya"> <i class="fas fa-truck"></i> Pickup (+Rp25.000)
+            </label>
+          </div>
         </div>
-        <div style="margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Item Servis</label>
-          <input type="text" id="transItem" placeholder="Contoh: LCD Pecah" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-        </div>
-        <div style="margin-bottom: 15px;">
-          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Harga</label>
-          <input type="number" id="transHarga" placeholder="0" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-        </div>
+        
+        <!-- Daftar Item -->
         <div style="margin-bottom: 20px;">
-          <label style="display: block; margin-bottom: 5px; font-weight: 600;">Pickup?</label>
-          <select id="transPickup" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-            <option value="tidak">Tidak (0)</option>
-            <option value="ya">Ya (+Rp25.000)</option>
-          </select>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h4 style="color: var(--primary);"><i class="fas fa-shopping-cart"></i> Item Servis</h4>
+            <button id="tambahItemBtn" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">
+              <i class="fas fa-plus"></i> Tambah Item
+            </button>
+          </div>
+          
+          <!-- Container untuk item-item -->
+          <div id="itemContainer">
+            <!-- Item 1 (default) akan diisi JavaScript -->
+          </div>
         </div>
+        
+        <!-- Ringkasan -->
+        <div style="background: linear-gradient(115deg, #eef2ff 0%, #dbeafe 100%); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 600;">Total Item: <span id="totalItemCount">1</span></span>
+            <span style="font-size: 20px; font-weight: 700; color: var(--primary);">Rp <span id="grandTotal">0</span></span>
+          </div>
+        </div>
+        
         <div class="print-actions">
           <button class="btn-cancel" id="batalTambah">Batal</button>
-          <button class="btn-print" id="simpanTransaksiBtn">Simpan & Cetak</button>
+          <button class="btn-print" id="simpanMultiTransaksiBtn">
+            <i class="fas fa-save"></i> Simpan & Cetak
+          </button>
         </div>
       </div>
     </div>
@@ -1661,7 +1683,6 @@
         console.log('Transaksi loaded:', data.length);
       } catch (error) {
         console.error('Gagal load transaksi:', error);
-        // Fallback ke data lokal jika API gagal
         loadAdminData();
       }
     }
@@ -1674,7 +1695,7 @@
         }
         const data = await response.json();
         loginLogs = data;
-        loadAdminData(); // Refresh tampilan
+        loadAdminData();
         console.log('Login logs loaded:', data.length);
       } catch (error) {
         console.error('Gagal load log:', error);
@@ -1806,19 +1827,14 @@
       }
       document.getElementById('transaksiTable').innerHTML = transaksiHtml;
       
-      // ========== PERBAIKAN UNTUK LAPORAN ==========
-      // Hitung laporan berdasarkan bulan dari transaksi
+      // Laporan berdasarkan bulan
       const laporanBulanan = {};
       
-      // Loop semua transaksi
       transactions.forEach(t => {
-        // Ambil bulan dari tanggal transaksi
         let bulan;
         if (t.tanggal) {
-          // Format tanggal: "24/02/2024 10:30" atau dari database
           let tanggalStr = t.tanggal;
           if (tanggalStr.includes('T')) {
-            // Format ISO: 2024-02-24T10:30:00
             const date = new Date(tanggalStr);
             const bln = date.getMonth() + 1;
             const thn = date.getFullYear();
@@ -1830,15 +1846,12 @@
           } else {
             const parts = tanggalStr.split(' ')[0].split('/');
             if (parts.length === 3) {
-              const tgl = parts[0];
               const bln = parts[1];
               const thn = parts[2];
-              
               const namaBulan = [
                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
                 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
               ][parseInt(bln) - 1];
-              
               bulan = `${namaBulan} ${thn}`;
             } else {
               bulan = 'Tanpa Bulan';
@@ -1848,21 +1861,14 @@
           bulan = 'Tanpa Bulan';
         }
         
-        // Inisialisasi jika belum ada
         if (!laporanBulanan[bulan]) {
-          laporanBulanan[bulan] = {
-            pendapatan: 0,
-            pengeluaran: 0
-          };
+          laporanBulanan[bulan] = { pendapatan: 0, pengeluaran: 0 };
         }
-        
-        // Tambahkan pendapatan dari transaksi
         laporanBulanan[bulan].pendapatan += t.total || 0;
       });
       
-      // Tampilkan laporan
       let laporanHtml = '';
-      const bulanArray = Object.keys(laporanBulanan).sort().reverse(); // Urutkan terbaru dulu
+      const bulanArray = Object.keys(laporanBulanan).sort().reverse();
       
       if (bulanArray.length === 0) {
         laporanHtml = '<tr><td colspan="4" style="text-align: center;">Belum ada data transaksi</td></tr>';
@@ -1871,7 +1877,6 @@
           const data = laporanBulanan[bulan];
           const laba = data.pendapatan - data.pengeluaran;
           const labaClass = laba >= 0 ? 'status-success' : 'status-failed';
-          
           laporanHtml += `<tr>
             <td>${bulan}</td>
             <td>${formatRupiah(data.pendapatan)}</td>
@@ -1884,15 +1889,331 @@
     }
     
     // ============================================
-    // FUNGSI CETAK RESI
+    // FUNGSI MULTIPLE ITEM
     // ============================================
-    function previewPrint(item, total, nama) {
+    
+    // Inisialisasi item pertama saat modal dibuka
+    function initItemContainer() {
+      const container = document.getElementById('itemContainer');
+      container.innerHTML = getItemRowHTML(1);
+      updateTotalItemCount();
+      hitungGrandTotal();
+      
+      // Load tipe untuk item pertama
+      const firstRow = container.querySelector('.item-row');
+      if (firstRow) {
+        const kategoriSelect = firstRow.querySelector('.itemKategori');
+        const tipeSelect = firstRow.querySelector('.itemTipe');
+        loadTipeOptionsForItem(kategoriSelect, tipeSelect);
+      }
+    }
+    
+    // HTML untuk satu item row
+    function getItemRowHTML(index) {
+      return `
+        <div class="item-row" style="background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-color);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+            <span style="font-weight: 600;">Item #${index}</span>
+            <button class="hapusItemBtn" style="background: none; border: none; color: #ef4444; cursor: pointer;" onclick="hapusItem(this)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+          <div class="item-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 8px;">
+            <select class="itemKategori" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="loadTipe(this)">
+              <option value="Android">Android</option>
+              <option value="Laptop">Laptop</option>
+            </select>
+            <select class="itemTipe" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="loadNama(this)">
+              <option value="">Pilih Tipe</option>
+            </select>
+            <select class="itemNama" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="updateHarga(this)">
+              <option value="">Pilih Item</option>
+            </select>
+            <input type="number" class="itemHarga" placeholder="Harga" style="width: 100px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" readonly>
+          </div>
+        </div>
+      `;
+    }
+    
+    // Tambah item baru
+    document.getElementById('tambahItemBtn')?.addEventListener('click', function() {
+      const container = document.getElementById('itemContainer');
+      const itemCount = container.children.length + 1;
+      
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = getItemRowHTML(itemCount);
+      const newItem = tempDiv.firstElementChild;
+      
+      container.appendChild(newItem);
+      updateItemNumbers();
+      updateTotalItemCount();
+      
+      // Load tipe untuk item baru
+      const kategoriSelect = newItem.querySelector('.itemKategori');
+      const tipeSelect = newItem.querySelector('.itemTipe');
+      loadTipeOptionsForItem(kategoriSelect, tipeSelect);
+    });
+    
+    // Load tipe options untuk item baru
+    function loadTipeOptionsForItem(kategoriSelect, tipeSelect) {
+      const kategori = kategoriSelect.value;
+      const tipeList = getUniqueTipe(kategori);
+      
+      tipeSelect.innerHTML = '<option value="">Pilih Tipe</option>';
+      tipeList.forEach(tipe => {
+        const option = document.createElement('option');
+        option.value = tipe;
+        option.textContent = tipe;
+        tipeSelect.appendChild(option);
+      });
+    }
+    
+    // Hapus item
+    window.hapusItem = function(btn) {
+      const row = btn.closest('.item-row');
+      if (document.querySelectorAll('.item-row').length > 1) {
+        row.remove();
+        updateItemNumbers();
+        updateTotalItemCount();
+        hitungGrandTotal();
+      } else {
+        alert('Minimal harus ada 1 item');
+      }
+    };
+    
+    // Update nomor item setelah hapus
+    function updateItemNumbers() {
+      const rows = document.querySelectorAll('.item-row');
+      rows.forEach((row, index) => {
+        row.querySelector('span').textContent = `Item #${index + 1}`;
+      });
+    }
+    
+    // Update total item count
+    function updateTotalItemCount() {
+      const count = document.querySelectorAll('.item-row').length;
+      document.getElementById('totalItemCount').textContent = count;
+    }
+    
+    // Load tipe (dipanggil saat kategori berubah)
+    window.loadTipe = function(select) {
+      const row = select.closest('.item-row');
+      const tipeSelect = row.querySelector('.itemTipe');
+      const namaSelect = row.querySelector('.itemNama');
+      const hargaInput = row.querySelector('.itemHarga');
+      
+      const kategori = select.value;
+      const tipeList = getUniqueTipe(kategori);
+      
+      tipeSelect.innerHTML = '<option value="">Pilih Tipe</option>';
+      tipeList.forEach(tipe => {
+        const option = document.createElement('option');
+        option.value = tipe;
+        option.textContent = tipe;
+        tipeSelect.appendChild(option);
+      });
+      
+      namaSelect.innerHTML = '<option value="">Pilih Item</option>';
+      hargaInput.value = '';
+      hitungGrandTotal();
+    };
+    
+    // Load nama item (dipanggil saat tipe berubah)
+    window.loadNama = function(select) {
+      const row = select.closest('.item-row');
+      const kategoriSelect = row.querySelector('.itemKategori');
+      const namaSelect = row.querySelector('.itemNama');
+      
+      const kategori = kategoriSelect.value;
+      const tipe = select.value;
+      
+      if (!tipe) {
+        namaSelect.innerHTML = '<option value="">Pilih Item</option>';
+        return;
+      }
+      
+      const filtered = serviceDB.filter(item => item.kategori === kategori && item.tipe === tipe);
+      
+      namaSelect.innerHTML = '<option value="">Pilih Item</option>';
+      filtered.forEach((item, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.setAttribute('data-harga', item.harga);
+        option.textContent = `${item.nama} - ${item.jenis} - ${formatRupiah(item.harga)}`;
+        namaSelect.appendChild(option);
+      });
+    };
+    
+    // Update harga saat item dipilih
+    window.updateHarga = function(select) {
+      const row = select.closest('.item-row');
+      const hargaInput = row.querySelector('.itemHarga');
+      
+      const selectedOption = select.options[select.selectedIndex];
+      if (selectedOption && selectedOption.value) {
+        const itemIndex = parseInt(selectedOption.value);
+        if (!isNaN(itemIndex) && serviceDB[itemIndex]) {
+          hargaInput.value = serviceDB[itemIndex].harga;
+        }
+      } else {
+        hargaInput.value = '';
+      }
+      
+      hitungGrandTotal();
+    };
+    
+    // Hitung grand total semua item
+    function hitungGrandTotal() {
+      let total = 0;
+      document.querySelectorAll('.itemHarga').forEach(input => {
+        total += parseInt(input.value) || 0;
+      });
+      
+      const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
+      if (pickupYa) total += 25000;
+      
+      document.getElementById('grandTotal').textContent = formatRupiah(total).replace('Rp ', '');
+      return total;
+    }
+    
+    // Simpan multiple transaksi
+    document.getElementById('simpanMultiTransaksiBtn')?.addEventListener('click', async function() {
+      const nama = document.getElementById('transNama').value;
+      
+      if (!nama) {
+        alert('Nama pelanggan harus diisi');
+        return;
+      }
+      
+      // Kumpulkan semua item
+      const items = [];
+      let totalSemua = 0;
+      
+      const rows = document.querySelectorAll('.item-row');
+      if (rows.length === 0) {
+        alert('Minimal harus ada 1 item');
+        return;
+      }
+      
+      for (const row of rows) {
+        const kategori = row.querySelector('.itemKategori').value;
+        const tipe = row.querySelector('.itemTipe').value;
+        const namaSelect = row.querySelector('.itemNama');
+        const harga = parseInt(row.querySelector('.itemHarga').value) || 0;
+        
+        if (!tipe || !namaSelect.value || harga === 0) {
+          alert('Semua item harus diisi dengan lengkap');
+          return;
+        }
+        
+        const selectedIndex = parseInt(namaSelect.value);
+        const itemData = serviceDB[selectedIndex];
+        
+        items.push({
+          kategori: kategori,
+          tipe: tipe,
+          nama: itemData.nama,
+          jenis: itemData.jenis,
+          harga: harga
+        });
+        
+        totalSemua += harga;
+      }
+      
+      const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
+      if (pickupYa) totalSemua += 25000;
+      
+      const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
+      
+      try {
+        const btn = this;
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+        btn.disabled = true;
+        
+        // Buat deskripsi item untuk disimpan
+        const itemDesc = items.length > 1 ? `${items.length} item servis` : items[0].nama;
+        
+        const response = await fetch('/api/transactions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: idTransaksi,
+            item: itemDesc,
+            total: totalSemua,
+            kasir: currentUser?.name || 'Admin',
+            nama: nama
+          })
+        });
+        
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`Server error: ${response.status} - ${errorText}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          const newTrans = {
+            transaksi_id: idTransaksi,
+            tanggal: new Date().toLocaleString('id-ID'),
+            item: itemDesc,
+            total: totalSemua,
+            kasir: currentUser?.name || 'Admin',
+            nama_pelanggan: nama
+          };
+          
+          transactions.unshift(newTrans);
+          document.getElementById('tambahTransaksiModal').classList.remove('active');
+          loadAdminData();
+          
+          // Preview cetak dengan semua item
+          setTimeout(() => {
+            previewMultiPrint(items, totalSemua, nama, idTransaksi);
+          }, 200);
+          
+          // Reset form
+          document.getElementById('transNama').value = '';
+          document.getElementById('transPickupCheckbox').checked = false;
+          initItemContainer();
+        }
+      } catch (error) {
+        alert('Gagal menyimpan: ' + error.message);
+        console.error(error);
+      } finally {
+        const btn = document.getElementById('simpanMultiTransaksiBtn');
+        btn.innerHTML = '<i class="fas fa-save"></i> Simpan & Cetak';
+        btn.disabled = false;
+      }
+    });
+    
+    // Preview print untuk multiple item
+    function previewMultiPrint(items, total, nama, idTransaksi) {
       const modal = document.getElementById('printResiModal');
       const preview = document.getElementById('printPreviewContent');
       
       const tanggal = new Date().toLocaleString('id-ID');
       const kasir = currentUser?.name || 'Admin';
-      const idTransaksi = 'TRX-' + Date.now().toString().slice(-8);
+      
+      let itemsHtml = '';
+      items.forEach(item => {
+        itemsHtml += `
+          <div class="print-row">
+            <span>${item.nama}</span>
+            <span>${formatRupiah(item.harga)}</span>
+          </div>
+        `;
+      });
+      
+      const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
+      if (pickupYa) {
+        itemsHtml += `
+          <div class="print-row">
+            <span>Biaya Pickup</span>
+            <span>Rp 25.000</span>
+          </div>
+        `;
+      }
       
       preview.innerHTML = `
         <div style="text-align: center; margin-bottom: 15px;">
@@ -1910,7 +2231,8 @@
         </div>
         <hr>
         <div style="margin: 10px 0;">
-          <div class="print-row"><span>Item Servis:</span> <span>${item}</span></div>
+          <div style="font-weight: 600; margin-bottom: 5px;">Daftar Item:</div>
+          ${itemsHtml}
         </div>
         <hr>
         <div class="print-total">
@@ -1926,29 +2248,12 @@
       modal.classList.add('active');
     }
     
-    function doPrint() {
-      const printContent = document.getElementById('printPreviewContent').innerHTML;
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Cetak Resi - Malik Service</title>
-            <style>
-              body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
-              .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-              hr { border: 1px dashed #000; }
-              .print-total { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
-            </style>
-          </head>
-          <body>
-            ${printContent}
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-    }
+    // Override previewPrint lama
+    window.previewPrint = function(item, total, nama) {
+      // Gunakan previewMultiPrint dengan array 1 item
+      const items = [{ nama: item, harga: total }];
+      previewMultiPrint(items, total, nama, 'TRX-' + Date.now().toString().slice(-8));
+    };
     
     // ============================================
     // PWA INSTALL
@@ -1964,7 +2269,7 @@
       }, 5000);
     });
     
-    document.getElementById('installBtn').addEventListener('click', async () => {
+    document.getElementById('installBtn')?.addEventListener('click', async () => {
       if (!deferredPrompt) return;
       
       deferredPrompt.prompt();
@@ -1978,12 +2283,12 @@
       document.getElementById('installPrompt').classList.remove('visible');
     });
     
-    document.getElementById('installClose').addEventListener('click', () => {
+    document.getElementById('installClose')?.addEventListener('click', () => {
       document.getElementById('installPrompt').classList.remove('visible');
     });
     
     // ============================================
-    // EVENT LISTENERS
+    // EVENT LISTENERS UTAMA
     // ============================================
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize
@@ -2105,12 +2410,10 @@ Mohon konfirmasi. Terima kasih.`;
       document.getElementById('loginBtn').addEventListener('click', async function() {
         const now = Date.now();
         
-        // Reset attempts jika sudah lewat lockout time
         if (now - lastLoginAttempt > LOCKOUT_TIME) {
           loginAttempts = 0;
         }
         
-        // Cek apakah sudah melebihi batas percobaan
         if (loginAttempts >= MAX_ATTEMPTS) {
           const waktuTunggu = Math.ceil((LOCKOUT_TIME - (now - lastLoginAttempt)) / 1000);
           if (waktuTunggu > 0) {
@@ -2121,7 +2424,6 @@ Mohon konfirmasi. Terima kasih.`;
           }
         }
         
-        // Verifikasi Turnstile
         const turnstileToken = document.querySelector('[name="cf-turnstile-response"]')?.value;
         if (!turnstileToken) {
           alert('Mohon verifikasi bahwa Anda bukan robot');
@@ -2130,19 +2432,14 @@ Mohon konfirmasi. Terima kasih.`;
         
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-
-        // Hash dulu password yang dimasukkan dengan SHA-256
         const hashedPassword = CryptoJS.SHA256(password).toString();
-        console.log('Password hash:', hashedPassword); // Untuk cek di console
-
-        // Cari user dengan hash
+        console.log('Password hash:', hashedPassword);
+        
         const user = users.find(u => u.username === username && u.password === hashedPassword);
         
         if (user) {
-          // Login sukses - reset attempts
           loginAttempts = 0;
           
-          // Simpan log login ke Cloudflare
           try {
             await fetch('/api/login-logs', {
               method: 'POST',
@@ -2161,7 +2458,6 @@ Mohon konfirmasi. Terima kasih.`;
           currentUser = { ...user, password: undefined };
           sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
           
-          // Catat login log lokal
           const logEntry = {
             waktu: new Date().toLocaleString('id-ID'),
             username: user.username,
@@ -2171,23 +2467,17 @@ Mohon konfirmasi. Terima kasih.`;
           };
           loginLogs.unshift(logEntry);
           
-          // Update last login
           user.lastLogin = new Date().toLocaleString('id-ID');
           
-          // Update display
           document.getElementById('userName').textContent = user.name;
           document.getElementById('userRole').textContent = user.role;
-          
-          // Hide login modal, show admin mode
           document.getElementById('publicMode').style.display = 'none';
           document.getElementById('adminMode').style.display = 'block';
           document.getElementById('loginModal').classList.remove('active');
           
-          // Load data dari Cloudflare
           await loadTransactionsFromAPI();
           await loadLoginLogsFromAPI();
           
-          // Sembunyikan tab khusus admin jika role kasir
           if (user.role === 'kasir') {
             document.getElementById('loginLogTab').style.display = 'none';
             document.getElementById('usersTab').style.display = 'none';
@@ -2196,13 +2486,9 @@ Mohon konfirmasi. Terima kasih.`;
             document.getElementById('usersTab').style.display = 'block';
           }
         } else {
-          // Login gagal
           loginAttempts++;
           lastLoginAttempt = now;
-          
           alert('Username atau password salah');
-          
-          // Catat login gagal
           loginLogs.unshift({
             waktu: new Date().toLocaleString('id-ID'),
             username: username || 'unknown',
@@ -2242,9 +2528,10 @@ Mohon konfirmasi. Terima kasih.`;
         }
       });
       
-      // Modal Transaksi
+      // Modal Transaksi Baru
       document.getElementById('tambahTransaksiBtn').addEventListener('click', function() {
         document.getElementById('tambahTransaksiModal').classList.add('active');
+        initItemContainer();
       });
       
       document.getElementById('closeTambahModal').addEventListener('click', function() {
@@ -2253,85 +2540,6 @@ Mohon konfirmasi. Terima kasih.`;
       
       document.getElementById('batalTambah').addEventListener('click', function() {
         document.getElementById('tambahTransaksiModal').classList.remove('active');
-      });
-      
-      document.getElementById('simpanTransaksiBtn').addEventListener('click', async function() {
-        const nama = document.getElementById('transNama').value;
-        const item = document.getElementById('transItem').value;
-        const harga = parseInt(document.getElementById('transHarga').value) || 0;
-        const pickup = document.getElementById('transPickup').value;
-        
-        if (!nama || !item || !harga) {
-          alert('Semua field harus diisi');
-          return;
-        }
-        
-        const total = harga + (pickup === 'ya' ? 25000 : 0);
-        const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
-        
-        try {
-          // TAMPILKAN LOADING
-          const btn = this;
-          const originalText = btn.innerHTML;
-          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-          btn.disabled = true;
-          
-          // Simpan ke Cloudflare D1 via API
-          const response = await fetch('/api/transactions', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              id: idTransaksi,
-              item: item,
-              total: total,
-              kasir: currentUser?.name || 'Admin',
-              nama: nama
-            })
-          });
-          
-          if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Server error: ${response.status} - ${errorText}`);
-          }
-          
-          const result = await response.json();
-          
-          if (result.success) {
-            // Tambahkan ke array lokal untuk langsung tampil
-            const newTrans = {
-              transaksi_id: idTransaksi,
-              tanggal: new Date().toLocaleString('id-ID'),
-              item: item,
-              total: total,
-              kasir: currentUser?.name || 'Admin',
-              nama_pelanggan: nama
-            };
-            
-            transactions.unshift(newTrans);
-            document.getElementById('tambahTransaksiModal').classList.remove('active');
-            loadAdminData();
-            
-            // Preview cetak
-            setTimeout(() => {
-              previewPrint(item, total, nama);
-            }, 200);
-            
-            // Reset form
-            document.getElementById('transNama').value = '';
-            document.getElementById('transItem').value = '';
-            document.getElementById('transHarga').value = '';
-          } else {
-            alert('Gagal menyimpan: ' + (result.error || 'Unknown error'));
-          }
-        } catch (error) {
-          alert('Gagal menyimpan: ' + error.message);
-          console.error('Error details:', error);
-        } finally {
-          // KEMBALIKAN TOMBOL
-          const btn = document.getElementById('simpanTransaksiBtn');
-          btn.innerHTML = 'Simpan & Cetak';
-          btn.disabled = false;
-        }
       });
       
       // Modal Cetak
@@ -2347,10 +2555,37 @@ Mohon konfirmasi. Terima kasih.`;
         doPrint();
         document.getElementById('printResiModal').classList.remove('active');
       });
+      
+      // Event listener untuk pickup checkbox
+      document.getElementById('transPickupCheckbox')?.addEventListener('change', function() {
+        hitungGrandTotal();
+      });
     });
     
-    // Expose fungsi untuk global
-    window.previewPrint = previewPrint;
+    // Fungsi cetak (dari modal)
+    function doPrint() {
+      const printContent = document.getElementById('printPreviewContent').innerHTML;
+      const printWindow = window.open('', '_blank');
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Cetak Resi - Malik Service</title>
+            <style>
+              body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
+              .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+              hr { border: 1px dashed #000; }
+              .print-total { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
+            </style>
+          </head>
+          <body>
+            ${printContent}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+    }
     
     // ============================================
     // REGISTER SERVICE WORKER
