@@ -1,42 +1,27 @@
 {
-  "name": "Malik Service - Kasir & Laporan",
-  "short_name": "Malik Kasir",
-  "description": "Aplikasi kasir lengkap dengan struk, laporan laba rugi, arus kas, dan manajemen pengeluaran",
+  "name": "Malik Service - One Stop Service Semarang",
+  "short_name": "Malik Service",
+  "description": "Servis HP & Laptop Profesional di Semarang",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
   "background_color": "#f1f5f9",
-  "theme_color": "#0f172a",
+  "theme_color": "#2563eb",
   "lang": "id",
-  "categories": ["business", "finance", "productivity"],
+  "categories": ["business", "services", "electronics"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%230f172a' width='192' height='192' rx='32'/%3E%3Cpath fill='white' d='M64 64h64v16H64zM64 96h64v16H64zM64 128h64v16H64z'/%3E%3Ccircle fill='%233b82f6' cx='144' cy='48' r='16'/%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%232563eb' width='192' height='192' rx='32'/%3E%3Cpath fill='white' d='M96 40c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 96c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z'/%3E%3C/svg%3E",
       "sizes": "192x192",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%230f172a' width='512' height='512' rx='64'/%3E%3Cpath fill='white' d='M128 128h256v64H128zM128 224h256v64H128zM128 320h256v64H128z'/%3E%3Ccircle fill='%233b82f6' cx='384' cy='96' r='32'/%3E%3C/svg%3E",
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect fill='%232563eb' width='512' height='512' rx='64'/%3E%3Cpath fill='white' d='M256 96c-88.4 0-160 71.6-160 160s71.6 160 160 160 160-71.6 160-160S344.4 96 256 96zm0 272c-61.9 0-112-50.1-112-112s50.1-112 112-112 112 50.1 112 112-50.1 112-112 112z'/%3E%3C/svg%3E",
       "sizes": "512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }
-  ],
-  "shortcuts": [
-    {
-      "name": "Transaksi Baru",
-      "short_name": "Transaksi",
-      "url": "./index.html",
-      "icons": [{"src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%233b82f6' width='96' height='96' rx='16'/%3E%3Cpath fill='white' d='M48 24v48M24 48h48'/%3E%3C/svg%3E", "sizes": "96x96"}]
-    },
-    {
-      "name": "Laporan Laba Rugi",
-      "short_name": "Laporan",
-      "url": "./index.html",
-      "icons": [{"src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect fill='%2322c55e' width='96' height='96' rx='16'/%3E%3Cpath fill='white' d='M24 72h48M36 48l8-16 8 16 8-16 8 16'/%3E%3C/svg%3E", "sizes": "96x96"}]
-    }
-  ],
-  "prefer_related_applications": false
+  ]
 }
