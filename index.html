@@ -1652,18 +1652,26 @@
     async function loadTransactionsFromAPI() {
       try {
         const response = await fetch('/api/transactions');
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
         const data = await response.json();
         transactions = data;
         loadAdminData(); // Refresh tampilan
         console.log('Transaksi loaded:', data.length);
       } catch (error) {
         console.error('Gagal load transaksi:', error);
+        // Fallback ke data lokal jika API gagal
+        loadAdminData();
       }
     }
     
     async function loadLoginLogsFromAPI() {
       try {
         const response = await fetch('/api/login-logs');
+        if (!response.ok) {
+          throw new Error(`HTTP error ${response.status}`);
+        }
         const data = await response.json();
         loginLogs = data;
         loadAdminData(); // Refresh tampilan
@@ -2281,6 +2289,11 @@ Mohon konfirmasi. Terima kasih.`;
             })
           });
           
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server error: ${response.status} - ${errorText}`);
+          }
+          
           const result = await response.json();
           
           if (result.success) {
@@ -2307,9 +2320,12 @@ Mohon konfirmasi. Terima kasih.`;
             document.getElementById('transNama').value = '';
             document.getElementById('transItem').value = '';
             document.getElementById('transHarga').value = '';
+          } else {
+            alert('Gagal menyimpan: ' + (result.error || 'Unknown error'));
           }
         } catch (error) {
           alert('Gagal menyimpan: ' + error.message);
+          console.error('Error details:', error);
         } finally {
           // KEMBALIKAN TOMBOL
           const btn = document.getElementById('simpanTransaksiBtn');
@@ -2341,9 +2357,11 @@ Mohon konfirmasi. Terima kasih.`;
     // ============================================
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./service-worker.js')
-          .then(reg => console.log('Service Worker registered'))
-          .catch(err => console.log('Service Worker error:', err));
+        navigator.serviceWorker.register('/service-worker.js', {
+          scope: '/'
+        })
+        .then(reg => console.log('Service Worker registered with scope:', reg.scope))
+        .catch(err => console.log('Service Worker registration failed:', err));
       });
     }
   </script>
