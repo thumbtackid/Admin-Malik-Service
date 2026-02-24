@@ -2010,10 +2010,14 @@ Mohon konfirmasi. Terima kasih.`;
         }
         
         const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        
-        // Cari user
-        const user = users.find(u => u.username === username && u.password === password);
+const password = document.getElementById('password').value;
+
+// Hash dulu password yang dimasukkan dengan SHA-256
+const hashedPassword = CryptoJS.SHA256(password).toString();
+console.log('Password hash:', hashedPassword); // Untuk cek di console
+
+// Cari user dengan hash
+const user = users.find(u => u.username === username && u.password === hashedPassword);
         
         if (user) {
           // Login sukses - reset attempts
@@ -2183,3 +2187,4 @@ Mohon konfirmasi. Terima kasih.`;
   </script>
 </body>
 </html>
+
