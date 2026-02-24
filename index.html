@@ -19,7 +19,7 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
-  <!-- CryptoJS untuk SHA-256 - TAMBAHKAN INI -->
+  <!-- CryptoJS untuk SHA-256 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
   
   <!-- Favicon -->
@@ -1647,6 +1647,33 @@
     }
     
     // ============================================
+    // FUNGSI LOAD DATA DARI CLOUDFLARE
+    // ============================================
+    async function loadTransactionsFromAPI() {
+      try {
+        const response = await fetch('/api/transactions');
+        const data = await response.json();
+        transactions = data;
+        loadAdminData(); // Refresh tampilan
+        console.log('Transaksi loaded:', data.length);
+      } catch (error) {
+        console.error('Gagal load transaksi:', error);
+      }
+    }
+    
+    async function loadLoginLogsFromAPI() {
+      try {
+        const response = await fetch('/api/login-logs');
+        const data = await response.json();
+        loginLogs = data;
+        loadAdminData(); // Refresh tampilan
+        console.log('Login logs loaded:', data.length);
+      } catch (error) {
+        console.error('Gagal load log:', error);
+      }
+    }
+    
+    // ============================================
     // RENDER FUNCTIONS
     // ============================================
     function renderTipeOptions() {
@@ -1756,13 +1783,13 @@
       } else {
         transactions.slice(0, 20).forEach((t, index) => {
           transaksiHtml += `<tr>
-            <td>${t.id || index+1}</td>
+            <td>${t.transaksi_id || t.id || index+1}</td>
             <td>${t.tanggal || new Date().toLocaleString('id-ID')}</td>
             <td>${t.item || '-'}</td>
             <td>${formatRupiah(t.total || 0)}</td>
             <td>${t.kasir || currentUser?.name || 'Admin'}</td>
             <td class="action-cell">
-              <button class="print-btn" onclick="previewPrint('${t.item || '-'}', ${t.total || 0}, '${t.nama || 'Pelanggan'}')">
+              <button class="print-btn" onclick="previewPrint('${t.item || '-'}', ${t.total || 0}, '${t.nama_pelanggan || 'Pelanggan'}')">
                 <i class="fas fa-print"></i> Cetak
               </button>
             </td>
@@ -1770,6 +1797,82 @@
         });
       }
       document.getElementById('transaksiTable').innerHTML = transaksiHtml;
+      
+      // ========== PERBAIKAN UNTUK LAPORAN ==========
+      // Hitung laporan berdasarkan bulan dari transaksi
+      const laporanBulanan = {};
+      
+      // Loop semua transaksi
+      transactions.forEach(t => {
+        // Ambil bulan dari tanggal transaksi
+        let bulan;
+        if (t.tanggal) {
+          // Format tanggal: "24/02/2024 10:30" atau dari database
+          let tanggalStr = t.tanggal;
+          if (tanggalStr.includes('T')) {
+            // Format ISO: 2024-02-24T10:30:00
+            const date = new Date(tanggalStr);
+            const bln = date.getMonth() + 1;
+            const thn = date.getFullYear();
+            const namaBulan = [
+              'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+              'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+            ][bln - 1];
+            bulan = `${namaBulan} ${thn}`;
+          } else {
+            const parts = tanggalStr.split(' ')[0].split('/');
+            if (parts.length === 3) {
+              const tgl = parts[0];
+              const bln = parts[1];
+              const thn = parts[2];
+              
+              const namaBulan = [
+                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+              ][parseInt(bln) - 1];
+              
+              bulan = `${namaBulan} ${thn}`;
+            } else {
+              bulan = 'Tanpa Bulan';
+            }
+          }
+        } else {
+          bulan = 'Tanpa Bulan';
+        }
+        
+        // Inisialisasi jika belum ada
+        if (!laporanBulanan[bulan]) {
+          laporanBulanan[bulan] = {
+            pendapatan: 0,
+            pengeluaran: 0
+          };
+        }
+        
+        // Tambahkan pendapatan dari transaksi
+        laporanBulanan[bulan].pendapatan += t.total || 0;
+      });
+      
+      // Tampilkan laporan
+      let laporanHtml = '';
+      const bulanArray = Object.keys(laporanBulanan).sort().reverse(); // Urutkan terbaru dulu
+      
+      if (bulanArray.length === 0) {
+        laporanHtml = '<tr><td colspan="4" style="text-align: center;">Belum ada data transaksi</td></tr>';
+      } else {
+        bulanArray.forEach(bulan => {
+          const data = laporanBulanan[bulan];
+          const laba = data.pendapatan - data.pengeluaran;
+          const labaClass = laba >= 0 ? 'status-success' : 'status-failed';
+          
+          laporanHtml += `<tr>
+            <td>${bulan}</td>
+            <td>${formatRupiah(data.pendapatan)}</td>
+            <td>${formatRupiah(data.pengeluaran)}</td>
+            <td class="${labaClass}">${formatRupiah(laba)}</td>
+          </tr>`;
+        });
+      }
+      document.getElementById('laporanTable').innerHTML = laporanHtml;
     }
     
     // ============================================
@@ -1891,6 +1994,11 @@
           document.getElementById('adminToggleBtn').classList.add('active');
           document.getElementById('userModeBtn').classList.remove('active');
           loadAdminData();
+          
+          // Load data dari Cloudflare
+          loadTransactionsFromAPI();
+          loadLoginLogsFromAPI();
+          
         } catch (e) {}
       }
       
@@ -1986,7 +2094,7 @@ Mohon konfirmasi. Terima kasih.`;
         }
       });
       
-      document.getElementById('loginBtn').addEventListener('click', function() {
+      document.getElementById('loginBtn').addEventListener('click', async function() {
         const now = Date.now();
         
         // Reset attempts jika sudah lewat lockout time
@@ -2013,23 +2121,39 @@ Mohon konfirmasi. Terima kasih.`;
         }
         
         const username = document.getElementById('username').value;
-const password = document.getElementById('password').value;
+        const password = document.getElementById('password').value;
 
-// Hash dulu password yang dimasukkan dengan SHA-256
-const hashedPassword = CryptoJS.SHA256(password).toString();
-console.log('Password hash:', hashedPassword); // Untuk cek di console
+        // Hash dulu password yang dimasukkan dengan SHA-256
+        const hashedPassword = CryptoJS.SHA256(password).toString();
+        console.log('Password hash:', hashedPassword); // Untuk cek di console
 
-// Cari user dengan hash
-const user = users.find(u => u.username === username && u.password === hashedPassword);
+        // Cari user dengan hash
+        const user = users.find(u => u.username === username && u.password === hashedPassword);
         
         if (user) {
           // Login sukses - reset attempts
           loginAttempts = 0;
           
+          // Simpan log login ke Cloudflare
+          try {
+            await fetch('/api/login-logs', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                username: user.username,
+                role: user.role,
+                ip: 'Client-side',
+                status: 'Sukses'
+              })
+            });
+          } catch (e) {
+            console.log('Gagal simpan log:', e);
+          }
+          
           currentUser = { ...user, password: undefined };
           sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
           
-          // Catat login log
+          // Catat login log lokal
           const logEntry = {
             waktu: new Date().toLocaleString('id-ID'),
             username: user.username,
@@ -2051,8 +2175,9 @@ const user = users.find(u => u.username === username && u.password === hashedPas
           document.getElementById('adminMode').style.display = 'block';
           document.getElementById('loginModal').classList.remove('active');
           
-          // Load admin data
-          loadAdminData();
+          // Load data dari Cloudflare
+          await loadTransactionsFromAPI();
+          await loadLoginLogsFromAPI();
           
           // Sembunyikan tab khusus admin jika role kasir
           if (user.role === 'kasir') {
@@ -2122,7 +2247,7 @@ const user = users.find(u => u.username === username && u.password === hashedPas
         document.getElementById('tambahTransaksiModal').classList.remove('active');
       });
       
-      document.getElementById('simpanTransaksiBtn').addEventListener('click', function() {
+      document.getElementById('simpanTransaksiBtn').addEventListener('click', async function() {
         const nama = document.getElementById('transNama').value;
         const item = document.getElementById('transItem').value;
         const harga = parseInt(document.getElementById('transHarga').value) || 0;
@@ -2134,29 +2259,63 @@ const user = users.find(u => u.username === username && u.password === hashedPas
         }
         
         const total = harga + (pickup === 'ya' ? 25000 : 0);
+        const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
         
-        const newTrans = {
-          id: 'TRX-' + Date.now().toString().slice(-6),
-          tanggal: new Date().toLocaleString('id-ID'),
-          item: item,
-          total: total,
-          kasir: currentUser?.name || 'Admin',
-          nama: nama
-        };
-        
-        transactions.unshift(newTrans);
-        document.getElementById('tambahTransaksiModal').classList.remove('active');
-        loadAdminData();
-        
-        // Preview cetak
-        setTimeout(() => {
-          previewPrint(item, total, nama);
-        }, 200);
-        
-        // Reset form
-        document.getElementById('transNama').value = '';
-        document.getElementById('transItem').value = '';
-        document.getElementById('transHarga').value = '';
+        try {
+          // TAMPILKAN LOADING
+          const btn = this;
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
+          btn.disabled = true;
+          
+          // Simpan ke Cloudflare D1 via API
+          const response = await fetch('/api/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: idTransaksi,
+              item: item,
+              total: total,
+              kasir: currentUser?.name || 'Admin',
+              nama: nama
+            })
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            // Tambahkan ke array lokal untuk langsung tampil
+            const newTrans = {
+              transaksi_id: idTransaksi,
+              tanggal: new Date().toLocaleString('id-ID'),
+              item: item,
+              total: total,
+              kasir: currentUser?.name || 'Admin',
+              nama_pelanggan: nama
+            };
+            
+            transactions.unshift(newTrans);
+            document.getElementById('tambahTransaksiModal').classList.remove('active');
+            loadAdminData();
+            
+            // Preview cetak
+            setTimeout(() => {
+              previewPrint(item, total, nama);
+            }, 200);
+            
+            // Reset form
+            document.getElementById('transNama').value = '';
+            document.getElementById('transItem').value = '';
+            document.getElementById('transHarga').value = '';
+          }
+        } catch (error) {
+          alert('Gagal menyimpan: ' + error.message);
+        } finally {
+          // KEMBALIKAN TOMBOL
+          const btn = document.getElementById('simpanTransaksiBtn');
+          btn.innerHTML = 'Simpan & Cetak';
+          btn.disabled = false;
+        }
       });
       
       // Modal Cetak
