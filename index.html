@@ -2,50 +2,35 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malik Service - One Stop Service Semarang</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Malik Service • One Stop Service Semarang</title>
   
-  <!-- PWA -->
+  <!-- PWA Enhanced -->
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#2563eb">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Malik Service">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="format-detection" content="telephone=no">
   
   <!-- Cloudflare Turnstile -->
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Font Awesome 6 (Free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Google Fonts Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   
   <!-- CryptoJS untuk SHA-256 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
   
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect fill='%232563eb' width='32' height='32' rx='6'/%3E%3Cpath fill='white' d='M16 6c-5.5 0-10 4.5-10 10s4.5 10 10 10 10-4.5 10-10S21.5 6 16 6zm0 16c-3.3 0-6-2.7-6-6s2.7-6 6-6 6 2.7 6 6-2.7 6-6 6z'/%3E%3C/svg%3E">
-  
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Malik Service",
-    "description": "Servis HP & Laptop profesional di Semarang",
-    "url": "https://malik-service.pages.dev",
-    "telephone": "+6285713087659",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Jl. Untung Suropati Ds.Jamalsari Rt004/Rw002 No.52",
-      "addressLocality": "Kedungpane",
-      "addressRegion": "Semarang",
-      "postalCode": "50211"
-    }
-  }
-  </script>
+  <!-- Favicon Modern -->
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAzElEQVR4AcXBsU0EQQxG0e+NDRYTUIAAHEQEF0BEiRQRUQAicPYr2F5lJDuSaGf2yFP8n3IKh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcDgcDofD4XA4HA6Hw+FwOBwOh8PhcPxPvgFzGSM5J64DkAAAAABJRU5ErkJggg==">
   
   <style>
-    /* ========== RESET & VARIABLES ========== */
+    /* ===== RESET & VARIABLES ===== */
     * {
       margin: 0;
       padding: 0;
@@ -54,64 +39,167 @@
     
     :root {
       --primary: #2563eb;
-      --primary-dark: #1e40af;
+      --primary-dark: #1d4ed8;
       --primary-light: #dbeafe;
+      --primary-soft: #eff6ff;
       --accent: #25D366;
       --accent-dark: #20b85a;
-      --warning: #fbbf24;
-      --text-dark: #0f172a;
-      --text-muted: #64748b;
-      --text-light: #94a3b8;
-      --bg-light: #f1f5f9;
-      --bg-card: #ffffff;
-      --border-color: #e2e8f0;
-      --shadow-sm: 0 2px 6px rgba(0,0,0,0.04);
-      --shadow-md: 0 10px 25px -10px rgba(0,0,0,0.1);
-      --shadow-lg: 0 25px 60px -15px rgba(0,20,60,0.3);
-      --radius-sm: 16px;
-      --radius-md: 24px;
-      --radius-lg: 32px;
-      --radius-xl: 48px;
-      --transition: 0.2s ease;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --success: #10b981;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      --shadow-xl: 0 25px 50px -12px rgba(0,0,0,0.25);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
     }
     
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f6f8fc 0%, #edf2f9 100%);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
       justify-content: center;
-      align-items: center;
-      padding: 20px 16px;
+      padding: 16px;
       position: relative;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
     }
     
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 300px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      z-index: 0;
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);
-      pointer-events: none;
-    }
-    
-    .container {
-      max-width: 800px;
+    /* Container Utama */
+    .app-wrapper {
+      max-width: 1200px;
       width: 100%;
       margin: 0 auto;
       position: relative;
-      z-index: 10;
     }
     
-    /* ========== LOGIN TOGGLE & MODAL ========== */
-    .login-toggle {
+    /* ===== MODERN CARD STYLES ===== */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .card {
+      background: white;
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card:hover {
+      box-shadow: var(--shadow-xl);
+    }
+    
+    /* ===== HEADER MODERN ===== */
+    .modern-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      padding: 24px 28px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .modern-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .modern-header::after {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -10%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .store-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(5px);
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 16px;
+    }
+    
+    .store-badge i {
+      font-size: 14px;
+    }
+    
+    .store-title {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    
+    .store-address {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(5px);
+      padding: 16px 20px;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.15);
+      margin-top: 20px;
+    }
+    
+    .address-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.9);
+      font-size: 14px;
+    }
+    
+    .address-item i {
+      width: 20px;
+      font-size: 16px;
+    }
+    
+    /* ===== LOGIN TOGGLE MODERN ===== */
+    .login-toggle-modern {
       position: fixed;
       top: 20px;
       right: 20px;
@@ -120,235 +208,164 @@
       gap: 8px;
     }
     
-    .login-toggle button {
-      padding: 12px 24px;
+    .toggle-btn {
+      padding: 10px 20px;
       border: none;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       font-weight: 600;
+      font-size: 14px;
       cursor: pointer;
-      transition: all 0.3s;
+      transition: all 0.2s;
       background: white;
-      color: var(--text-dark);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--gray-700);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--gray-200);
     }
     
-    .login-toggle button.active {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .toggle-btn i {
+      font-size: 16px;
+    }
+    
+    .toggle-btn.active {
+      background: var(--primary);
       color: white;
+      border-color: var(--primary);
     }
     
-    .login-toggle button i {
-      margin-right: 8px;
+    .toggle-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
     
-    .login-modal {
+    /* ===== LOGIN MODAL MODERN ===== */
+    .login-modal-modern {
       display: none;
       position: fixed;
       top: 80px;
       right: 20px;
-      width: 350px;
+      width: 360px;
       background: white;
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      box-shadow: var(--shadow-xl);
       z-index: 999;
-      border: 1px solid var(--border-color);
-      animation: slideDown 0.3s ease;
+      border: 1px solid var(--gray-200);
+      animation: slideIn 0.3s ease;
     }
     
-    .login-modal.active {
+    .login-modal-modern.active {
       display: block;
     }
     
-    .login-header {
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .login-header-modern {
       text-align: center;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
     }
     
-    .login-header i {
-      font-size: 56px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 12px;
+    .login-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary-soft) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
     }
     
-    .login-header h3 {
+    .login-icon i {
+      font-size: 40px;
+      color: var(--primary);
+    }
+    
+    .login-header-modern h3 {
       font-size: 24px;
       font-weight: 700;
-      color: var(--text-dark);
+      color: var(--gray-900);
       margin-bottom: 4px;
     }
     
-    .input-group {
+    .login-header-modern p {
+      color: var(--gray-500);
+      font-size: 14px;
+    }
+    
+    .input-group-modern {
       margin-bottom: 20px;
     }
     
-    .input-group label {
+    .input-group-modern label {
       display: block;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--text-muted);
-      margin-bottom: 8px;
+      color: var(--gray-700);
+      margin-bottom: 6px;
     }
     
-    .input-group label i {
+    .input-group-modern label i {
       margin-right: 6px;
       color: var(--primary);
     }
     
-    .input-group input {
+    .input-group-modern input {
       width: 100%;
       padding: 14px 18px;
-      border: 2px solid var(--border-color);
+      border: 2px solid var(--gray-200);
       border-radius: var(--radius-md);
       font-size: 15px;
-      transition: all 0.3s;
+      transition: all 0.2s;
     }
     
-    .input-group input:focus {
+    .input-group-modern input:focus {
       outline: none;
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
+      box-shadow: 0 0 0 4px var(--primary-light);
     }
     
-    .login-btn {
+    .login-btn-modern {
       width: 100%;
       padding: 16px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       border: none;
       border-radius: var(--radius-md);
       color: white;
       font-weight: 700;
       font-size: 16px;
       cursor: pointer;
-      transition: all 0.3s;
-      margin: 20px 0 16px;
+      transition: all 0.2s;
+      margin: 24px 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
     
-    .login-btn:hover {
+    .login-btn-modern:hover {
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5);
+      box-shadow: 0 10px 25px -5px rgba(37,99,235,0.4);
     }
     
-    /* ========== MAIN CARD ========== */
-    .card {
-      background: rgba(255, 255, 255, 0.98);
+    /* ===== SECTION STYLES ===== */
+    .section {
+      background: white;
       border-radius: var(--radius-xl);
-      overflow: hidden;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid rgba(255,255,255,0.5);
-    }
-    
-    /* ========== HEADER ========== */
-    .header {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-      padding: 30px 28px 40px;
-      color: white;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .header::before,
-    .header::after {
-      content: '';
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    
-    .header::before { top: -30%; right: -10%; }
-    .header::after { bottom: -30%; left: -10%; }
-    
-    .header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      position: relative;
-      z-index: 2;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    
-    .logo h1 {
-      font-size: 28px;
-      font-weight: 800;
-      letter-spacing: -0.5px;
-      margin-bottom: 4px;
-    }
-    
-    .logo span {
-      font-size: 13px;
-      opacity: 0.9;
-      display: block;
-    }
-    
-    .badge {
-      background: rgba(255,255,255,0.2);
-      padding: 12px 20px;
-      border-radius: 40px;
-      font-weight: 600;
-      font-size: 14px;
-      border: 1px solid rgba(255,255,255,0.3);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .badge i {
-      font-size: 16px;
-    }
-    
-    .info-toko {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      background: rgba(255,255,255,0.1);
-      border-radius: var(--radius-lg);
-      padding: 22px 25px;
-      border: 1px solid rgba(255,255,255,0.2);
-      position: relative;
-      z-index: 2;
-    }
-    
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      flex: 1 1 200px;
-    }
-    
-    .info-item i {
-      width: 22px;
-      height: 22px;
-      font-size: 22px;
-      flex-shrink: 0;
-    }
-    
-    .info-text {
-      font-size: 14px;
-      opacity: 0.9;
-      line-height: 1.5;
-    }
-    
-    /* ========== CONTENT ========== */
-    .content {
-      padding: 30px 28px 35px;
-    }
-    
-    /* Form Section */
-    .form-section {
-      background: var(--bg-light);
-      border-radius: var(--radius-lg);
-      padding: 24px;
+      padding: 28px;
       margin-bottom: 24px;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-md);
     }
     
     .section-title {
@@ -357,449 +374,574 @@
       gap: 10px;
       font-weight: 700;
       font-size: 18px;
-      color: var(--text-dark);
-      margin-bottom: 20px;
+      color: var(--gray-900);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-100);
     }
     
     .section-title i {
       color: var(--primary);
+      font-size: 20px;
     }
     
-    .form-grid {
+    /* ===== FORM GRID MODERN ===== */
+    .form-grid-modern {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    
+    .form-field {
+      width: 100%;
+    }
+    
+    .form-field input,
+    .form-field select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-family: inherit;
+      background: white;
+      transition: all 0.2s;
+    }
+    
+    .form-field input:focus,
+    .form-field select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px var(--primary-light);
+    }
+    
+    /* ===== PICKUP CARD MODERN ===== */
+    .pickup-modern {
+      background: linear-gradient(145deg, var(--primary-soft) 0%, white 100%);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+      border: 2px solid var(--primary-light);
+    }
+    
+    .pickup-modern h3 {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--primary-dark);
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    
+    .pickup-options-modern {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .pickup-option {
+      flex: 1;
+      min-width: 180px;
+    }
+    
+    .pickup-option input[type="radio"] {
+      display: none;
+    }
+    
+    .pickup-option label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 20px;
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .pickup-option input[type="radio"]:checked + label {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary-dark);
+    }
+    
+    .pickup-option label i {
+      font-size: 20px;
+      color: var(--primary);
+    }
+    
+    /* ===== FILTER CARD MODERN ===== */
+    .filter-modern {
+      background: var(--gray-50);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    
+    .filter-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
     }
     
-    .form-group input,
-    .form-group select {
-      width: 100%;
-      padding: 14px 18px;
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-md);
-      font-size: 15px;
-      font-family: inherit;
-      background: white;
-      transition: all var(--transition);
-    }
-    
-    .form-group input:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(37,99,235,0.1);
-    }
-    
-    /* Pickup Card */
-    .pickup-card {
-      background: linear-gradient(115deg, #eef2ff 0%, var(--primary-light) 100%);
-      border-radius: 28px;
-      padding: 22px 24px;
-      margin-bottom: 24px;
-      border: 1px solid #bfdbfe;
-      box-shadow: 0 6px 14px rgba(37,99,235,0.08);
-    }
-    
-    .pickup-header {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 700;
-      font-size: 18px;
-      color: var(--primary-dark);
-      margin-bottom: 18px;
-    }
-    
-    .pickup-options {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .pickup-options label {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 24px;
-      background: white;
-      border-radius: 40px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1.5px solid #bfdbfe;
-      transition: all var(--transition);
-    }
-    
-    .pickup-options input[type="radio"] {
-      accent-color: var(--primary);
-      width: 18px;
-      height: 18px;
-    }
-    
-    /* Filter Card */
-    .filter-card {
-      background: var(--bg-card);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 24px;
-      border: 1px solid var(--border-color);
-      box-shadow: var(--shadow-md);
-    }
-    
-    .filter-item {
-      margin-bottom: 20px;
-    }
-    
-    .filter-item label {
+    .filter-item-modern label {
       display: flex;
       align-items: center;
       gap: 8px;
       font-weight: 600;
-      font-size: 14px;
-      color: #334155;
-      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--gray-600);
+      margin-bottom: 8px;
     }
     
-    .filter-item label i {
-      color: var(--primary);
-    }
-    
-    .filter-item select {
+    .filter-item-modern select {
       width: 100%;
-      padding: 16px 20px;
-      border: 1.5px solid var(--border-color);
-      border-radius: 30px;
-      font-size: 15px;
-      background: #fafcff;
-      appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 20px center;
+      padding: 14px 18px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      background: white;
       cursor: pointer;
     }
     
     #itemSelect {
       min-height: 200px;
       height: auto;
-      padding: 8px;
-      background-image: none;
-      appearance: auto;
     }
     
     #itemSelect option {
-      padding: 10px 14px;
-      border-bottom: 1px solid var(--border-color);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-100);
     }
     
-    .stats-badge {
+    .stats-badge-modern {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--bg-light);
-      padding: 10px 20px;
-      border-radius: 40px;
+      background: white;
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
       font-size: 13px;
       font-weight: 600;
-      margin-top: 15px;
-      border: 1px solid var(--border-color);
+      margin-top: 20px;
+      border: 2px solid var(--gray-200);
+      color: var(--gray-700);
     }
     
-    /* Detail Card */
-    .detail-card {
-      background: linear-gradient(145deg, var(--bg-card) 0%, #fafcff 100%);
-      border-radius: 36px;
+    /* ===== DETAIL CARD MODERN ===== */
+    .detail-modern {
+      background: white;
+      border-radius: var(--radius-lg);
       padding: 28px;
       margin-bottom: 24px;
-      border: 2px solid var(--border-color);
-      box-shadow: 0 15px 30px -15px rgba(0,0,0,0.12);
-      position: relative;
-      overflow: hidden;
+      border: 2px solid var(--gray-200);
     }
     
-    .detail-grid {
+    .detail-grid-modern {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px 24px;
     }
     
-    .detail-item.full-width {
+    .detail-item-modern {
+      background: var(--gray-50);
+      padding: 16px;
+      border-radius: var(--radius-md);
+    }
+    
+    .detail-item-modern.full-width {
       grid-column: 1 / -1;
     }
     
-    .detail-label {
-      font-size: 12px;
+    .detail-label-modern {
+      font-size: 11px;
       font-weight: 600;
-      color: var(--text-muted);
+      color: var(--gray-500);
       text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     
-    .detail-label i {
-      color: var(--primary);
-    }
-    
-    .detail-value {
+    .detail-value-modern {
       font-weight: 700;
-      color: var(--text-dark);
-      background: var(--bg-light);
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 15px;
-      border: 1px solid var(--border-color);
+      color: var(--gray-900);
+      font-size: 16px;
     }
     
-    .detail-value.harga {
+    .detail-value-modern.harga {
       font-size: 24px;
-      font-weight: 800;
       color: var(--primary);
-      background: var(--primary-light);
-      border-color: #93c5fd;
     }
     
-    .detail-value.estimasi {
-      background: #fef9c3;
-      color: #854d0e;
+    .detail-value-modern.estimasi {
+      color: var(--warning);
     }
     
-    /* Total Card */
-    .total-card {
-      background: linear-gradient(135deg, #1e293b 0%, var(--text-dark) 100%);
-      border-radius: 28px;
+    /* ===== TOTAL CARD MODERN ===== */
+    .total-modern {
+      background: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+      border-radius: var(--radius-lg);
       padding: 24px 28px;
       margin-bottom: 24px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: white;
-      box-shadow: 0 15px 30px -10px rgba(15,23,42,0.5);
       flex-wrap: wrap;
       gap: 16px;
     }
     
-    .total-label {
+    .total-label-modern {
       display: flex;
       align-items: center;
       gap: 12px;
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
     }
     
-    .total-label i {
+    .total-label-modern i {
       color: var(--warning);
     }
     
-    .total-value {
-      font-size: 28px;
+    .total-value-modern {
+      font-size: 32px;
       font-weight: 800;
       background: rgba(255,255,255,0.1);
       padding: 12px 28px;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
+      letter-spacing: 1px;
     }
     
-    /* WA Button */
-    .wa-button {
+    /* ===== BUTTON MODERN ===== */
+    .btn-modern {
       width: 100%;
-      background: linear-gradient(115deg, var(--accent) 0%, var(--accent-dark) 100%);
+      background: linear-gradient(145deg, var(--accent) 0%, var(--accent-dark) 100%);
       border: none;
-      border-radius: 40px;
-      padding: 22px 28px;
+      border-radius: var(--radius-lg);
+      padding: 20px 28px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 12px;
       font-weight: 700;
-      font-size: 20px;
+      font-size: 18px;
       color: white;
       box-shadow: 0 20px 35px -8px rgba(37, 211, 102, 0.4);
       cursor: pointer;
-      transition: all var(--transition);
-      margin-bottom: 18px;
+      transition: all 0.2s;
+      margin-bottom: 16px;
     }
     
-    .wa-button:hover {
+    .btn-modern:hover {
       transform: translateY(-3px);
       box-shadow: 0 25px 45px -8px rgba(37, 211, 102, 0.5);
     }
     
-    .wa-button i {
-      font-size: 28px;
+    .btn-modern i {
+      font-size: 24px;
     }
     
-    /* Footer */
-    .footer-note {
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-    
-    /* ========== ADMIN DASHBOARD ========== */
-    .admin-dashboard {
+    /* ===== ADMIN DASHBOARD MODERN ===== */
+    .admin-dashboard-modern {
       background: white;
       border-radius: var(--radius-xl);
-      padding: 28px;
-      box-shadow: var(--shadow-lg);
+      padding: 32px;
+      box-shadow: var(--shadow-xl);
     }
     
-    .admin-header {
+    .admin-header-modern {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 24px;
+      margin-bottom: 32px;
       padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 3px solid var(--gray-100);
     }
     
-    .admin-header h2 {
-      font-size: 24px;
-      color: var(--text-dark);
+    .admin-header-modern h2 {
+      font-size: 26px;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     
-    .admin-header h2 i {
+    .admin-header-modern h2 i {
       color: var(--primary);
-      margin-right: 10px;
     }
     
-    .user-info {
-      background: var(--bg-light);
+    .user-info-modern {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .user-badge {
+      background: var(--primary-soft);
       padding: 10px 20px;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       font-weight: 600;
+      color: var(--primary-dark);
     }
     
-    .user-info i {
-      color: var(--primary);
-      margin-right: 8px;
-    }
-    
-    .logout-btn {
-      background: #ef4444;
+    .logout-btn-modern {
+      background: var(--danger);
       color: white;
       border: none;
       padding: 10px 20px;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       font-weight: 600;
       cursor: pointer;
-      margin-left: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     
-    .stats-grid {
+    .stats-grid-modern {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 24px;
+      gap: 20px;
+      margin-bottom: 32px;
     }
     
-    .stat-card {
-      background: var(--bg-light);
-      padding: 20px;
-      border-radius: var(--radius-md);
+    .stat-card-modern {
+      background: var(--gray-50);
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
     }
     
-    .stat-card i {
-      font-size: 28px;
+    .stat-card-modern i {
+      font-size: 32px;
       color: var(--primary);
       margin-bottom: 12px;
     }
     
-    .stat-card .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-dark);
+    .stat-card-modern .stat-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 4px;
     }
     
-    .admin-tabs {
+    .stat-card-modern .stat-label {
+      color: var(--gray-500);
+      font-size: 14px;
+    }
+    
+    .tabs-modern {
       display: flex;
       gap: 8px;
       margin-bottom: 24px;
-      border-bottom: 2px solid var(--border-color);
+      border-bottom: 2px solid var(--gray-200);
       padding-bottom: 8px;
       flex-wrap: wrap;
     }
     
-    .admin-tab {
+    .tab-modern {
       padding: 12px 24px;
       cursor: pointer;
-      border-radius: 40px;
+      border-radius: var(--radius-full);
       font-weight: 600;
-      transition: all var(--transition);
+      transition: all 0.2s;
     }
     
-    .admin-tab.active {
+    .tab-modern.active {
       background: var(--primary);
       color: white;
     }
     
-    .tab-content {
+    .tab-content-modern {
       display: none;
     }
     
-    .tab-content.active {
+    .tab-content-modern.active {
       display: block;
     }
     
-    table {
+    /* ===== TABLE MODERN ===== */
+    .table-modern {
       width: 100%;
       border-collapse: collapse;
     }
     
-    th {
-      background: var(--bg-light);
-      padding: 12px;
+    .table-modern th {
+      background: var(--gray-50);
+      padding: 14px;
       text-align: left;
       font-weight: 600;
+      color: var(--gray-700);
+      font-size: 13px;
     }
     
-    td {
-      padding: 12px;
-      border-bottom: 1px solid var(--border-color);
+    .table-modern td {
+      padding: 14px;
+      border-bottom: 1px solid var(--gray-200);
+      color: var(--gray-600);
+    }
+    
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
     }
     
     .status-success {
-      color: #22c55e;
-      font-weight: 600;
+      background: #d1fae5;
+      color: #065f46;
     }
     
     .status-failed {
-      color: #ef4444;
-      font-weight: 600;
+      background: #fee2e2;
+      color: #991b1b;
     }
     
-    /* Tombol Cetak */
-    .print-btn {
+    .print-btn-modern {
       background: var(--primary);
       color: white;
       border: none;
       padding: 6px 12px;
-      border-radius: 20px;
+      border-radius: var(--radius-full);
       font-size: 12px;
       cursor: pointer;
-      margin-right: 4px;
-    }
-    
-    .print-btn i {
-      margin-right: 4px;
-    }
-    
-    .action-cell {
-      display: flex;
+      display: inline-flex;
+      align-items: center;
       gap: 4px;
-      flex-wrap: wrap;
     }
     
-    /* Floating WA */
-    .floating-wa {
+    /* ===== MODAL MODERN ===== */
+    .modal-modern {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(5px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-modern.active {
+      display: flex;
+    }
+    
+    .modal-content-modern {
+      background: white;
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .modal-header-modern {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+    
+    .modal-header-modern h3 {
+      font-size: 22px;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray-400);
+    }
+    
+    /* ===== ITEM ROW MODERN ===== */
+    .item-row-modern {
+      background: var(--gray-50);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 16px;
+      border: 1px solid var(--gray-200);
+    }
+    
+    .item-header-modern {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .item-header-modern span {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .item-header-modern button {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+    }
+    
+    .item-grid-modern {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    
+    .item-grid-modern select,
+    .item-grid-modern input {
+      padding: 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+    }
+    
+    /* ===== PRINT PREVIEW MODERN ===== */
+    .print-preview-modern {
+      font-family: 'Courier New', monospace;
+      background: #f8fafc;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      margin: 20px 0;
+      border: 2px dashed var(--primary);
+    }
+    
+    .print-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+    
+    .print-total-modern {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: right;
+      margin-top: 16px;
+    }
+    
+    /* ===== FLOATING BUTTON ===== */
+    .floating-btn {
       position: fixed;
       bottom: 24px;
       right: 24px;
-      width: 60px;
-      height: 60px;
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(145deg, var(--accent) 0%, var(--accent-dark) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -810,464 +952,364 @@
       cursor: pointer;
       z-index: 1000;
       border: none;
+      transition: transform 0.2s;
     }
     
-    /* Install Prompt */
-    .install-prompt {
+    .floating-btn:hover {
+      transform: scale(1.1);
+    }
+    
+    /* ===== INSTALL PROMPT ===== */
+    .install-prompt-modern {
       position: fixed;
       bottom: 100px;
       right: 24px;
       background: white;
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-xl);
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
       z-index: 1001;
       opacity: 0;
       visibility: hidden;
       transform: translateY(20px);
-      transition: all 0.3s ease;
-      border: 1px solid var(--border-color);
-      max-width: 280px;
+      transition: all 0.3s;
+      border: 1px solid var(--gray-200);
+      max-width: 320px;
     }
     
-    .install-prompt.visible {
+    .install-prompt-modern.visible {
       opacity: 1;
       visibility: visible;
       transform: translateY(0);
     }
     
-    .install-prompt-icon {
-      width: 40px;
-      height: 40px;
+    .install-icon {
+      width: 48px;
+      height: 48px;
       background: var(--primary-light);
-      border-radius: 10px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
     
-    .install-prompt-icon i {
+    .install-icon i {
       font-size: 24px;
       color: var(--primary);
     }
     
-    .install-prompt-content {
+    .install-content {
       flex: 1;
     }
     
-    .install-prompt-title {
+    .install-title {
       font-weight: 700;
-      font-size: 14px;
-      color: var(--text-dark);
+      color: var(--gray-900);
+      margin-bottom: 4px;
     }
     
-    .install-prompt-desc {
+    .install-desc {
       font-size: 12px;
-      color: var(--text-muted);
+      color: var(--gray-500);
     }
     
-    .install-prompt-btn {
+    .install-btn {
       background: var(--primary);
       color: white;
       border: none;
       padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-    }
-    
-    .install-prompt-close {
-      background: none;
-      border: none;
-      padding: 4px;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-    
-    /* Modal Cetak */
-    .print-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 2000;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .print-modal.active {
-      display: flex;
-    }
-    
-    .print-modal-content {
-      background: white;
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      max-width: 500px;
-      width: 90%;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    
-    .print-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    
-    .print-modal-header h3 {
-      font-size: 20px;
-      color: var(--text-dark);
-    }
-    
-    .close-print-modal {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-      color: var(--text-muted);
-    }
-    
-    .print-preview {
-      font-family: 'Courier New', monospace;
-      background: #f8fafc;
-      padding: 20px;
-      border-radius: var(--radius-md);
-      margin: 20px 0;
-      border: 1px dashed var(--primary);
-    }
-    
-    .print-preview .header {
-      background: none;
-      color: var(--text-dark);
-      padding: 0 0 10px 0;
-      text-align: center;
-    }
-    
-    .print-preview .header h4 {
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-    
-    .print-preview hr {
-      border: 1px dashed var(--border-color);
-      margin: 10px 0;
-    }
-    
-    .print-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-    
-    .print-total {
-      font-size: 18px;
-      font-weight: 700;
-      margin-top: 10px;
-      text-align: right;
-    }
-    
-    .print-actions {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .print-actions button {
-      flex: 1;
-      padding: 12px;
-      border: none;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-full);
       font-weight: 600;
       cursor: pointer;
     }
     
-    .btn-print {
-      background: var(--primary);
-      color: white;
+    .install-close {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
     }
     
-    .btn-cancel {
-      background: var(--bg-light);
-      color: var(--text-dark);
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      body { padding: 8px; }
+      .login-toggle-modern { top: 10px; right: 10px; }
+      .toggle-btn { padding: 8px 14px; font-size: 13px; }
+      .login-modal-modern { width: 300px; right: 10px; }
+      .store-title { font-size: 24px; }
+      .total-value-modern { font-size: 24px; padding: 8px 16px; }
+      .detail-grid-modern { grid-template-columns: 1fr; }
     }
     
-    /* Animations */
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    @media (max-width: 480px) {
+      .form-grid-modern { grid-template-columns: 1fr; }
+      .pickup-options-modern { flex-direction: column; }
+      .pickup-option { min-width: 100%; }
     }
     
-    /* Responsive */
-    @media (max-width: 640px) {
-      body { padding: 12px; }
-      .login-toggle { top: 10px; right: 10px; }
-      .login-toggle button { padding: 8px 16px; font-size: 13px; }
-      .login-modal { width: 300px; right: 10px; }
-      .print-modal-content { padding: 15px; }
-      .item-row .item-grid { grid-template-columns: 1fr !important; }
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Login Toggle Buttons -->
-    <div class="login-toggle">
-      <button id="userModeBtn" class="active">
-        <i class="fas fa-home"></i> Layanan Servis
+  <div class="app-wrapper">
+    <!-- Login Toggle Modern -->
+    <div class="login-toggle-modern">
+      <button class="toggle-btn active" id="userModeBtn">
+        <i class="fas fa-home"></i>
+        <span>Layanan</span>
       </button>
-      <button id="adminToggleBtn">
-        <i class="fas fa-user-lock"></i> Admin / Kasir
+      <button class="toggle-btn" id="adminToggleBtn">
+        <i class="fas fa-user-lock"></i>
+        <span>Admin</span>
       </button>
     </div>
     
-    <!-- Login Modal -->
-    <div class="login-modal" id="loginModal">
-      <div class="login-header">
-        <i class="fas fa-store"></i>
-        <h3>Login Malik Service</h3>
-        <p style="color: var(--text-muted);">Akses khusus petugas</p>
+    <!-- Login Modal Modern -->
+    <div class="login-modal-modern" id="loginModal">
+      <div class="login-header-modern">
+        <div class="login-icon">
+          <i class="fas fa-store"></i>
+        </div>
+        <h3>Selamat Datang</h3>
+        <p>Area khusus petugas Malik Service</p>
       </div>
       
-      <div class="input-group">
+      <div class="input-group-modern">
         <label><i class="fas fa-user"></i> Username</label>
-        <input type="text" id="username" placeholder="Masukkan username">
+        <input type="text" id="username" placeholder="Masukkan username" autocomplete="off">
       </div>
       
-      <div class="input-group">
+      <div class="input-group-modern">
         <label><i class="fas fa-lock"></i> Password</label>
         <input type="password" id="password" placeholder="••••••••">
       </div>
       
-      <!-- Cloudflare Turnstile -->
       <div class="cf-turnstile" data-sitekey="0x4AAAAAAChNwxuVixGlxwEf"></div>
       
-      <button class="login-btn" id="loginBtn">
-        <i class="fas fa-sign-in-alt"></i> Login
+      <button class="login-btn-modern" id="loginBtn">
+        <i class="fas fa-sign-in-alt"></i>
+        Login ke Dashboard
       </button>
       
-      <div style="margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-muted);">
-        <i class="fas fa-shield-alt"></i> Area terbatas - hanya untuk petugas
+      <div style="text-align: center; font-size: 12px; color: var(--gray-400);">
+        <i class="fas fa-shield-alt"></i> Terverifikasi & Aman
       </div>
     </div>
     
-    <!-- ========== PUBLIC MODE (LANDING PAGE) ========== -->
+    <!-- ===== PUBLIC MODE ===== -->
     <div id="publicMode">
       <div class="card">
-        <!-- Header -->
-        <div class="header">
-          <div class="header-top">
-            <div class="logo">
-              <h1>Malik Service</h1>
+        <!-- Modern Header -->
+        <div class="modern-header">
+          <div class="header-content">
+            <div class="store-badge">
+              <i class="fas fa-certificate"></i>
               <span>One Stop Service SEMARANG</span>
             </div>
-            <div class="badge">
-              <i class="fas fa-motorcycle"></i>
-              <span>Pickup 7km - Rp25rb</span>
-            </div>
-          </div>
-          
-          <div class="info-toko">
-            <div class="info-item">
-              <i class="fas fa-map-marker-alt"></i>
-              <div class="info-text">
-                Jl. Untung Suropati Ds.Jamalsari Rt004/Rw002 No.52, Kedungpane 50211
+            <h1 class="store-title">Malik Service</h1>
+            <p style="opacity: 0.9; font-size: 16px;">Solusi Servis HP & Laptop Profesional</p>
+            
+            <div class="store-address">
+              <div class="address-item">
+                <i class="fas fa-map-pin"></i>
+                <span>Jl. Untung Suropati Ds.Jamalsari No.52, Kedungpane</span>
               </div>
-            </div>
-            <div class="info-item">
-              <i class="fas fa-phone-alt"></i>
-              <div class="info-text">
-                0857-1308-7659 (WA)<br>
-                thumbtackid@gmail.com
+              <div class="address-item">
+                <i class="fab fa-whatsapp"></i>
+                <span>0857-1308-7659 (WA)</span>
               </div>
             </div>
           </div>
         </div>
         
-        <!-- Content -->
-        <div class="content" id="order">
-          <!-- Form Data Pelanggan -->
-          <div class="form-section">
+        <!-- Main Content -->
+        <div class="content" style="padding: 28px;" id="order">
+          <!-- Data Pelanggan -->
+          <div class="section">
             <div class="section-title">
-              <i class="fas fa-user"></i>
+              <i class="fas fa-user-circle"></i>
               <span>Data Pelanggan</span>
             </div>
             
-            <div class="form-grid">
-              <div class="form-group">
+            <div class="form-grid-modern">
+              <div class="form-field">
                 <input type="text" id="namaPelanggan" placeholder="Nama Lengkap">
               </div>
-              <div class="form-group">
-                <input type="tel" id="noHpPelanggan" placeholder="No. HP">
+              <div class="form-field">
+                <input type="tel" id="noHpPelanggan" placeholder="No. HP / WhatsApp">
               </div>
-              <div class="form-group">
-                <input type="text" id="alamatPelanggan" placeholder="Alamat">
+              <div class="form-field">
+                <input type="text" id="alamatPelanggan" placeholder="Alamat (opsional)">
               </div>
             </div>
           </div>
           
-          <!-- Pickup Options -->
-          <div class="pickup-card">
-            <div class="pickup-header">
-              <i class="fas fa-truck"></i>
-              <span>Layanan Pick-up dan Antar (max 7km)</span>
-            </div>
-            
-            <div class="pickup-options">
-              <label>
-                <input type="radio" name="pickupOption" value="ya" checked>
-                <i class="fas fa-check-circle"></i>
-                <span>Ya, pickup dan antar (+Rp25.000)</span>
-              </label>
-              <label>
-                <input type="radio" name="pickupOption" value="tidak">
-                <i class="fas fa-home"></i>
-                <span>Saya datang ke toko</span>
-              </label>
+          <!-- Pickup Option Modern -->
+          <div class="pickup-modern">
+            <h3><i class="fas fa-motorcycle"></i> Layanan Pick-up & Antar (max 7km)</h3>
+            <div class="pickup-options-modern">
+              <div class="pickup-option">
+                <input type="radio" name="pickupOption" id="pickupYa" value="ya" checked>
+                <label for="pickupYa">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Ya, pickup & antar <br><small style="font-weight: normal;">+Rp25.000</small></span>
+                </label>
+              </div>
+              <div class="pickup-option">
+                <input type="radio" name="pickupOption" id="pickupTidak" value="tidak">
+                <label for="pickupTidak">
+                  <i class="fas fa-store"></i>
+                  <span>Saya datang ke toko</span>
+                </label>
+              </div>
             </div>
           </div>
           
-          <!-- Filter Kategori -->
-          <div class="filter-card">
-            <div class="filter-item">
-              <label><i class="fas fa-mobile-alt"></i> Pilih Kategori</label>
-              <select id="kategoriSelect">
-                <option value="all">SEMUA KATEGORI</option>
-                <option value="Android">ANDROID</option>
-                <option value="Laptop">LAPTOP</option>
-              </select>
+          <!-- Filter Modern -->
+          <div class="filter-modern">
+            <div class="filter-grid">
+              <div class="filter-item-modern">
+                <label><i class="fas fa-mobile-alt"></i> Kategori</label>
+                <select id="kategoriSelect">
+                  <option value="all">Semua Kategori</option>
+                  <option value="Android">📱 ANDROID</option>
+                  <option value="Laptop">💻 LAPTOP</option>
+                </select>
+              </div>
+              
+              <div class="filter-item-modern">
+                <label><i class="fas fa-tools"></i> Tipe Masalah</label>
+                <select id="tipeSelect">
+                  <option value="all">Semua Tipe</option>
+                </select>
+              </div>
             </div>
             
-            <div class="filter-item">
-              <label><i class="fas fa-tools"></i> Pilih Tipe Masalah</label>
-              <select id="tipeSelect">
-                <option value="all">SEMUA TIPE</option>
-              </select>
+            <div class="filter-item-modern" style="margin-top: 16px;">
+              <label><i class="fas fa-list"></i> Pilih Layanan</label>
+              <select id="itemSelect" size="6"></select>
             </div>
             
-            <div class="filter-item">
-              <label><i class="fas fa-list"></i> Pilih Item Servis</label>
-              <select id="itemSelect" size="8"></select>
-            </div>
-            
-            <div class="stats-badge">
+            <div class="stats-badge-modern">
               <i class="fas fa-database"></i>
               <span id="totalItems">Memuat layanan...</span>
             </div>
           </div>
           
-          <!-- Detail Servis -->
-          <div class="detail-card">
-            <div class="detail-grid">
-              <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-tag"></i> Kategori</span>
-                <span class="detail-value" id="displayKategori">-</span>
+          <!-- Detail Modern -->
+          <div class="detail-modern">
+            <div class="detail-grid-modern">
+              <div class="detail-item-modern">
+                <div class="detail-label-modern"><i class="fas fa-tag"></i> Kategori</div>
+                <div class="detail-value-modern" id="displayKategori">-</div>
               </div>
-              <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-cog"></i> Tipe</span>
-                <span class="detail-value" id="displayTipe">-</span>
+              <div class="detail-item-modern">
+                <div class="detail-label-modern"><i class="fas fa-cog"></i> Tipe</div>
+                <div class="detail-value-modern" id="displayTipe">-</div>
               </div>
-              <div class="detail-item full-width">
-                <span class="detail-label"><i class="fas fa-box"></i> Item</span>
-                <span class="detail-value" id="displayItem">-</span>
+              <div class="detail-item-modern full-width">
+                <div class="detail-label-modern"><i class="fas fa-box"></i> Item</div>
+                <div class="detail-value-modern" id="displayItem">-</div>
               </div>
-              <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-dollar-sign"></i> Jenis</span>
-                <span class="detail-value" id="displayJenis">-</span>
+              <div class="detail-item-modern">
+                <div class="detail-label-modern"><i class="fas fa-dollar-sign"></i> Jenis</div>
+                <div class="detail-value-modern" id="displayJenis">-</div>
               </div>
-              <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-money-bill"></i> Harga</span>
-                <span class="detail-value harga" id="displayHarga">-</span>
+              <div class="detail-item-modern">
+                <div class="detail-label-modern"><i class="fas fa-money-bill-wave"></i> Harga</div>
+                <div class="detail-value-modern harga" id="displayHarga">-</div>
               </div>
-              <div class="detail-item">
-                <span class="detail-label"><i class="fas fa-clock"></i> Estimasi</span>
-                <span class="detail-value estimasi" id="displayEstimasi">-</span>
+              <div class="detail-item-modern">
+                <div class="detail-label-modern"><i class="fas fa-clock"></i> Estimasi</div>
+                <div class="detail-value-modern estimasi" id="displayEstimasi">-</div>
               </div>
             </div>
           </div>
           
-          <!-- Total -->
-          <div class="total-card">
-            <div class="total-label">
-              <i class="fas fa-money-bill"></i>
+          <!-- Total Modern -->
+          <div class="total-modern">
+            <div class="total-label-modern">
+              <i class="fas fa-calculator"></i>
               <span>Total Biaya</span>
             </div>
-            <div class="total-value" id="totalNominal">Rp 0</div>
+            <div class="total-value-modern" id="totalNominal">Rp 0</div>
           </div>
           
-          <!-- Tombol WA -->
-          <button class="wa-button" id="waButton">
+          <!-- WA Button Modern -->
+          <button class="btn-modern" id="waButton">
             <i class="fab fa-whatsapp"></i>
             <span>Pesan via WhatsApp</span>
             <i class="fas fa-arrow-right"></i>
           </button>
           
-          <div class="footer-note">
+          <div style="text-align: center; font-size: 13px; color: var(--gray-400);">
             <i class="fas fa-heart" style="color: #ef4444;"></i>
-            <span>Klik tombol di atas untuk mengirim pesan ke 0857-1308-7659</span>
+            Klik tombol di atas untuk mengirim pesan ke 0857-1308-7659
             <i class="fas fa-heart" style="color: #ef4444;"></i>
           </div>
         </div>
       </div>
     </div>
     
-    <!-- ========== ADMIN MODE (SETELAH LOGIN) ========== -->
+    <!-- ===== ADMIN MODE ===== -->
     <div id="adminMode" style="display: none;">
-      <div class="admin-dashboard">
-        <div class="admin-header">
-          <h2><i class="fas fa-store"></i> Malik Kasir</h2>
-          <div>
-            <span class="user-info" id="userDisplay">
-              <i class="fas fa-user-circle"></i> <span id="userName">Admin</span> (<span id="userRole">admin</span>)
+      <div class="admin-dashboard-modern">
+        <div class="admin-header-modern">
+          <h2><i class="fas fa-store-alt"></i> Malik Kasir</h2>
+          <div class="user-info-modern">
+            <span class="user-badge" id="userDisplay">
+              <i class="fas fa-user-circle"></i> <span id="userName">Admin</span>
             </span>
-            <button class="logout-btn" id="logoutBtn">
-              <i class="fas fa-sign-out-alt"></i> Logout
+            <button class="logout-btn-modern" id="logoutBtn">
+              <i class="fas fa-sign-out-alt"></i> Keluar
             </button>
           </div>
         </div>
         
-        <!-- Stats -->
-        <div class="stats-grid">
-          <div class="stat-card">
+        <!-- Stats Modern -->
+        <div class="stats-grid-modern">
+          <div class="stat-card-modern">
             <i class="fas fa-shopping-cart"></i>
             <div class="stat-value" id="totalTransaksi">0</div>
-            <div style="color: var(--text-muted);">Total Transaksi</div>
+            <div class="stat-label">Total Transaksi</div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card-modern">
             <i class="fas fa-money-bill-wave"></i>
             <div class="stat-value" id="totalPendapatan">Rp 0</div>
-            <div style="color: var(--text-muted);">Pendapatan</div>
+            <div class="stat-label">Pendapatan</div>
           </div>
-          <div class="stat-card">
+          <div class="stat-card-modern">
             <i class="fas fa-users"></i>
             <div class="stat-value" id="totalLogin">0</div>
-            <div style="color: var(--text-muted);">Aktivitas Login</div>
+            <div class="stat-label">Aktivitas Login</div>
           </div>
         </div>
         
-        <!-- Tabs -->
-        <div class="admin-tabs">
-          <div class="admin-tab active" data-tab="transaksi">Transaksi</div>
-          <div class="admin-tab" data-tab="laporan">Laporan</div>
-          <div class="admin-tab" data-tab="loginLog" id="loginLogTab">Log Login</div>
-          <div class="admin-tab" data-tab="users" id="usersTab">Manajemen User</div>
+        <!-- Tabs Modern -->
+        <div class="tabs-modern">
+          <div class="tab-modern active" data-tab="transaksi">📋 Transaksi</div>
+          <div class="tab-modern" data-tab="laporan">📊 Laporan</div>
+          <div class="tab-modern" data-tab="loginLog">🔐 Log Login</div>
+          <div class="tab-modern" data-tab="users">👥 Users</div>
         </div>
         
-        <!-- Tab: Transaksi (DENGAN TOMBOL CETAK) -->
-        <div class="tab-content active" id="tab-transaksi">
-          <button id="tambahTransaksiBtn" style="margin-bottom: 16px; padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer;">
+        <!-- Tab Transaksi -->
+        <div class="tab-content-modern active" id="tab-transaksi">
+          <button class="btn-modern" id="tambahTransaksiBtn" style="width: auto; margin-bottom: 20px; padding: 12px 24px; background: var(--primary);">
             <i class="fas fa-plus"></i> Transaksi Baru
           </button>
-          <table>
+          <table class="table-modern">
             <thead>
               <tr>
                 <th>ID</th>
@@ -1284,9 +1326,9 @@
           </table>
         </div>
         
-        <!-- Tab: Laporan -->
-        <div class="tab-content" id="tab-laporan">
-          <table>
+        <!-- Tab Laporan -->
+        <div class="tab-content-modern" id="tab-laporan">
+          <table class="table-modern">
             <thead>
               <tr><th>Bulan</th><th>Pendapatan</th><th>Pengeluaran</th><th>Laba</th></tr>
             </thead>
@@ -1296,9 +1338,9 @@
           </table>
         </div>
         
-        <!-- Tab: Log Login -->
-        <div class="tab-content" id="tab-loginLog">
-          <table>
+        <!-- Tab Log Login -->
+        <div class="tab-content-modern" id="tab-loginLog">
+          <table class="table-modern">
             <thead>
               <tr><th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th></tr>
             </thead>
@@ -1308,9 +1350,9 @@
           </table>
         </div>
         
-        <!-- Tab: Manajemen User -->
-        <div class="tab-content" id="tab-users">
-          <table>
+        <!-- Tab Users -->
+        <div class="tab-content-modern" id="tab-users">
+          <table class="table-modern">
             <thead>
               <tr><th>Username</th><th>Role</th><th>Nama</th><th>Terdaftar</th><th>Last Login</th><th>Aksi</th></tr>
             </thead>
@@ -1321,96 +1363,87 @@
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Modal Tambah Transaksi (MULTIPLE ITEM) -->
-  <div class="print-modal" id="tambahTransaksiModal">
-    <div class="print-modal-content">
-      <div class="print-modal-header">
-        <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
-        <button class="close-print-modal" id="closeTambahModal">&times;</button>
-      </div>
-      <div style="padding: 10px 0;">
-        <!-- Data Pelanggan -->
-        <div style="margin-bottom: 20px; padding: 15px; background: #f8fafc; border-radius: 12px;">
-          <h4 style="margin-bottom: 15px; color: var(--primary);"><i class="fas fa-user"></i> Data Pelanggan</h4>
-          <div style="margin-bottom: 10px;">
-            <label style="display: block; margin-bottom: 5px; font-weight: 600;">Nama Pelanggan</label>
-            <input type="text" id="transNama" placeholder="Nama pelanggan" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
-          </div>
-          <div style="margin-bottom: 10px;">
-            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
-              <input type="checkbox" id="transPickupCheckbox" value="ya"> <i class="fas fa-truck"></i> Pickup (+Rp25.000)
-            </label>
-          </div>
+    
+    <!-- Modal Tambah Transaksi -->
+    <div class="modal-modern" id="tambahTransaksiModal">
+      <div class="modal-content-modern">
+        <div class="modal-header-modern">
+          <h3><i class="fas fa-plus-circle" style="color: var(--primary);"></i> Transaksi Baru</h3>
+          <button class="modal-close" id="closeTambahModal">&times;</button>
         </div>
         
-        <!-- Daftar Item -->
         <div style="margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+          <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
+            <div class="form-field" style="margin-bottom: 12px;">
+              <input type="text" id="transNama" placeholder="Nama Pelanggan">
+            </div>
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+              <input type="checkbox" id="transPickupCheckbox"> 
+              <i class="fas fa-truck" style="color: var(--primary);"></i> 
+              <span>Layanan Pickup (+Rp25.000)</span>
+            </label>
+          </div>
+          
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
             <h4 style="color: var(--primary);"><i class="fas fa-shopping-cart"></i> Item Servis</h4>
-            <button id="tambahItemBtn" style="background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer;">
+            <button class="btn-modern" id="tambahItemBtn" style="width: auto; padding: 10px 20px; background: var(--primary);">
               <i class="fas fa-plus"></i> Tambah Item
             </button>
           </div>
           
-          <!-- Container untuk item-item -->
-          <div id="itemContainer">
-            <!-- Item 1 (default) akan diisi JavaScript -->
+          <div id="itemContainer"></div>
+          
+          <div style="background: linear-gradient(145deg, var(--primary-light) 0%, white 100%); padding: 16px; border-radius: var(--radius-md); margin-top: 16px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-weight: 600;">Total Item: <span id="totalItemCount">1</span></span>
+              <span style="font-size: 24px; font-weight: 800; color: var(--primary);">Rp <span id="grandTotal">0</span></span>
+            </div>
           </div>
         </div>
         
-        <!-- Ringkasan -->
-        <div style="background: linear-gradient(115deg, #eef2ff 0%, #dbeafe 100%); padding: 15px; border-radius: 12px; margin-bottom: 20px;">
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <span style="font-weight: 600;">Total Item: <span id="totalItemCount">1</span></span>
-            <span style="font-size: 20px; font-weight: 700; color: var(--primary);">Rp <span id="grandTotal">0</span></span>
-          </div>
-        </div>
-        
-        <div class="print-actions">
-          <button class="btn-cancel" id="batalTambah">Batal</button>
-          <button class="btn-print" id="simpanMultiTransaksiBtn">
+        <div style="display: flex; gap: 12px;">
+          <button class="btn-modern" id="batalTambah" style="background: var(--gray-300); color: var(--gray-700); box-shadow: none;">Batal</button>
+          <button class="btn-modern" id="simpanMultiTransaksiBtn">
             <i class="fas fa-save"></i> Simpan & Cetak
           </button>
         </div>
       </div>
     </div>
-  </div>
-  
-  <!-- Modal Cetak Resi -->
-  <div class="print-modal" id="printResiModal">
-    <div class="print-modal-content">
-      <div class="print-modal-header">
-        <h3><i class="fas fa-print"></i> Cetak Resi</h3>
-        <button class="close-print-modal" id="closePrintModal">&times;</button>
+    
+    <!-- Modal Cetak Resi -->
+    <div class="modal-modern" id="printResiModal">
+      <div class="modal-content-modern">
+        <div class="modal-header-modern">
+          <h3><i class="fas fa-receipt"></i> Cetak Resi</h3>
+          <button class="modal-close" id="closePrintModal">&times;</button>
+        </div>
+        <div id="printPreviewContent" class="print-preview-modern"></div>
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+          <button class="btn-modern" id="cancelPrint" style="background: var(--gray-300); color: var(--gray-700); box-shadow: none;">Tutup</button>
+          <button class="btn-modern" id="doPrintBtn"><i class="fas fa-print"></i> Cetak</button>
+        </div>
       </div>
-      <div id="printPreviewContent" class="print-preview"></div>
-      <div class="print-actions">
-        <button class="btn-cancel" id="cancelPrint">Tutup</button>
-        <button class="btn-print" id="doPrintBtn"><i class="fas fa-print"></i> Cetak</button>
-      </div>
     </div>
-  </div>
-  
-  <!-- Floating WA Button -->
-  <button class="floating-wa" id="floatingWa">
-    <i class="fab fa-whatsapp"></i>
-  </button>
-  
-  <!-- Install Prompt -->
-  <div class="install-prompt" id="installPrompt">
-    <div class="install-prompt-icon">
-      <i class="fas fa-download"></i>
-    </div>
-    <div class="install-prompt-content">
-      <div class="install-prompt-title">Instal Aplikasi</div>
-      <div class="install-prompt-desc">Akses lebih cepat dari home screen</div>
-    </div>
-    <button class="install-prompt-btn" id="installBtn">Instal</button>
-    <button class="install-prompt-close" id="installClose">
-      <i class="fas fa-times"></i>
+    
+    <!-- Floating WA -->
+    <button class="floating-btn" id="floatingWa">
+      <i class="fab fa-whatsapp"></i>
     </button>
+    
+    <!-- Install Prompt -->
+    <div class="install-prompt-modern" id="installPrompt">
+      <div class="install-icon">
+        <i class="fas fa-download"></i>
+      </div>
+      <div class="install-content">
+        <div class="install-title">Install Aplikasi</div>
+        <div class="install-desc">Akses lebih cepat dari home screen</div>
+      </div>
+      <button class="install-btn" id="installBtn">Install</button>
+      <button class="install-close" id="installClose">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
   </div>
   
   <script>
@@ -1433,28 +1466,23 @@
       { kategori: 'Android', tipe: 'Layar', nama: 'Layar Blank - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
       
       // ========== ANDROID - LAYAR FLAGSHIP ==========
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
-
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Sparepart Ori', jenis: 'Sparepart', harga: 2100000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Sparepart OEM', jenis: 'Sparepart', harga: 1600000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
-
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Sparepart OEM', jenis: 'Sparepart', harga: 1700000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
-
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Sparepart OEM', jenis: 'Sparepart', harga: 1700000, estimasi: '1-3 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
-
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Sparepart Ori', jenis: 'Sparepart', harga: 6500000, estimasi: '2-4 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Sparepart OEM', jenis: 'Sparepart', harga: 4800000, estimasi: '2-4 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam' },
-
-{ kategori: 'Android', tipe: 'Layar', nama: 'Laser Green Line AMOLED', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
-{ kategori: 'Android', tipe: 'Layar', nama: 'Lem Ulang LCD AMOLED Curved', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Flagship (Samsung S / Note / Ultra) - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Sparepart Ori', jenis: 'Sparepart', harga: 2100000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Sparepart OEM', jenis: 'Sparepart', harga: 1600000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Xiaomi Flagship (Mi / Xiaomi Ultra) - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Sparepart OEM', jenis: 'Sparepart', harga: 1700000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Oppo Find Series - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Sparepart OEM', jenis: 'Sparepart', harga: 1700000, estimasi: '1-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD AMOLED Vivo X Series - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Sparepart Ori', jenis: 'Sparepart', harga: 6500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Sparepart OEM', jenis: 'Sparepart', harga: 4800000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'LCD Foldable (Samsung Z Fold / Flip) - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Laser Green Line AMOLED', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Lem Ulang LCD AMOLED Curved', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam' },
       
       // ========== ANDROID - POWER ==========
       { kategori: 'Android', tipe: 'Power', nama: 'Mati Total - Sparepart Ori', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
@@ -1648,44 +1676,43 @@
       { kategori: 'Laptop', tipe: 'BIOS', nama: 'Update BIOS - Jasa Servis', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
 
       // ========== LAPTOP FLAGSHIP - LAYAR ==========
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '3-5 Jam' },
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '3-5 Jam' },
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '3-5 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '3-5 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD OLED / 4K Pecah - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '3-5 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '3-5 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
 
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Sparepart Ori', jenis: 'Sparepart', harga: 3200000, estimasi: '3-5 Jam' },
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Sparepart OEM', jenis: 'Sparepart', harga: 2400000, estimasi: '3-5 Jam' },
-{ kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Bergaris / Artefak - Jasa Servis', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
+      // ========== LAPTOP FLAGSHIP - KEYBOARD ==========
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Sparepart Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Sparepart OEM', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Jasa Servis', jenis: 'Jasa', harga: 300000, estimasi: '1-3 Jam' },
 
-// ========== LAPTOP FLAGSHIP - KEYBOARD ==========
-{ kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Sparepart Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
-{ kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Sparepart OEM', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
-{ kategori: 'Laptop', tipe: 'Keyboard', nama: 'Keyboard RGB Mati - Jasa Servis', jenis: 'Jasa', harga: 300000, estimasi: '1-3 Jam' },
+      // ========== LAPTOP FLAGSHIP - BATERAI ==========
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Sparepart OEM', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-3 Jam' },
 
-// ========== LAPTOP FLAGSHIP - BATERAI ==========
-{ kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-{ kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Sparepart OEM', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
-{ kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Internal Drop - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-3 Jam' },
+      // ========== LAPTOP FLAGSHIP - COOLING ==========
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Gaming Rusak', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Gaming Rusak - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-3 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Repaste Thermal / Liquid Metal', jenis: 'Jasa', harga: 350000, estimasi: '1-2 Jam' },
 
-// ========== LAPTOP FLAGSHIP - COOLING ==========
-{ kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Gaming Rusak', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
-{ kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Gaming Rusak - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '1-3 Jam' },
-{ kategori: 'Laptop', tipe: 'Cooling', nama: 'Repaste Thermal / Liquid Metal', jenis: 'Jasa', harga: 350000, estimasi: '1-2 Jam' },
+      // ========== LAPTOP FLAGSHIP - GPU ==========
+      { kategori: 'Laptop', tipe: 'GPU', nama: 'GPU Artifact / No Display', jenis: 'Jasa', harga: 950000, estimasi: '1-2 Hari' },
+      { kategori: 'Laptop', tipe: 'GPU', nama: 'Reball GPU Gaming', jenis: 'Jasa', harga: 1500000, estimasi: '1-2 Hari' },
 
-// ========== LAPTOP FLAGSHIP - GPU ==========
-{ kategori: 'Laptop', tipe: 'GPU', nama: 'GPU Artifact / No Display', jenis: 'Jasa', harga: 950000, estimasi: '1-2 Hari' },
-{ kategori: 'Laptop', tipe: 'GPU', nama: 'Reball GPU Gaming', jenis: 'Jasa', harga: 1500000, estimasi: '1-2 Hari' },
+      // ========== LAPTOP FLAGSHIP - STORAGE ==========
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD NVMe Gen4', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD NVMe Gen4 - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '30-60 Menit' },
 
-// ========== LAPTOP FLAGSHIP - STORAGE ==========
-{ kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD NVMe Gen4', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam' },
-{ kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD NVMe Gen4 - Jasa Servis', jenis: 'Jasa', harga: 200000, estimasi: '30-60 Menit' },
+      // ========== LAPTOP FLAGSHIP - MAINBOARD ==========
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'IC Power Gaming Laptop', jenis: 'Jasa', harga: 750000, estimasi: '1-2 Hari' },
+      { kategori: 'Laptop', tipe: 'Mainboard', nama: 'Short Circuit Gaming Laptop', jenis: 'Jasa', harga: 950000, estimasi: '1-2 Hari' },
 
-// ========== LAPTOP FLAGSHIP - MAINBOARD ==========
-{ kategori: 'Laptop', tipe: 'Mainboard', nama: 'IC Power Gaming Laptop', jenis: 'Jasa', harga: 750000, estimasi: '1-2 Hari' },
-{ kategori: 'Laptop', tipe: 'Mainboard', nama: 'Short Circuit Gaming Laptop', jenis: 'Jasa', harga: 950000, estimasi: '1-2 Hari' },
-
-// ========== LAPTOP FLAGSHIP - SOFTWARE ==========
-{ kategori: 'Laptop', tipe: 'Software', nama: 'Install Windows + Driver Gaming', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
-{ kategori: 'Laptop', tipe: 'Software', nama: 'Tuning Performance Gaming Laptop', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam' },
+      // ========== LAPTOP FLAGSHIP - SOFTWARE ==========
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Windows + Driver Gaming', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Tuning Performance Gaming Laptop', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam' },
     ];
     
     // ============================================
@@ -1700,9 +1727,9 @@
     let loginAttempts = 0;
     let lastLoginAttempt = 0;
     const MAX_ATTEMPTS = 3;
-    const LOCKOUT_TIME = 30000; // 30 detik
+    const LOCKOUT_TIME = 30000;
     
-    // AKUN HANYA DI SINI - TIDAK DITAMPILKAN DI HTML
+    // AKUN HANYA DI SINI
     const users = [
       { id: 1, username: 'admin', password: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', role: 'admin', name: 'Administrator', created: '2024-01-01' },
       { id: 2, username: 'kasir', password: 'f02b7c1e519e4fa436147f7e1399974f9510aa9c8e0cb8be29151eb540f9d214', role: 'kasir', name: 'Kasir Toko', created: '2024-01-01' }
@@ -1712,7 +1739,7 @@
     // UTILITY FUNCTIONS
     // ============================================
     function formatRupiah(angka) {
-      if (!angka) return 'Rp 0';
+      if (!angka && angka !== 0) return 'Rp 0';
       return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
     
@@ -1733,18 +1760,15 @@
     }
     
     // ============================================
-    // FUNGSI LOAD DATA DARI CLOUDFLARE
+    // FUNGSI LOAD DATA DARI API
     // ============================================
     async function loadTransactionsFromAPI() {
       try {
         const response = await fetch('/api/transactions');
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
         const data = await response.json();
         transactions = data;
-        loadAdminData(); // Refresh tampilan
-        console.log('Transaksi loaded:', data.length);
+        loadAdminData();
       } catch (error) {
         console.error('Gagal load transaksi:', error);
         loadAdminData();
@@ -1754,13 +1778,10 @@
     async function loadLoginLogsFromAPI() {
       try {
         const response = await fetch('/api/login-logs');
-        if (!response.ok) {
-          throw new Error(`HTTP error ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error ${response.status}`);
         const data = await response.json();
         loginLogs = data;
         loadAdminData();
-        console.log('Login logs loaded:', data.length);
       } catch (error) {
         console.error('Gagal load log:', error);
       }
@@ -1774,7 +1795,7 @@
       const tipeList = getUniqueTipe(kategori);
       const tipeSelect = document.getElementById('tipeSelect');
       
-      tipeSelect.innerHTML = '<option value="all">SEMUA TIPE</option>';
+      tipeSelect.innerHTML = '<option value="all">Semua Tipe</option>';
       tipeList.forEach(tipe => {
         const option = document.createElement('option');
         option.value = tipe;
@@ -1793,18 +1814,18 @@
       
       if (filteredItems.length === 0) {
         const option = document.createElement('option');
-        option.textContent = 'Tidak ada item';
+        option.textContent = 'Tidak ada layanan tersedia';
         itemSelect.appendChild(option);
       } else {
         filteredItems.forEach((item, index) => {
           const option = document.createElement('option');
           option.value = index;
-          option.textContent = `${item.nama} - ${item.jenis} - ${formatRupiah(item.harga)}`;
+          option.textContent = `${item.nama} - ${formatRupiah(item.harga)} (${item.estimasi})`;
           itemSelect.appendChild(option);
         });
       }
       
-      document.getElementById('totalItems').textContent = `${filteredItems.length} layanan & sparepart`;
+      document.getElementById('totalItems').textContent = `${filteredItems.length} layanan tersedia`;
       
       if (filteredItems.length > 0) {
         itemSelect.value = 0;
@@ -1814,6 +1835,7 @@
     
     function updateDetail(item) {
       if (!item) return;
+      currentItem = item;
       
       document.getElementById('displayKategori').textContent = item.kategori;
       document.getElementById('displayTipe').textContent = item.tipe;
@@ -1822,203 +1844,54 @@
       document.getElementById('displayHarga').textContent = formatRupiah(item.harga);
       document.getElementById('displayEstimasi').textContent = item.estimasi;
       
-      const pickupYa = document.querySelector('input[name="pickupOption"][value="ya"]').checked;
+      const pickupYa = document.getElementById('pickupYa').checked;
       const total = item.harga + (pickupYa ? 25000 : 0);
       document.getElementById('totalNominal').textContent = formatRupiah(total);
     }
     
-    function loadAdminData() {
-      document.getElementById('totalTransaksi').textContent = transactions.length;
-      
-      const totalPendapatan = transactions.reduce((sum, t) => sum + (t.total || 0), 0);
-      document.getElementById('totalPendapatan').textContent = formatRupiah(totalPendapatan);
-      
-      document.getElementById('totalLogin').textContent = loginLogs.length;
-      
-      // Log Login Table
-      let logHtml = '';
-      if (loginLogs.length === 0) {
-        logHtml = '<tr><td colspan="5" style="text-align: center;">Belum ada log login</td></tr>';
-      } else {
-        loginLogs.slice(0, 20).forEach(log => {
-          logHtml += `<tr>
-            <td>${log.waktu}</td>
-            <td>${log.username}</td>
-            <td>${log.role}</td>
-            <td>${log.ip}</td>
-            <td class="${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status}</td>
-          </tr>`;
-        });
-      }
-      document.getElementById('loginLogTable').innerHTML = logHtml;
-      
-      // Users Table
-      let usersHtml = '';
-      users.forEach(u => {
-        usersHtml += `<tr>
-          <td>${u.username}</td>
-          <td>${u.role}</td>
-          <td>${u.name}</td>
-          <td>${u.created}</td>
-          <td>${u.lastLogin || '-'}</td>
-          <td>
-            <i class="fas fa-edit" style="color: var(--primary); cursor: pointer; margin-right: 8px;" onclick="alert('Edit user ${u.username}')"></i>
-            <i class="fas fa-trash" style="color: #ef4444; cursor: pointer;" onclick="alert('Hapus user ${u.username}')"></i>
-          </td>
-        </tr>`;
-      });
-      document.getElementById('usersTable').innerHTML = usersHtml;
-      
-      // Transaksi Table dengan tombol cetak
-      let transaksiHtml = '';
-      if (transactions.length === 0) {
-        transaksiHtml = '<tr><td colspan="6" style="text-align: center;">Belum ada transaksi</td></tr>';
-      } else {
-        transactions.slice(0, 20).forEach((t, index) => {
-          transaksiHtml += `<tr>
-            <td>${t.transaksi_id || t.id || index+1}</td>
-            <td>${t.tanggal || new Date().toLocaleString('id-ID')}</td>
-            <td>${t.item || '-'}</td>
-            <td>${formatRupiah(t.total || 0)}</td>
-            <td>${t.kasir || currentUser?.name || 'Admin'}</td>
-            <td class="action-cell">
-              <button class="print-btn" onclick="previewPrint('${t.item || '-'}', ${t.total || 0}, '${t.nama_pelanggan || 'Pelanggan'}')">
-                <i class="fas fa-print"></i> Cetak
-              </button>
-            </td>
-          </tr>`;
-        });
-      }
-      document.getElementById('transaksiTable').innerHTML = transaksiHtml;
-      
-      // Laporan berdasarkan bulan
-      const laporanBulanan = {};
-      
-      transactions.forEach(t => {
-        let bulan;
-        if (t.tanggal) {
-          let tanggalStr = t.tanggal;
-          if (tanggalStr.includes('T')) {
-            const date = new Date(tanggalStr);
-            const bln = date.getMonth() + 1;
-            const thn = date.getFullYear();
-            const namaBulan = [
-              'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-              'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-            ][bln - 1];
-            bulan = `${namaBulan} ${thn}`;
-          } else {
-            const parts = tanggalStr.split(' ')[0].split('/');
-            if (parts.length === 3) {
-              const bln = parts[1];
-              const thn = parts[2];
-              const namaBulan = [
-                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-              ][parseInt(bln) - 1];
-              bulan = `${namaBulan} ${thn}`;
-            } else {
-              bulan = 'Tanpa Bulan';
-            }
-          }
-        } else {
-          bulan = 'Tanpa Bulan';
-        }
-        
-        if (!laporanBulanan[bulan]) {
-          laporanBulanan[bulan] = { pendapatan: 0, pengeluaran: 0 };
-        }
-        laporanBulanan[bulan].pendapatan += t.total || 0;
-      });
-      
-      let laporanHtml = '';
-      const bulanArray = Object.keys(laporanBulanan).sort().reverse();
-      
-      if (bulanArray.length === 0) {
-        laporanHtml = '<tr><td colspan="4" style="text-align: center;">Belum ada data transaksi</td></tr>';
-      } else {
-        bulanArray.forEach(bulan => {
-          const data = laporanBulanan[bulan];
-          const laba = data.pendapatan - data.pengeluaran;
-          const labaClass = laba >= 0 ? 'status-success' : 'status-failed';
-          laporanHtml += `<tr>
-            <td>${bulan}</td>
-            <td>${formatRupiah(data.pendapatan)}</td>
-            <td>${formatRupiah(data.pengeluaran)}</td>
-            <td class="${labaClass}">${formatRupiah(laba)}</td>
-          </tr>`;
-        });
-      }
-      document.getElementById('laporanTable').innerHTML = laporanHtml;
-    }
-    
     // ============================================
-    // FUNGSI MULTIPLE ITEM
+    // MULTI ITEM FUNCTIONS
     // ============================================
-    
-    // Inisialisasi item pertama saat modal dibuka
-    function initItemContainer() {
-      const container = document.getElementById('itemContainer');
-      container.innerHTML = getItemRowHTML(1);
-      updateTotalItemCount();
-      hitungGrandTotal();
-      
-      // Load tipe untuk item pertama
-      const firstRow = container.querySelector('.item-row');
-      if (firstRow) {
-        const kategoriSelect = firstRow.querySelector('.itemKategori');
-        const tipeSelect = firstRow.querySelector('.itemTipe');
-        loadTipeOptionsForItem(kategoriSelect, tipeSelect);
-      }
-    }
-    
-    // HTML untuk satu item row
     function getItemRowHTML(index) {
       return `
-        <div class="item-row" style="background: #f8fafc; padding: 15px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--border-color);">
-          <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-            <span style="font-weight: 600;">Item #${index}</span>
-            <button class="hapusItemBtn" style="background: none; border: none; color: #ef4444; cursor: pointer;" onclick="hapusItem(this)">
+        <div class="item-row-modern" data-index="${index}">
+          <div class="item-header-modern">
+            <span><i class="fas fa-cog"></i> Item #${index}</span>
+            <button class="hapusItemBtn" onclick="hapusItem(this)">
               <i class="fas fa-trash"></i>
             </button>
           </div>
-          <div class="item-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 8px;">
-            <select class="itemKategori" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="loadTipe(this)">
+          <div class="item-grid-modern">
+            <select class="itemKategori" onchange="loadTipe(this)">
               <option value="Android">Android</option>
               <option value="Laptop">Laptop</option>
             </select>
-            <select class="itemTipe" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="loadNama(this)">
+            <select class="itemTipe" onchange="loadNama(this)">
               <option value="">Pilih Tipe</option>
             </select>
-            <select class="itemNama" style="padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" onchange="updateHarga(this)">
+            <select class="itemNama" onchange="updateHarga(this)">
               <option value="">Pilih Item</option>
             </select>
-            <input type="number" class="itemHarga" placeholder="Harga" style="width: 100px; padding: 10px; border-radius: 8px; border: 1px solid var(--border-color);" readonly>
+            <input type="text" class="itemHarga" placeholder="Harga" readonly>
           </div>
         </div>
       `;
     }
     
-    // Tambah item baru
-    document.getElementById('tambahItemBtn')?.addEventListener('click', function() {
+    function initItemContainer() {
       const container = document.getElementById('itemContainer');
-      const itemCount = container.children.length + 1;
-      
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = getItemRowHTML(itemCount);
-      const newItem = tempDiv.firstElementChild;
-      
-      container.appendChild(newItem);
-      updateItemNumbers();
+      container.innerHTML = getItemRowHTML(1);
       updateTotalItemCount();
       
-      // Load tipe untuk item baru
-      const kategoriSelect = newItem.querySelector('.itemKategori');
-      const tipeSelect = newItem.querySelector('.itemTipe');
-      loadTipeOptionsForItem(kategoriSelect, tipeSelect);
-    });
+      const firstRow = container.querySelector('.item-row-modern');
+      if (firstRow) {
+        const kategoriSelect = firstRow.querySelector('.itemKategori');
+        const tipeSelect = firstRow.querySelector('.itemTipe');
+        loadTipeOptionsForItem(kategoriSelect, tipeSelect);
+      }
+      hitungGrandTotal();
+    }
     
-    // Load tipe options untuk item baru
     function loadTipeOptionsForItem(kategoriSelect, tipeSelect) {
       const kategori = kategoriSelect.value;
       const tipeList = getUniqueTipe(kategori);
@@ -2032,36 +1905,8 @@
       });
     }
     
-    // Hapus item
-    window.hapusItem = function(btn) {
-      const row = btn.closest('.item-row');
-      if (document.querySelectorAll('.item-row').length > 1) {
-        row.remove();
-        updateItemNumbers();
-        updateTotalItemCount();
-        hitungGrandTotal();
-      } else {
-        alert('Minimal harus ada 1 item');
-      }
-    };
-    
-    // Update nomor item setelah hapus
-    function updateItemNumbers() {
-      const rows = document.querySelectorAll('.item-row');
-      rows.forEach((row, index) => {
-        row.querySelector('span').textContent = `Item #${index + 1}`;
-      });
-    }
-    
-    // Update total item count
-    function updateTotalItemCount() {
-      const count = document.querySelectorAll('.item-row').length;
-      document.getElementById('totalItemCount').textContent = count;
-    }
-    
-    // Load tipe (dipanggil saat kategori berubah)
     window.loadTipe = function(select) {
-      const row = select.closest('.item-row');
+      const row = select.closest('.item-row-modern');
       const tipeSelect = row.querySelector('.itemTipe');
       const namaSelect = row.querySelector('.itemNama');
       const hargaInput = row.querySelector('.itemHarga');
@@ -2082,9 +1927,8 @@
       hitungGrandTotal();
     };
     
-    // Load nama item (dipanggil saat tipe berubah)
     window.loadNama = function(select) {
-      const row = select.closest('.item-row');
+      const row = select.closest('.item-row-modern');
       const kategoriSelect = row.querySelector('.itemKategori');
       const namaSelect = row.querySelector('.itemNama');
       
@@ -2101,23 +1945,22 @@
       namaSelect.innerHTML = '<option value="">Pilih Item</option>';
       filtered.forEach((item, index) => {
         const option = document.createElement('option');
-        option.value = index;
+        option.value = serviceDB.indexOf(item);
         option.setAttribute('data-harga', item.harga);
-        option.textContent = `${item.nama} - ${item.jenis} - ${formatRupiah(item.harga)}`;
+        option.textContent = `${item.nama} - ${formatRupiah(item.harga)}`;
         namaSelect.appendChild(option);
       });
     };
     
-    // Update harga saat item dipilih
     window.updateHarga = function(select) {
-      const row = select.closest('.item-row');
+      const row = select.closest('.item-row-modern');
       const hargaInput = row.querySelector('.itemHarga');
       
       const selectedOption = select.options[select.selectedIndex];
       if (selectedOption && selectedOption.value) {
         const itemIndex = parseInt(selectedOption.value);
         if (!isNaN(itemIndex) && serviceDB[itemIndex]) {
-          hargaInput.value = serviceDB[itemIndex].harga;
+          hargaInput.value = formatRupiah(serviceDB[itemIndex].harga);
         }
       } else {
         hargaInput.value = '';
@@ -2126,180 +1969,164 @@
       hitungGrandTotal();
     };
     
-    // Hitung grand total semua item
+    window.hapusItem = function(btn) {
+      const row = btn.closest('.item-row-modern');
+      if (document.querySelectorAll('.item-row-modern').length > 1) {
+        row.remove();
+        updateItemNumbers();
+        updateTotalItemCount();
+        hitungGrandTotal();
+      } else {
+        alert('Minimal harus ada 1 item');
+      }
+    };
+    
+    function updateItemNumbers() {
+      const rows = document.querySelectorAll('.item-row-modern');
+      rows.forEach((row, index) => {
+        row.querySelector('span').innerHTML = `<i class="fas fa-cog"></i> Item #${index + 1}`;
+      });
+    }
+    
+    function updateTotalItemCount() {
+      const count = document.querySelectorAll('.item-row-modern').length;
+      document.getElementById('totalItemCount').textContent = count;
+    }
+    
     function hitungGrandTotal() {
       let total = 0;
-      document.querySelectorAll('.itemHarga').forEach(input => {
-        total += parseInt(input.value) || 0;
+      document.querySelectorAll('.itemNama').forEach((select, index) => {
+        if (select.value) {
+          const itemIndex = parseInt(select.value);
+          if (!isNaN(itemIndex) && serviceDB[itemIndex]) {
+            total += serviceDB[itemIndex].harga;
+          }
+        }
       });
       
       const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
       if (pickupYa) total += 25000;
       
-      document.getElementById('grandTotal').textContent = formatRupiah(total).replace('Rp ', '');
+      document.getElementById('grandTotal').textContent = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       return total;
     }
     
-    // Simpan multiple transaksi
-    document.getElementById('simpanMultiTransaksiBtn')?.addEventListener('click', async function() {
-      const nama = document.getElementById('transNama').value;
+    // ============================================
+    // LOAD ADMIN DATA
+    // ============================================
+    function loadAdminData() {
+      document.getElementById('totalTransaksi').textContent = transactions.length;
       
-      if (!nama) {
-        alert('Nama pelanggan harus diisi');
-        return;
-      }
+      const totalPendapatan = transactions.reduce((sum, t) => sum + (t.total || 0), 0);
+      document.getElementById('totalPendapatan').textContent = formatRupiah(totalPendapatan);
       
-      // Kumpulkan semua item
-      const items = [];
-      let totalSemua = 0;
+      document.getElementById('totalLogin').textContent = loginLogs.length;
       
-      const rows = document.querySelectorAll('.item-row');
-      if (rows.length === 0) {
-        alert('Minimal harus ada 1 item');
-        return;
-      }
-      
-      for (const row of rows) {
-        const kategori = row.querySelector('.itemKategori').value;
-        const tipe = row.querySelector('.itemTipe').value;
-        const namaSelect = row.querySelector('.itemNama');
-        const harga = parseInt(row.querySelector('.itemHarga').value) || 0;
-        
-        if (!tipe || !namaSelect.value || harga === 0) {
-          alert('Semua item harus diisi dengan lengkap');
-          return;
-        }
-        
-        const selectedIndex = parseInt(namaSelect.value);
-        const itemData = serviceDB[selectedIndex];
-        
-        items.push({
-          kategori: kategori,
-          tipe: tipe,
-          nama: itemData.nama,
-          jenis: itemData.jenis,
-          harga: harga
+      // Login Log Table
+      let logHtml = '';
+      if (loginLogs.length === 0) {
+        logHtml = '<tr><td colspan="5" style="text-align: center;">Belum ada log login</td></tr>';
+      } else {
+        loginLogs.slice(0, 20).forEach(log => {
+          logHtml += `<tr>
+            <td>${log.waktu || new Date().toLocaleString('id-ID')}</td>
+            <td>${log.username}</td>
+            <td>${log.role}</td>
+            <td>${log.ip}</td>
+            <td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status}</span></td>
+          </tr>`;
         });
-        
-        totalSemua += harga;
       }
+      document.getElementById('loginLogTable').innerHTML = logHtml;
       
-      const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
-      if (pickupYa) totalSemua += 25000;
+      // Users Table
+      let usersHtml = '';
+      users.forEach(u => {
+        usersHtml += `<tr>
+          <td>${u.username}</td>
+          <td>${u.role}</td>
+          <td>${u.name}</td>
+          <td>${u.created}</td>
+          <td>${u.lastLogin || '-'}</td>
+          <td>
+            <button class="print-btn-modern" onclick="alert('Edit user ${u.username}')"><i class="fas fa-edit"></i></button>
+            <button class="print-btn-modern" style="background: var(--danger);" onclick="alert('Hapus user ${u.username}')"><i class="fas fa-trash"></i></button>
+          </td>
+        </tr>`;
+      });
+      document.getElementById('usersTable').innerHTML = usersHtml;
       
-      const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
-      
-      try {
-        const btn = this;
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan...';
-        btn.disabled = true;
-        
-        // Buat deskripsi item untuk disimpan
-        const itemDesc = items.length > 1 ? `${items.length} item servis` : items[0].nama;
-        
-        const response = await fetch('/api/transactions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            id: idTransaksi,
-            item: itemDesc,
-            total: totalSemua,
-            kasir: currentUser?.name || 'Admin',
-            nama: nama
-          })
+      // Transaksi Table
+      let transaksiHtml = '';
+      if (transactions.length === 0) {
+        transaksiHtml = '<tr><td colspan="6" style="text-align: center;">Belum ada transaksi</td></tr>';
+      } else {
+        transactions.slice(0, 20).forEach((t, index) => {
+          transaksiHtml += `<tr>
+            <td>${t.transaksi_id || t.id || index+1}</td>
+            <td>${t.tanggal || new Date().toLocaleString('id-ID')}</td>
+            <td>${t.item || '-'}</td>
+            <td>${formatRupiah(t.total || 0)}</td>
+            <td>${t.kasir || currentUser?.name || 'Admin'}</td>
+            <td>
+              <button class="print-btn-modern" onclick="previewPrint('${t.item || '-'}', ${t.total || 0}, '${t.nama_pelanggan || 'Pelanggan'}')">
+                <i class="fas fa-print"></i>
+              </button>
+            </td>
+          </tr>`;
         });
-        
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`Server error: ${response.status} - ${errorText}`);
-        }
-        
-        const result = await response.json();
-        
-        if (result.success) {
-          const newTrans = {
-            transaksi_id: idTransaksi,
-            tanggal: new Date().toLocaleString('id-ID'),
-            item: itemDesc,
-            total: totalSemua,
-            kasir: currentUser?.name || 'Admin',
-            nama_pelanggan: nama
-          };
-          
-          transactions.unshift(newTrans);
-          document.getElementById('tambahTransaksiModal').classList.remove('active');
-          loadAdminData();
-          
-          // Preview cetak dengan semua item
-          setTimeout(() => {
-            previewMultiPrint(items, totalSemua, nama, idTransaksi);
-          }, 200);
-          
-          // Reset form
-          document.getElementById('transNama').value = '';
-          document.getElementById('transPickupCheckbox').checked = false;
-          initItemContainer();
-        }
-      } catch (error) {
-        alert('Gagal menyimpan: ' + error.message);
-        console.error(error);
-      } finally {
-        const btn = document.getElementById('simpanMultiTransaksiBtn');
-        btn.innerHTML = '<i class="fas fa-save"></i> Simpan & Cetak';
-        btn.disabled = false;
       }
-    });
+      document.getElementById('transaksiTable').innerHTML = transaksiHtml;
+      
+      // Laporan Bulanan
+      const laporanBulanan = {};
+      transactions.forEach(t => {
+        const bulan = 'Bulan Ini';
+        if (!laporanBulanan[bulan]) {
+          laporanBulanan[bulan] = { pendapatan: 0, pengeluaran: 0 };
+        }
+        laporanBulanan[bulan].pendapatan += t.total || 0;
+      });
+      
+      let laporanHtml = '';
+      Object.keys(laporanBulanan).forEach(bulan => {
+        const data = laporanBulanan[bulan];
+        laporanHtml += `<tr>
+          <td>${bulan}</td>
+          <td>${formatRupiah(data.pendapatan)}</td>
+          <td>${formatRupiah(0)}</td>
+          <td class="${data.pendapatan >= 0 ? 'status-success' : 'status-failed'}">${formatRupiah(data.pendapatan)}</td>
+        </tr>`;
+      });
+      document.getElementById('laporanTable').innerHTML = laporanHtml || '<tr><td colspan="4" style="text-align: center;">Belum ada data</td></tr>';
+    }
     
-    // Preview print untuk multiple item
-    function previewMultiPrint(items, total, nama, idTransaksi) {
+    function previewPrint(item, total, nama) {
       const modal = document.getElementById('printResiModal');
       const preview = document.getElementById('printPreviewContent');
       
       const tanggal = new Date().toLocaleString('id-ID');
-      const kasir = currentUser?.name || 'Admin';
-      
-      let itemsHtml = '';
-      items.forEach(item => {
-        itemsHtml += `
-          <div class="print-row">
-            <span>${item.nama}</span>
-            <span>${formatRupiah(item.harga)}</span>
-          </div>
-        `;
-      });
-      
-      const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
-      if (pickupYa) {
-        itemsHtml += `
-          <div class="print-row">
-            <span>Biaya Pickup</span>
-            <span>Rp 25.000</span>
-          </div>
-        `;
-      }
+      const idTransaksi = 'TRX-' + Date.now().toString().slice(-8);
       
       preview.innerHTML = `
-        <div style="text-align: center; margin-bottom: 15px;">
-          <h4 style="font-size: 18px; margin-bottom: 4px;">MALIK SERVICE</h4>
-          <p style="font-size: 12px;">One Stop Service Semarang</p>
-          <p style="font-size: 11px;">Jl. Untung Suropati No.52, Kedungpane</p>
-          <p style="font-size: 11px;">Telp: 0857-1308-7659</p>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h4 style="font-size: 20px; margin-bottom: 4px;">MALIK SERVICE</h4>
+          <p style="font-size: 12px;">Jl. Untung Suropati No.52, Kedungpane</p>
+          <p style="font-size: 12px;">0857-1308-7659</p>
         </div>
         <hr>
-        <div style="margin: 10px 0;">
+        <div style="margin: 15px 0;">
           <div class="print-row"><span>No. Resi:</span> <span>${idTransaksi}</span></div>
           <div class="print-row"><span>Tanggal:</span> <span>${tanggal}</span></div>
-          <div class="print-row"><span>Kasir:</span> <span>${kasir}</span></div>
+          <div class="print-row"><span>Kasir:</span> <span>${currentUser?.name || 'Admin'}</span></div>
           <div class="print-row"><span>Pelanggan:</span> <span>${nama}</span></div>
         </div>
         <hr>
-        <div style="margin: 10px 0;">
-          <div style="font-weight: 600; margin-bottom: 5px;">Daftar Item:</div>
-          ${itemsHtml}
+        <div style="margin: 15px 0;">
+          <div class="print-row"><span>${item}</span> <span>${formatRupiah(total)}</span></div>
         </div>
         <hr>
-        <div class="print-total">
+        <div class="print-total-modern">
           Total: ${formatRupiah(total)}
         </div>
         <hr>
@@ -2312,47 +2139,8 @@
       modal.classList.add('active');
     }
     
-    // Override previewPrint lama
-    window.previewPrint = function(item, total, nama) {
-      // Gunakan previewMultiPrint dengan array 1 item
-      const items = [{ nama: item, harga: total }];
-      previewMultiPrint(items, total, nama, 'TRX-' + Date.now().toString().slice(-8));
-    };
-    
     // ============================================
-    // PWA INSTALL
-    // ============================================
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-      
-      setTimeout(() => {
-        if (deferredPrompt) {
-          document.getElementById('installPrompt').classList.add('visible');
-        }
-      }, 5000);
-    });
-    
-    document.getElementById('installBtn')?.addEventListener('click', async () => {
-      if (!deferredPrompt) return;
-      
-      deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      
-      if (outcome === 'accepted') {
-        console.log('PWA installed');
-      }
-      
-      deferredPrompt = null;
-      document.getElementById('installPrompt').classList.remove('visible');
-    });
-    
-    document.getElementById('installClose')?.addEventListener('click', () => {
-      document.getElementById('installPrompt').classList.remove('visible');
-    });
-    
-    // ============================================
-    // EVENT LISTENERS UTAMA
+    // EVENT LISTENERS
     // ============================================
     document.addEventListener('DOMContentLoaded', function() {
       // Initialize
@@ -2365,17 +2153,14 @@
         try {
           currentUser = JSON.parse(savedUser);
           document.getElementById('userName').textContent = currentUser.name;
-          document.getElementById('userRole').textContent = currentUser.role;
+          document.getElementById('userDisplay').innerHTML = `<i class="fas fa-user-circle"></i> ${currentUser.name}`;
           document.getElementById('publicMode').style.display = 'none';
           document.getElementById('adminMode').style.display = 'block';
           document.getElementById('adminToggleBtn').classList.add('active');
           document.getElementById('userModeBtn').classList.remove('active');
           loadAdminData();
-          
-          // Load data dari Cloudflare
           loadTransactionsFromAPI();
           loadLoginLogsFromAPI();
-          
         } catch (e) {}
       }
       
@@ -2392,16 +2177,16 @@
       document.getElementById('itemSelect').addEventListener('change', function() {
         const idx = parseInt(this.value);
         if (!isNaN(idx) && filteredItems[idx]) {
-          currentItem = filteredItems[idx];
-          updateDetail(currentItem);
+          updateDetail(filteredItems[idx]);
         }
       });
       
       // Pickup change
-      document.querySelectorAll('input[name="pickupOption"]').forEach(radio => {
-        radio.addEventListener('change', function() {
-          if (currentItem) updateDetail(currentItem);
-        });
+      document.getElementById('pickupYa').addEventListener('change', function() {
+        if (currentItem) updateDetail(currentItem);
+      });
+      document.getElementById('pickupTidak').addEventListener('change', function() {
+        if (currentItem) updateDetail(currentItem);
       });
       
       // WA Button
@@ -2420,7 +2205,7 @@
           return;
         }
         
-        const pickupYa = document.querySelector('input[name="pickupOption"][value="ya"]').checked;
+        const pickupYa = document.getElementById('pickupYa').checked;
         const total = currentItem.harga + (pickupYa ? 25000 : 0);
         
         const message = `Halo Malik Service, saya ingin servis:
@@ -2429,7 +2214,7 @@ Nama: ${nama}
 No HP: ${noHp}
 Alamat: ${alamat || '-'}
 
---- PESANAN ---
+--- DETAIL SERVIS ---
 Kategori: ${currentItem.kategori}
 Tipe: ${currentItem.tipe}
 Item: ${currentItem.nama}
@@ -2449,7 +2234,7 @@ Mohon konfirmasi. Terima kasih.`;
         window.open('https://wa.me/6285713087659', '_blank');
       });
       
-      // ========== LOGIN FUNCTIONS ==========
+      // ========== LOGIN ==========
       document.getElementById('userModeBtn').addEventListener('click', function() {
         this.classList.add('active');
         document.getElementById('adminToggleBtn').classList.remove('active');
@@ -2497,7 +2282,6 @@ Mohon konfirmasi. Terima kasih.`;
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const hashedPassword = CryptoJS.SHA256(password).toString();
-        console.log('Password hash:', hashedPassword);
         
         const user = users.find(u => u.username === username && u.password === hashedPassword);
         
@@ -2515,9 +2299,7 @@ Mohon konfirmasi. Terima kasih.`;
                 status: 'Sukses'
               })
             });
-          } catch (e) {
-            console.log('Gagal simpan log:', e);
-          }
+          } catch (e) {}
           
           currentUser = { ...user, password: undefined };
           sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
@@ -2534,32 +2316,17 @@ Mohon konfirmasi. Terima kasih.`;
           user.lastLogin = new Date().toLocaleString('id-ID');
           
           document.getElementById('userName').textContent = user.name;
-          document.getElementById('userRole').textContent = user.role;
+          document.getElementById('userDisplay').innerHTML = `<i class="fas fa-user-circle"></i> ${user.name}`;
           document.getElementById('publicMode').style.display = 'none';
           document.getElementById('adminMode').style.display = 'block';
           document.getElementById('loginModal').classList.remove('active');
           
           await loadTransactionsFromAPI();
           await loadLoginLogsFromAPI();
-          
-          if (user.role === 'kasir') {
-            document.getElementById('loginLogTab').style.display = 'none';
-            document.getElementById('usersTab').style.display = 'none';
-          } else {
-            document.getElementById('loginLogTab').style.display = 'block';
-            document.getElementById('usersTab').style.display = 'block';
-          }
         } else {
           loginAttempts++;
           lastLoginAttempt = now;
           alert('Username atau password salah');
-          loginLogs.unshift({
-            waktu: new Date().toLocaleString('id-ID'),
-            username: username || 'unknown',
-            role: '-',
-            ip: 'Client-side',
-            status: 'Gagal'
-          });
         }
       });
       
@@ -2573,12 +2340,12 @@ Mohon konfirmasi. Terima kasih.`;
       });
       
       // Tab switching
-      document.querySelectorAll('.admin-tab').forEach(tab => {
+      document.querySelectorAll('.tab-modern').forEach(tab => {
         tab.addEventListener('click', function() {
-          document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.tab-modern').forEach(t => t.classList.remove('active'));
           this.classList.add('active');
           
-          document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          document.querySelectorAll('.tab-content-modern').forEach(c => c.classList.remove('active'));
           document.getElementById(`tab-${this.dataset.tab}`).classList.add('active');
         });
       });
@@ -2587,7 +2354,7 @@ Mohon konfirmasi. Terima kasih.`;
       window.addEventListener('click', function(e) {
         const modal = document.getElementById('loginModal');
         const toggleBtn = document.getElementById('adminToggleBtn');
-        if (!modal.contains(e.target) && !toggleBtn.contains(e.target)) {
+        if (modal && !modal.contains(e.target) && !toggleBtn.contains(e.target)) {
           modal.classList.remove('active');
         }
       });
@@ -2598,12 +2365,108 @@ Mohon konfirmasi. Terima kasih.`;
         initItemContainer();
       });
       
+      document.getElementById('tambahItemBtn').addEventListener('click', function() {
+        const container = document.getElementById('itemContainer');
+        const itemCount = container.children.length + 1;
+        
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = getItemRowHTML(itemCount);
+        const newItem = tempDiv.firstElementChild;
+        
+        container.appendChild(newItem);
+        updateItemNumbers();
+        updateTotalItemCount();
+        
+        const kategoriSelect = newItem.querySelector('.itemKategori');
+        const tipeSelect = newItem.querySelector('.itemTipe');
+        loadTipeOptionsForItem(kategoriSelect, tipeSelect);
+      });
+      
       document.getElementById('closeTambahModal').addEventListener('click', function() {
         document.getElementById('tambahTransaksiModal').classList.remove('active');
       });
       
       document.getElementById('batalTambah').addEventListener('click', function() {
         document.getElementById('tambahTransaksiModal').classList.remove('active');
+      });
+      
+      document.getElementById('simpanMultiTransaksiBtn').addEventListener('click', async function() {
+        const nama = document.getElementById('transNama').value;
+        
+        if (!nama) {
+          alert('Nama pelanggan harus diisi');
+          return;
+        }
+        
+        const items = [];
+        let totalSemua = 0;
+        
+        const rows = document.querySelectorAll('.item-row-modern');
+        if (rows.length === 0) {
+          alert('Minimal harus ada 1 item');
+          return;
+        }
+        
+        for (const row of rows) {
+          const kategori = row.querySelector('.itemKategori').value;
+          const tipe = row.querySelector('.itemTipe').value;
+          const namaSelect = row.querySelector('.itemNama');
+          
+          if (!tipe || !namaSelect.value) {
+            alert('Semua item harus diisi dengan lengkap');
+            return;
+          }
+          
+          const selectedIndex = parseInt(namaSelect.value);
+          const itemData = serviceDB[selectedIndex];
+          
+          items.push(itemData.nama);
+          totalSemua += itemData.harga;
+        }
+        
+        const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
+        if (pickupYa) totalSemua += 25000;
+        
+        const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
+        
+        try {
+          const response = await fetch('/api/transactions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: idTransaksi,
+              item: items.join(', '),
+              total: totalSemua,
+              kasir: currentUser?.name || 'Admin',
+              nama: nama
+            })
+          });
+          
+          const result = await response.json();
+          
+          if (result.success) {
+            const newTrans = {
+              transaksi_id: idTransaksi,
+              tanggal: new Date().toLocaleString('id-ID'),
+              item: items.join(', '),
+              total: totalSemua,
+              kasir: currentUser?.name || 'Admin',
+              nama_pelanggan: nama
+            };
+            
+            transactions.unshift(newTrans);
+            document.getElementById('tambahTransaksiModal').classList.remove('active');
+            loadAdminData();
+            
+            previewPrint(items.join(', '), totalSemua, nama);
+            
+            document.getElementById('transNama').value = '';
+            document.getElementById('transPickupCheckbox').checked = false;
+            initItemContainer();
+          }
+        } catch (error) {
+          alert('Gagal menyimpan: ' + error.message);
+        }
       });
       
       // Modal Cetak
@@ -2616,58 +2479,69 @@ Mohon konfirmasi. Terima kasih.`;
       });
       
       document.getElementById('doPrintBtn').addEventListener('click', function() {
-        doPrint();
+        const printContent = document.getElementById('printPreviewContent').innerHTML;
+        const printWindow = window.open('', '_blank');
+        printWindow.document.write(`
+          <html>
+            <head>
+              <title>Cetak Resi - Malik Service</title>
+              <style>
+                body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
+                .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+                hr { border: 1px dashed #000; }
+                .print-total-modern { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
+              </style>
+            </head>
+            <body>
+              ${printContent}
+            </body>
+          </html>
+        `);
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
         document.getElementById('printResiModal').classList.remove('active');
       });
       
-      // Event listener untuk pickup checkbox
-      document.getElementById('transPickupCheckbox')?.addEventListener('change', function() {
-        hitungGrandTotal();
+      // PWA Install
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        setTimeout(() => {
+          if (deferredPrompt) {
+            document.getElementById('installPrompt').classList.add('visible');
+          }
+        }, 3000);
+      });
+      
+      document.getElementById('installBtn').addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        if (outcome === 'accepted') {
+          console.log('PWA installed');
+        }
+        
+        deferredPrompt = null;
+        document.getElementById('installPrompt').classList.remove('visible');
+      });
+      
+      document.getElementById('installClose').addEventListener('click', () => {
+        document.getElementById('installPrompt').classList.remove('visible');
       });
     });
     
-    // Fungsi cetak (dari modal)
-    function doPrint() {
-      const printContent = document.getElementById('printPreviewContent').innerHTML;
-      const printWindow = window.open('', '_blank');
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Cetak Resi - Malik Service</title>
-            <style>
-              body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
-              .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
-              hr { border: 1px dashed #000; }
-              .print-total { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
-            </style>
-          </head>
-          <body>
-            ${printContent}
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-    }
-    
-    // ============================================
-    // REGISTER SERVICE WORKER
-    // ============================================
+    // Service Worker Registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js', {
-          scope: '/'
-        })
-        .then(reg => console.log('Service Worker registered with scope:', reg.scope))
-        .catch(err => console.log('Service Worker registration failed:', err));
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' })
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker failed:', err));
       });
     }
   </script>
 </body>
 </html>
-
-
-
-
-
