@@ -1,7 +1,7 @@
 {
   "name": "Malik Service - One Stop Service Semarang",
   "short_name": "Malik Service",
-  "description": "Servis HP & Laptop Profesional di Semarang",
+  "description": "Servis HP & Laptop Profesional di Semarang dengan sistem kasir terintegrasi",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
@@ -9,6 +9,7 @@
   "background_color": "#f8fafc",
   "theme_color": "#2563eb",
   "lang": "id",
+  "categories": ["business", "shopping"],
   "icons": [
     {
       "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect fill='%232563eb' width='192' height='192' rx='32'/%3E%3Cpath fill='white' d='M96 40c-30.9 0-56 25.1-56 56s25.1 56 56 56 56-25.1 56-56-25.1-56-56-56zm0 96c-22.1 0-40-17.9-40-40s17.9-40 40-40 40 17.9 40 40-17.9 40-40 40z'/%3E%3C/svg%3E",
