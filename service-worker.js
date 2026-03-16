@@ -16,6 +16,11 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
+  // Hanya cache request GET
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then(response => {
@@ -24,15 +29,26 @@ self.addEventListener('fetch', event => {
         }
         return fetch(event.request)
           .then(response => {
+            // Cek apakah response valid
             if (!response || response.status !== 200 || response.type !== 'basic') {
               return response;
             }
+            
+            // Clone response untuk cache
             const responseToCache = response.clone();
             caches.open(CACHE_NAME)
-              .then(cache => cache.put(event.request, responseToCache));
+              .then(cache => {
+                // Hanya cache request GET
+                if (event.request.method === 'GET') {
+                  cache.put(event.request, responseToCache);
+                }
+              })
+              .catch(err => console.log('Cache put error:', err));
+              
             return response;
           })
           .catch(() => {
+            // Fallback ke halaman utama jika offline
             if (event.request.mode === 'navigate') {
               return caches.match('./index.html');
             }
