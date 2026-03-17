@@ -645,8 +645,6 @@
     .table-modern {
       width: 100%;
       border-collapse: collapse;
-      overflow-x: auto;
-      display: block;
     }
     
     .table-modern th {
@@ -724,12 +722,71 @@
       box-shadow: var(--shadow-xl);
     }
     
+    .modal-header-modern {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+    
+    .modal-header-modern h3 {
+      font-size: 22px;
+      color: var(--gray-900);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray-400);
+    }
+    
     .item-row-modern {
       background: var(--gray-50);
       border-radius: var(--radius-lg);
       padding: 20px;
       margin-bottom: 16px;
       border: 1px solid var(--gray-200);
+    }
+    
+    .item-header-modern {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    
+    .item-header-modern span {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    .item-header-modern button {
+      background: none;
+      border: none;
+      color: var(--danger);
+      cursor: pointer;
+    }
+    
+    .item-grid-modern {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    
+    .item-grid-modern select,
+    .item-grid-modern input {
+      padding: 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      width: 100%;
     }
     
     .diskon-section {
@@ -786,10 +843,80 @@
       transform: translateY(0);
     }
     
+    .install-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary-light);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .install-icon i {
+      font-size: 24px;
+      color: var(--primary);
+    }
+    
+    .install-content {
+      flex: 1;
+    }
+    
+    .install-title {
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 4px;
+    }
+    
+    .install-desc {
+      font-size: 12px;
+      color: var(--gray-500);
+    }
+    
+    .install-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .install-close {
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+    }
+    
     @media (max-width: 768px) {
       body { padding: 8px; }
       .store-title { font-size: 24px; }
       .total-value-modern { font-size: 24px; padding: 8px 16px; }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid var(--gray-200);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -907,7 +1034,13 @@
                 <select id="kategoriSelect">
                   <option value="all">Semua Kategori</option>
                   <option value="Android">📱 ANDROID</option>
+                  <option value="iPhone">📱 IPHONE</option>
                   <option value="Laptop">💻 LAPTOP</option>
+                  <option value="Tablet">📱 TABLET</option>
+                  <option value="Gaming">🎮 GAMING</option>
+                  <option value="Printer">🖨️ PRINTER</option>
+                  <option value="Smartwatch">⌚ SMARTWATCH</option>
+                  <option value="Desktop">🖥️ DESKTOP</option>
                 </select>
               </div>
               
@@ -924,7 +1057,7 @@
               <select id="itemSelect" size="6"></select>
             </div>
             
-            <div class="stats-badge-modern" id="totalItems">
+            <div class="stats-badge-modern" id="totalItems" style="display: inline-flex; align-items: center; gap: 8px; background: white; padding: 12px 20px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; margin-top: 20px; border: 2px solid var(--gray-200); color: var(--gray-700);">
               <i class="fas fa-database"></i> Memuat layanan...
             </div>
           </div>
@@ -1081,7 +1214,7 @@
               <tr><th>Tanggal</th><th>Jumlah</th><th>Pendapatan</th></tr>
             </thead>
             <tbody id="laporanTable">
-              <tr><td colspan="3" style="text-align: center;">Pilih periode untuk melihat laporan</td></tr>
+              <tr><td colspan="3" style="text-align: center;">Belum ada data laporan</td></tr>
             </tbody>
           </table>
         </div>
@@ -1120,13 +1253,13 @@
               <i class="fas fa-plus"></i> Tambah Layanan Baru
             </button>
           </div>
-          <div class="service-list" id="serviceList"></div>
+          <div class="service-list" id="serviceList" style="background: var(--gray-50); border-radius: var(--radius-lg); padding: 20px; max-height: 400px; overflow-y: auto;"></div>
         </div>
         
         <!-- Tab Diskon -->
         <div class="tab-content-modern" id="tab-diskon">
           <div class="diskon-section">
-            <h3 style="margin-bottom: 16px;">Kelola Diskon</h3>
+            <h3 style="margin-bottom: 16px; color: #92400e;"><i class="fas fa-tags"></i> Kelola Diskon</h3>
             <div class="form-grid-modern">
               <div class="form-field">
                 <input type="text" id="diskonKode" placeholder="Kode Promo">
@@ -1169,12 +1302,12 @@
     <div class="modal-modern" id="tambahTransaksiModal">
       <div class="modal-content-modern">
         <div class="modal-header-modern">
-          <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
+          <h3><i class="fas fa-plus-circle" style="color: var(--primary);"></i> Transaksi Baru</h3>
           <button class="modal-close" id="closeTambahModal">&times;</button>
         </div>
         
         <div style="margin-bottom: 20px;">
-          <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-md);">
+          <div style="background: var(--primary-soft); padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px;">
             <div class="form-field" style="margin-bottom: 12px;">
               <input type="text" id="transNama" placeholder="Nama Pelanggan *" required>
             </div>
@@ -1184,13 +1317,15 @@
             <div class="form-field" style="margin-bottom: 12px;">
               <textarea id="transAlamat" placeholder="Alamat" rows="2"></textarea>
             </div>
-            <label style="display: flex; align-items: center; gap: 10px;">
-              <input type="checkbox" id="transPickupCheckbox"> Layanan Pickup (+Rp25.000)
+            <label style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+              <input type="checkbox" id="transPickupCheckbox"> 
+              <i class="fas fa-truck" style="color: var(--primary);"></i> 
+              <span>Layanan Pickup (+Rp25.000)</span>
             </label>
           </div>
           
           <div style="display: flex; justify-content: space-between; align-items: center; margin: 16px 0;">
-            <h4>Item Servis</h4>
+            <h4 style="color: var(--primary);"><i class="fas fa-shopping-cart"></i> Item Servis</h4>
             <button class="btn-modern" id="tambahItemBtn" style="width: auto; padding: 10px 20px; background: var(--primary);">
               <i class="fas fa-plus"></i> Tambah Item
             </button>
@@ -1198,28 +1333,50 @@
           
           <div id="itemContainer"></div>
           
-          <div style="background: linear-gradient(145deg, var(--primary-light) 0%, white 100%); padding: 20px; border-radius: var(--radius-md);">
-            <div style="display: flex; justify-content: space-between;">
-              <span>Subtotal:</span>
-              <span>Rp <span id="subtotal">0</span></span>
+          <!-- Ringkasan Transaksi -->
+          <div style="background: linear-gradient(145deg, var(--primary-light) 0%, white 100%); padding: 20px; border-radius: var(--radius-md); margin-top: 16px;">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+              <div>
+                <span style="color: var(--gray-600);">Subtotal:</span>
+                <span style="float: right; font-weight: 600;">Rp <span id="subtotal">0</span></span>
+              </div>
+              <div>
+                <span style="color: var(--gray-600);">Pickup:</span>
+                <span style="float: right; font-weight: 600;">Rp <span id="pickupBiaya">0</span></span>
+              </div>
+              <div>
+                <span style="color: var(--gray-600);">Total Item:</span>
+                <span style="float: right; font-weight: 600;"><span id="totalItemCount">1</span> item</span>
+              </div>
             </div>
-            <div style="display: flex; justify-content: space-between;">
-              <span>Pickup:</span>
-              <span>Rp <span id="pickupBiaya">0</span></span>
-            </div>
-            <hr>
-            <div style="display: flex; justify-content: space-between; font-size: 20px; font-weight: 800;">
-              <span>TOTAL</span>
-              <span>Rp <span id="grandTotal">0</span></span>
+            <hr style="margin: 12px 0; border: 1px dashed var(--primary);">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 18px; font-weight: 700;">TOTAL AKHIR</span>
+              <span style="font-size: 28px; font-weight: 800; color: var(--primary);">Rp <span id="grandTotal">0</span></span>
             </div>
           </div>
         </div>
         
         <div style="display: flex; gap: 12px;">
-          <button class="btn-modern" id="batalTambah" style="background: var(--gray-300); color: var(--gray-700);">Batal</button>
+          <button class="btn-modern" id="batalTambah" style="background: var(--gray-300); color: var(--gray-700); box-shadow: none;">Batal</button>
           <button class="btn-modern" id="simpanMultiTransaksiBtn">
-            <i class="fas fa-save"></i> Simpan
+            <i class="fas fa-save"></i> Simpan Transaksi
           </button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Modal Print Resi -->
+    <div class="modal-modern" id="printResiModal">
+      <div class="modal-content-modern">
+        <div class="modal-header-modern">
+          <h3><i class="fas fa-receipt"></i> Cetak Resi</h3>
+          <button class="modal-close" id="closePrintModal">&times;</button>
+        </div>
+        <div id="printPreviewContent" class="print-preview-modern" style="font-family: 'Courier New', monospace; background: #f8fafc; padding: 24px; border-radius: var(--radius-lg); margin: 20px 0; border: 2px dashed var(--primary);"></div>
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+          <button class="btn-modern" id="cancelPrint" style="background: var(--gray-300); color: var(--gray-700); box-shadow: none;">Tutup</button>
+          <button class="btn-modern" id="doPrintBtn"><i class="fas fa-print"></i> Cetak</button>
         </div>
       </div>
     </div>
@@ -1247,316 +1404,316 @@
   
   <script>
     // ============================================
-// DATA LAYANAN LENGKAP DENGAN HARGA TERTINGGI
-// ============================================
-let serviceDB = [
-  // SMARTPHONE - SAMSUNG
-  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Samsung Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Tombol', nama: 'Samsung Tombol Volume Macet - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Getar', nama: 'Samsung Getar Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 200000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Samsung IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Charging', nama: 'Samsung IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC RF', nama: 'Samsung No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 850000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC EMMC', nama: 'Samsung Bootloop - Jasa Servis', jenis: 'Jasa', harga: 950000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Lupa Pola - Unlock', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Samsung FRP Lock - Unlock', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Hang/Lambat - Optimasi', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
-
-  // XIAOMI
-  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Xiaomi Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'USB', nama: 'Xiaomi USB Port Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Tombol', nama: 'Xiaomi Tombol Power Macet - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Xiaomi IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC BMS', nama: 'Xiaomi IC BMS Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Charging', nama: 'Xiaomi IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 620000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Bootloop - Unbrick', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam' },
-
-  // OPPO
-  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'OPPO Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'OPPO IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Charging', nama: 'OPPO IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Software', nama: 'OPPO Software Error - Flashing', jenis: 'Jasa', harga: 170000, estimasi: '1-2 Jam' },
-
-  // VIVO
-  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2100000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 270000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Vivo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Vivo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
-
-  // REALME
-  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Realme Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Realme Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Realme IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 680000, estimasi: '2-4 Jam' },
-
-  // INFINIX
-  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Infinix Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Infinix Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 260000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Infinix IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
-
-  // TECNO
-  { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Tecno Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Tecno Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-
-  // ITEL
-  { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Itel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Itel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
-
-  // IPHONE
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4200000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2300000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2600000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 5500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Charger', nama: 'iPhone Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'IC Charging', nama: 'iPhone Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'IC Baseband', nama: 'iPhone No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'IC NAND', nama: 'iPhone Bootloop - Jasa Servis', jenis: 'Jasa', harga: 2200000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'IC Power', nama: 'iPhone Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Face ID', nama: 'iPhone Face ID Rusak - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Mic Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Tombol', nama: 'iPhone Tombol Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Software Error - Restore', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
-  { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Lupa Password - Unlock', jenis: 'Jasa', harga: 500000, estimasi: '1-2 Jam' },
-
-  // GOOGLE PIXEL
-  { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Google Pixel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Google Pixel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Google Pixel IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
-
-  // HUAWEI
-  { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Huawei Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Huawei Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Huawei IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC RF', nama: 'Huawei No Service - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
-
-  // ASUS
-  { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Asus Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Asus Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Asus IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
-
-  // LENOVO
-  { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Lenovo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Lenovo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Lenovo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
-
-  // MOTOROLA
-  { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 620000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Motorola Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Motorola Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 290000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Motorola IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
-
-  // SONY
-  { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Sony Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Sony Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 310000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Sony IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 780000, estimasi: '2-4 Jam' },
-
-  // NOKIA
-  { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Baterai', nama: 'Nokia Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'Charger', nama: 'Nokia Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Android', tipe: 'IC Power', nama: 'Nokia IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - UNIVERSAL
-  { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows', jenis: 'Jasa', harga: 150000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR3', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR4', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR5', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 120GB', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 240GB', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 480GB', jenis: 'Sparepart', harga: 750000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 256GB', jenis: 'Sparepart', harga: 650000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 512GB', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 1TB', jenis: 'Sparepart', harga: 1600000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 14 inch', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 15.6 inch', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop Ori', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'DC Jack', nama: 'DC Jack Rusak - Jasa Servis', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Laptop Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Charging', nama: 'Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC VGA', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC PCH', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - ASUS
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Asus Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Asus Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Asus Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Asus Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - ACER
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Acer Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Acer Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Acer Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Acer Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - LENOVO
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Lenovo Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Lenovo Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Lenovo Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Lenovo Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1350000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - HP
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'HP Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1750000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'HP Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 980000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'HP Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 780000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'HP Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1380000, estimasi: '2-4 Jam' },
-
-  // LAPTOP - DELL
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'Dell Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Dell Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Dell Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Dell Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
-
-  // MACBOOK
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Air Ganti LCD Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Pro Ganti LCD Ori', jenis: 'Sparepart', harga: 6000000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'Charger', nama: 'MacBook Charger Ori', jenis: 'Sparepart', harga: 1200000, estimasi: '1-2 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Power', nama: 'MacBook IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 3000000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Backlight', nama: 'MacBook No Backlight - Jasa Servis', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam' },
-  { kategori: 'Laptop', tipe: 'IC Charging', nama: 'MacBook Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 2800000, estimasi: '2-4 Jam' },
-
-  // TABLET - SAMSUNG
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Baterai', nama: 'Samsung Tab Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Charger', nama: 'Samsung Tab Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'IC Power', nama: 'Samsung Tab IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
-
-  // IPAD
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'Tombol', nama: 'iPad Tombol Home Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'IC Power', nama: 'iPad IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1600000, estimasi: '2-4 Jam' },
-  { kategori: 'Tablet', tipe: 'IC Charging', nama: 'iPad Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
-
-  // GAMING CONSOLE
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Overheat - Ganti Pasta', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Joycon Drift - Ganti Analog', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
-  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
-
-  // PRINTER
-  { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Tidak Bisa Ngeprint - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Macet - Bersihkan', jenis: 'Jasa', harga: 200000, estimasi: '2-4 Jam' },
-  { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Tinta Tidak Keluar - Flushing', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
-  { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Ganti Printhead', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
-  { kategori: 'Printer', tipe: 'Canon', nama: 'Canon Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
-  { kategori: 'Printer', tipe: 'HP', nama: 'HP Ganti Cartridge Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
-
-  // SMARTWATCH
-  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
-  { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
-
-  // DESKTOP PC
-  { kategori: 'Desktop', tipe: 'Power', nama: 'PC Tidak Bisa Hidup - Ganti Power Supply', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'Motherboard', nama: 'PC Tidak Bisa Hidup - Ganti Motherboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'RAM', nama: 'PC Lambat - Upgrade RAM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'SSD', nama: 'PC Lambat - Upgrade SSD', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'Software', nama: 'Blue Screen - Flashing BIOS', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'Software', nama: 'Install Ulang Windows + Software', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
-  { kategori: 'Desktop', tipe: 'Software', nama: 'Data Recovery', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' }
-];
+    // DATA LAYANAN LENGKAP DENGAN HARGA TERTINGGI
+    // ============================================
+    let serviceDB = [
+      // SMARTPHONE - SAMSUNG
+      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Samsung Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Tombol', nama: 'Samsung Tombol Volume Macet - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Getar', nama: 'Samsung Getar Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 200000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Samsung IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Charging', nama: 'Samsung IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC RF', nama: 'Samsung No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC EMMC', nama: 'Samsung Bootloop - Jasa Servis', jenis: 'Jasa', harga: 950000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Samsung Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Samsung Lupa Pola - Unlock', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Samsung FRP Lock - Unlock', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Samsung Hang/Lambat - Optimasi', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+    
+      // XIAOMI
+      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Xiaomi Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'USB', nama: 'Xiaomi USB Port Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Tombol', nama: 'Xiaomi Tombol Power Macet - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Xiaomi IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC BMS', nama: 'Xiaomi IC BMS Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Charging', nama: 'Xiaomi IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 620000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Bootloop - Unbrick', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam' },
+    
+      // OPPO
+      { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'OPPO Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'OPPO IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Charging', nama: 'OPPO IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Software', nama: 'OPPO Software Error - Flashing', jenis: 'Jasa', harga: 170000, estimasi: '1-2 Jam' },
+    
+      // VIVO
+      { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2100000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 270000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Vivo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Vivo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+    
+      // REALME
+      { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Realme Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Realme Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Realme IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 680000, estimasi: '2-4 Jam' },
+    
+      // INFINIX
+      { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Infinix Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Infinix Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 260000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Infinix IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
+    
+      // TECNO
+      { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Tecno Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Tecno Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+    
+      // ITEL
+      { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Itel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Itel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
+    
+      // IPHONE
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4200000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2300000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2600000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 5500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Charger', nama: 'iPhone Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'IC Charging', nama: 'iPhone Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'IC Baseband', nama: 'iPhone No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'IC NAND', nama: 'iPhone Bootloop - Jasa Servis', jenis: 'Jasa', harga: 2200000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'IC Power', nama: 'iPhone Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Face ID', nama: 'iPhone Face ID Rusak - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Mic Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Tombol', nama: 'iPhone Tombol Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Software Error - Restore', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+      { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Lupa Password - Unlock', jenis: 'Jasa', harga: 500000, estimasi: '1-2 Jam' },
+    
+      // GOOGLE PIXEL
+      { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Google Pixel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Google Pixel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Google Pixel IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+    
+      // HUAWEI
+      { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Huawei Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Huawei Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Huawei IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC RF', nama: 'Huawei No Service - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+    
+      // ASUS
+      { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Asus Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Asus Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Asus IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
+    
+      // LENOVO
+      { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Lenovo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Lenovo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Lenovo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+    
+      // MOTOROLA
+      { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 620000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Motorola Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Motorola Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 290000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Motorola IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
+    
+      // SONY
+      { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Sony Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Sony Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 310000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Sony IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 780000, estimasi: '2-4 Jam' },
+    
+      // NOKIA
+      { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Baterai', nama: 'Nokia Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'Charger', nama: 'Nokia Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Android', tipe: 'IC Power', nama: 'Nokia IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - UNIVERSAL
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows', jenis: 'Jasa', harga: 150000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR3', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR4', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR5', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 120GB', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 240GB', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 480GB', jenis: 'Sparepart', harga: 750000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 256GB', jenis: 'Sparepart', harga: 650000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 512GB', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 1TB', jenis: 'Sparepart', harga: 1600000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 14 inch', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 15.6 inch', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop Ori', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'DC Jack', nama: 'DC Jack Rusak - Jasa Servis', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Laptop Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Charging', nama: 'Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC VGA', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC PCH', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - ASUS
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Asus Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Asus Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Asus Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Asus Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - ACER
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Acer Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Acer Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Acer Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Acer Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - LENOVO
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Lenovo Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Lenovo Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Lenovo Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Lenovo Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1350000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - HP
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'HP Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1750000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'HP Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 980000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'HP Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 780000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'HP Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1380000, estimasi: '2-4 Jam' },
+    
+      // LAPTOP - DELL
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'Dell Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Dell Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Dell Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Dell Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+    
+      // MACBOOK
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Air Ganti LCD Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Pro Ganti LCD Ori', jenis: 'Sparepart', harga: 6000000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: 'MacBook Charger Ori', jenis: 'Sparepart', harga: 1200000, estimasi: '1-2 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Power', nama: 'MacBook IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 3000000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Backlight', nama: 'MacBook No Backlight - Jasa Servis', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam' },
+      { kategori: 'Laptop', tipe: 'IC Charging', nama: 'MacBook Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 2800000, estimasi: '2-4 Jam' },
+    
+      // TABLET - SAMSUNG
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Baterai', nama: 'Samsung Tab Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Charger', nama: 'Samsung Tab Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'IC Power', nama: 'Samsung Tab IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+    
+      // IPAD
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'Tombol', nama: 'iPad Tombol Home Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'IC Power', nama: 'iPad IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1600000, estimasi: '2-4 Jam' },
+      { kategori: 'Tablet', tipe: 'IC Charging', nama: 'iPad Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+    
+      // GAMING CONSOLE
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Overheat - Ganti Pasta', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Joycon Drift - Ganti Analog', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
+    
+      // PRINTER
+      { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Tidak Bisa Ngeprint - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Macet - Bersihkan', jenis: 'Jasa', harga: 200000, estimasi: '2-4 Jam' },
+      { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Tinta Tidak Keluar - Flushing', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
+      { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Ganti Printhead', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
+      { kategori: 'Printer', tipe: 'Canon', nama: 'Canon Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+      { kategori: 'Printer', tipe: 'HP', nama: 'HP Ganti Cartridge Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+    
+      // SMARTWATCH
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+    
+      // DESKTOP PC
+      { kategori: 'Desktop', tipe: 'Power', nama: 'PC Tidak Bisa Hidup - Ganti Power Supply', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'Motherboard', nama: 'PC Tidak Bisa Hidup - Ganti Motherboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'RAM', nama: 'PC Lambat - Upgrade RAM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'SSD', nama: 'PC Lambat - Upgrade SSD', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'Software', nama: 'Blue Screen - Flashing BIOS', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'Software', nama: 'Install Ulang Windows + Software', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
+      { kategori: 'Desktop', tipe: 'Software', nama: 'Data Recovery', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' }
+    ];
     
     let customItems = [];
     let diskonList = [
@@ -1686,9 +1843,13 @@ let serviceDB = [
     // RENDER FUNCTIONS
     // ============================================
     function renderTipeOptions() {
-      const kategori = document.getElementById('kategoriSelect').value;
+      const kategoriSelect = document.getElementById('kategoriSelect');
+      if (!kategoriSelect) return;
+      
+      const kategori = kategoriSelect.value;
       const tipeList = getUniqueTipe(kategori);
       const tipeSelect = document.getElementById('tipeSelect');
+      if (!tipeSelect) return;
       
       tipeSelect.innerHTML = '<option value="all">Semua Tipe</option>';
       tipeList.forEach(tipe => {
@@ -1700,11 +1861,17 @@ let serviceDB = [
     }
     
     function renderItemOptions() {
-      const kategori = document.getElementById('kategoriSelect').value;
-      const tipe = document.getElementById('tipeSelect').value;
+      const kategoriSelect = document.getElementById('kategoriSelect');
+      const tipeSelect = document.getElementById('tipeSelect');
+      const itemSelect = document.getElementById('itemSelect');
+      const totalItems = document.getElementById('totalItems');
+      
+      if (!kategoriSelect || !tipeSelect || !itemSelect || !totalItems) return;
+      
+      const kategori = kategoriSelect.value;
+      const tipe = tipeSelect.value;
       filteredItems = getFilteredItems(kategori, tipe);
       
-      const itemSelect = document.getElementById('itemSelect');
       itemSelect.innerHTML = '';
       
       filteredItems.forEach((item, index) => {
@@ -1714,7 +1881,7 @@ let serviceDB = [
         itemSelect.appendChild(option);
       });
       
-      document.getElementById('totalItems').innerHTML = `<i class="fas fa-database"></i> ${filteredItems.length} layanan tersedia`;
+      totalItems.innerHTML = `<i class="fas fa-database"></i> ${filteredItems.length} layanan tersedia`;
       
       if (filteredItems.length > 0) {
         itemSelect.value = 0;
@@ -1726,117 +1893,174 @@ let serviceDB = [
       if (!item) return;
       currentItem = item;
       
-      document.getElementById('displayKategori').textContent = item.kategori;
-      document.getElementById('displayTipe').textContent = item.tipe;
-      document.getElementById('displayItem').textContent = item.nama;
-      document.getElementById('displayJenis').textContent = item.jenis;
-      document.getElementById('displayHarga').textContent = formatRupiah(item.harga);
-      document.getElementById('displayEstimasi').textContent = item.estimasi;
+      const displayKategori = document.getElementById('displayKategori');
+      const displayTipe = document.getElementById('displayTipe');
+      const displayItem = document.getElementById('displayItem');
+      const displayJenis = document.getElementById('displayJenis');
+      const displayHarga = document.getElementById('displayHarga');
+      const displayEstimasi = document.getElementById('displayEstimasi');
       
-      const pickupYa = document.getElementById('pickupYa').checked;
-      const total = item.harga + (pickupYa ? 25000 : 0);
-      document.getElementById('totalNominal').textContent = formatRupiah(total);
+      if (displayKategori) displayKategori.textContent = item.kategori;
+      if (displayTipe) displayTipe.textContent = item.tipe;
+      if (displayItem) displayItem.textContent = item.nama;
+      if (displayJenis) displayJenis.textContent = item.jenis;
+      if (displayHarga) displayHarga.textContent = formatRupiah(item.harga);
+      if (displayEstimasi) displayEstimasi.textContent = item.estimasi;
+      
+      const pickupYa = document.getElementById('pickupYa');
+      const pickupTidak = document.getElementById('pickupTidak');
+      const totalNominal = document.getElementById('totalNominal');
+      
+      if (pickupYa && pickupTidak && totalNominal) {
+        const total = item.harga + (pickupYa.checked ? 25000 : 0);
+        totalNominal.textContent = formatRupiah(total);
+      }
     }
     
     function loadAdminData() {
-      document.getElementById('totalTransaksi').textContent = transactions.length;
+      const totalTransaksi = document.getElementById('totalTransaksi');
+      const totalPendapatan = document.getElementById('totalPendapatan');
+      const totalLogin = document.getElementById('totalLogin');
+      const totalDiskon = document.getElementById('totalDiskon');
       
-      const totalPendapatan = transactions.reduce((sum, t) => sum + (t.total || 0), 0);
-      document.getElementById('totalPendapatan').textContent = formatRupiah(totalPendapatan);
+      if (totalTransaksi) totalTransaksi.textContent = transactions.length;
       
-      document.getElementById('totalLogin').textContent = loginLogs.length;
+      const totalPendapatanValue = transactions.reduce((sum, t) => sum + (t.total || 0), 0);
+      if (totalPendapatan) totalPendapatan.textContent = formatRupiah(totalPendapatanValue);
       
-      const totalDiskon = transactions.reduce((sum, t) => sum + (t.diskon || 0), 0);
-      document.getElementById('totalDiskon').textContent = formatRupiah(totalDiskon);
+      if (totalLogin) totalLogin.textContent = loginLogs.length;
+      
+      const totalDiskonValue = transactions.reduce((sum, t) => sum + (t.diskon || 0), 0);
+      if (totalDiskon) totalDiskon.textContent = formatRupiah(totalDiskonValue);
       
       // Login Log Table
-      let logHtml = '';
-      loginLogs.slice(0, 50).forEach(log => {
-        logHtml += `<tr>
-          <td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td>
-          <td>${log.username}</td>
-          <td>${log.role}</td>
-          <td>${log.ip}</td>
-          <td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status}</span></td>
-          <td>${log.browser || 'Unknown'}</td>
-        </tr>`;
-      });
-      document.getElementById('loginLogTable').innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada log</td></tr>';
+      const loginLogTable = document.getElementById('loginLogTable');
+      if (loginLogTable) {
+        let logHtml = '';
+        loginLogs.slice(0, 50).forEach(log => {
+          logHtml += `<tr>
+            <td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td>
+            <td>${log.username || '-'}</td>
+            <td>${log.role || '-'}</td>
+            <td>${log.ip || '-'}</td>
+            <td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td>
+            <td>${log.browser || 'Unknown'}</td>
+          </tr>`;
+        });
+        loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada log</td></tr>';
+      }
       
       // Transaksi Table
-      let transaksiHtml = '';
-      transactions.slice(0, 50).forEach(t => {
-        transaksiHtml += `<tr>
-          <td>${t.transaksi_id || t.id || '-'}</td>
-          <td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td>
-          <td>${t.nama_pelanggan || '-'}</td>
-          <td>${t.item ? t.item.substring(0, 30) : '-'}</td>
-          <td>${formatRupiah(t.total || 0)}</td>
-          <td>${t.kasir || 'Admin'}</td>
-          <td>
-            <button class="print-btn-modern" onclick="previewPrint('${t.item}', ${t.total}, '${t.nama_pelanggan}', '${t.transaksi_id}')">
-              <i class="fas fa-print"></i>
-            </button>
-          </td>
-        </tr>`;
-      });
-      document.getElementById('transaksiTable').innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>';
+      const transaksiTable = document.getElementById('transaksiTable');
+      if (transaksiTable) {
+        let transaksiHtml = '';
+        transactions.slice(0, 50).forEach(t => {
+          transaksiHtml += `<tr>
+            <td>${t.transaksi_id || t.id || '-'}</td>
+            <td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td>
+            <td>${t.nama_pelanggan || '-'}</td>
+            <td>${t.item ? t.item.substring(0, 30) : '-'}</td>
+            <td>${formatRupiah(t.total || 0)}</td>
+            <td>${t.kasir || 'Admin'}</td>
+            <td>
+              <button class="print-btn-modern" onclick="previewPrint('${t.item || ''}', ${t.total || 0}, '${t.nama_pelanggan || ''}', '${t.transaksi_id || ''}')">
+                <i class="fas fa-print"></i>
+              </button>
+            </td>
+          </tr>`;
+        });
+        transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>';
+      }
       
       // Laporan
-      document.getElementById('laporanTotalTransaksi').textContent = transactions.length;
-      document.getElementById('laporanTotalPendapatan').textContent = formatRupiah(totalPendapatan);
-      const rataRata = transactions.length > 0 ? totalPendapatan / transactions.length : 0;
-      document.getElementById('laporanRataRata').textContent = formatRupiah(rataRata);
+      const laporanTotalTransaksi = document.getElementById('laporanTotalTransaksi');
+      const laporanTotalPendapatan = document.getElementById('laporanTotalPendapatan');
+      const laporanRataRata = document.getElementById('laporanRataRata');
+      
+      if (laporanTotalTransaksi) laporanTotalTransaksi.textContent = transactions.length;
+      if (laporanTotalPendapatan) laporanTotalPendapatan.textContent = formatRupiah(totalPendapatanValue);
+      const rataRata = transactions.length > 0 ? totalPendapatanValue / transactions.length : 0;
+      if (laporanRataRata) laporanRataRata.textContent = formatRupiah(rataRata);
       
       // Users Table
-      let usersHtml = '';
-      users.forEach(u => {
-        usersHtml += `<tr>
-          <td>${u.username}</td>
-          <td>${u.role}</td>
-          <td>${u.name}</td>
-          <td><span class="status-badge status-success">Aktif</span></td>
-        </tr>`;
-      });
-      document.getElementById('usersTable').innerHTML = usersHtml;
+      const usersTable = document.getElementById('usersTable');
+      if (usersTable) {
+        let usersHtml = '';
+        users.forEach(u => {
+          usersHtml += `<tr>
+            <td>${u.username}</td>
+            <td>${u.role}</td>
+            <td>${u.name}</td>
+            <td><span class="status-badge status-success">Aktif</span></td>
+          </tr>`;
+        });
+        usersTable.innerHTML = usersHtml;
+      }
       
       // Diskon Table
-      let diskonHtml = '';
-      diskonList.forEach(d => {
-        const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa';
-        diskonHtml += `<tr>
-          <td>${d.kode}</td>
-          <td>${d.tipe === 'persen' ? 'Persen' : 'Nominal'}</td>
-          <td>${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td>
-          <td>${formatRupiah(d.minBelanja || 0)}</td>
-          <td>${d.berlaku}</td>
-          <td><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td>
-        </tr>`;
-      });
-      document.getElementById('diskonTable').innerHTML = diskonHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada promo</td></tr>';
+      const diskonTable = document.getElementById('diskonTable');
+      if (diskonTable) {
+        let diskonHtml = '';
+        diskonList.forEach(d => {
+          const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa';
+          diskonHtml += `<tr>
+            <td>${d.kode}</td>
+            <td>${d.tipe === 'persen' ? 'Persen' : 'Nominal'}</td>
+            <td>${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td>
+            <td>${formatRupiah(d.minBelanja || 0)}</td>
+            <td>${d.berlaku}</td>
+            <td><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td>
+          </tr>`;
+        });
+        diskonTable.innerHTML = diskonHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada promo</td></tr>';
+      }
     }
     
     function previewPrint(item, total, nama, id) {
       const modal = document.getElementById('printResiModal');
-      if (!modal) return;
-      
       const preview = document.getElementById('printPreviewContent');
+      
+      if (!modal || !preview) return;
+      
       const tanggal = new Date().toLocaleString('id-ID');
       const idTransaksi = id || 'TRX-' + Date.now().toString().slice(-8);
       
       preview.innerHTML = `
-        <div style="text-align: center;">
-          <h4>MALIK SERVICE</h4>
-          <p>Jl. Untung Suropati No.52</p>
-          <hr>
-          <p>No: ${idTransaksi}<br>${tanggal}</p>
-          <p>Kasir: ${currentUser?.name || 'Admin'}<br>Pelanggan: ${nama}</p>
-          <hr>
-          <p>${item}</p>
-          <p>${formatRupiah(total)}</p>
-          <hr>
-          <h3>Total: ${formatRupiah(total)}</h3>
-          <p>Terima kasih</p>
+        <div style="text-align: center; margin-bottom: 20px;">
+          <h4 style="font-size: 20px; margin-bottom: 4px;">MALIK SERVICE</h4>
+          <p style="font-size: 12px;">Jl. Untung Suropati No.52, Kedungpane</p>
+          <p style="font-size: 12px;">0857-1308-7659</p>
+        </div>
+        <hr>
+        <div style="margin: 15px 0;">
+          <div class="print-row" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>No. Resi:</span> <span>${idTransaksi}</span>
+          </div>
+          <div class="print-row" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Tanggal:</span> <span>${tanggal}</span>
+          </div>
+          <div class="print-row" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Kasir:</span> <span>${currentUser?.name || 'Admin'}</span>
+          </div>
+          <div class="print-row" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>Pelanggan:</span> <span>${nama}</span>
+          </div>
+        </div>
+        <hr>
+        <div style="margin: 15px 0;">
+          <div class="print-row" style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+            <span>${item}</span> <span>${formatRupiah(total)}</span>
+          </div>
+        </div>
+        <hr>
+        <div class="print-total-modern" style="font-size: 20px; font-weight: 800; color: var(--primary); text-align: right; margin-top: 16px;">
+          Total: ${formatRupiah(total)}
+        </div>
+        <hr>
+        <div style="text-align: center; margin-top: 15px; font-size: 11px;">
+          <p>Terima kasih telah menggunakan layanan kami</p>
+          <p>Barang yang sudah dibeli tidak dapat dikembalikan</p>
+          <p>Garansi servis 30 hari</p>
         </div>
       `;
       
@@ -1850,7 +2074,7 @@ let serviceDB = [
       return `
         <div class="item-row-modern" data-index="${index}">
           <div class="item-header-modern">
-            <span>Item #${index}</span>
+            <span><i class="fas fa-cog"></i> Item #${index}</span>
             <button class="hapusItemBtn" onclick="hapusItem(this)">
               <i class="fas fa-trash"></i>
             </button>
@@ -1858,7 +2082,13 @@ let serviceDB = [
           <div class="item-grid-modern">
             <select class="itemKategori" onchange="loadTipe(this)">
               <option value="Android">Android</option>
+              <option value="iPhone">iPhone</option>
               <option value="Laptop">Laptop</option>
+              <option value="Tablet">Tablet</option>
+              <option value="Gaming">Gaming</option>
+              <option value="Printer">Printer</option>
+              <option value="Smartwatch">Smartwatch</option>
+              <option value="Desktop">Desktop</option>
             </select>
             <select class="itemTipe" onchange="loadNama(this)">
               <option value="">Pilih Tipe</option>
@@ -1874,7 +2104,19 @@ let serviceDB = [
     
     function initItemContainer() {
       const container = document.getElementById('itemContainer');
+      if (!container) return;
+      
       container.innerHTML = getItemRowHTML(1);
+      
+      const firstRow = container.querySelector('.item-row-modern');
+      if (firstRow) {
+        const kategoriSelect = firstRow.querySelector('.itemKategori');
+        const tipeSelect = firstRow.querySelector('.itemTipe');
+        if (kategoriSelect && tipeSelect) {
+          loadTipeOptionsForItem(kategoriSelect, tipeSelect);
+        }
+      }
+      
       updateTotalItemCount();
     }
     
@@ -1894,16 +2136,23 @@ let serviceDB = [
     
     window.loadTipe = function(select) {
       const row = select.closest('.item-row-modern');
+      if (!row) return;
       const tipeSelect = row.querySelector('.itemTipe');
-      loadTipeOptionsForItem(select, tipeSelect);
+      if (tipeSelect) {
+        loadTipeOptionsForItem(select, tipeSelect);
+      }
     };
     
     window.loadNama = function(select) {
       const row = select.closest('.item-row-modern');
+      if (!row) return;
+      
       const kategoriSelect = row.querySelector('.itemKategori');
       const tipeSelect = row.querySelector('.itemTipe');
       const namaSelect = row.querySelector('.itemNama');
       const hargaInput = row.querySelector('.itemHarga');
+      
+      if (!kategoriSelect || !tipeSelect || !namaSelect || !hargaInput) return;
       
       const kategori = kategoriSelect.value;
       const tipe = tipeSelect.value;
@@ -1927,7 +2176,10 @@ let serviceDB = [
     
     window.updateHarga = function(select) {
       const row = select.closest('.item-row-modern');
+      if (!row) return;
+      
       const hargaInput = row.querySelector('.itemHarga');
+      if (!hargaInput) return;
       
       const selectedOption = select.options[select.selectedIndex];
       if (selectedOption && selectedOption.value) {
@@ -1942,6 +2194,8 @@ let serviceDB = [
     
     window.hapusItem = function(btn) {
       const row = btn.closest('.item-row-modern');
+      if (!row) return;
+      
       if (document.querySelectorAll('.item-row-modern').length > 1) {
         row.remove();
         updateTotalItemCount();
@@ -1953,7 +2207,10 @@ let serviceDB = [
     
     function updateTotalItemCount() {
       const count = document.querySelectorAll('.item-row-modern').length;
-      document.getElementById('totalItemCount').textContent = count;
+      const totalItemCount = document.getElementById('totalItemCount');
+      if (totalItemCount) {
+        totalItemCount.textContent = count;
+      }
     }
     
     function hitungGrandTotal() {
@@ -1967,13 +2224,18 @@ let serviceDB = [
         }
       });
       
-      const pickupBiaya = document.getElementById('transPickupCheckbox')?.checked ? 25000 : 0;
+      const pickupCheckbox = document.getElementById('transPickupCheckbox');
+      const pickupBiaya = pickupCheckbox && pickupCheckbox.checked ? 25000 : 0;
       
-      document.getElementById('subtotal').textContent = subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-      document.getElementById('pickupBiaya').textContent = pickupBiaya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      const subtotalEl = document.getElementById('subtotal');
+      const pickupBiayaEl = document.getElementById('pickupBiaya');
+      const grandTotalEl = document.getElementById('grandTotal');
+      
+      if (subtotalEl) subtotalEl.textContent = subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      if (pickupBiayaEl) pickupBiayaEl.textContent = pickupBiaya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       
       const grandTotal = subtotal + pickupBiaya;
-      document.getElementById('grandTotal').textContent = grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      if (grandTotalEl) grandTotalEl.textContent = grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
       
       return grandTotal;
     }
@@ -1985,133 +2247,193 @@ let serviceDB = [
       // Initialize
       renderTipeOptions();
       renderItemOptions();
-      initItemContainer();
       
       // Check session
       const savedUser = sessionStorage.getItem('currentUser');
       if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        document.getElementById('userName').textContent = currentUser.name;
-        document.getElementById('publicMode').style.display = 'none';
-        document.getElementById('adminMode').style.display = 'block';
-        document.getElementById('adminToggleBtn').classList.add('active');
-        document.getElementById('userModeBtn').classList.remove('active');
-        loadTransactionsFromAPI();
-        loadLoginLogsFromAPI();
-      }
-      
-      // Category change
-      document.getElementById('kategoriSelect').addEventListener('change', function() {
-        renderTipeOptions();
-        renderItemOptions();
-      });
-      
-      document.getElementById('tipeSelect').addEventListener('change', renderItemOptions);
-      
-      document.getElementById('itemSelect').addEventListener('change', function() {
-        const idx = parseInt(this.value);
-        if (!isNaN(idx) && filteredItems[idx]) {
-          updateDetail(filteredItems[idx]);
-        }
-      });
-      
-      document.getElementById('pickupYa').addEventListener('change', function() {
-        if (currentItem) updateDetail(currentItem);
-      });
-      document.getElementById('pickupTidak').addEventListener('change', function() {
-        if (currentItem) updateDetail(currentItem);
-      });
-      
-      // WA Button
-      document.getElementById('waButton').addEventListener('click', function() {
-        const nama = document.getElementById('namaPelanggan').value;
-        const noHp = document.getElementById('noHpPelanggan').value;
-        
-        if (!currentItem) {
-          alert('Pilih layanan terlebih dahulu');
-          return;
-        }
-        if (!nama || !noHp) {
-          alert('Nama dan No HP wajib diisi');
-          return;
-        }
-        
-        const pickupYa = document.getElementById('pickupYa').checked;
-        const total = currentItem.harga + (pickupYa ? 25000 : 0);
-        
-        const message = `Halo Malik Service, saya ingin servis:\n\nNama: ${nama}\nNo HP: ${noHp}\nItem: ${currentItem.nama}\nHarga: ${formatRupiah(currentItem.harga)}\nPickup: ${pickupYa ? 'Ya' : 'Tidak'}\nTotal: ${formatRupiah(total)}`;
-        
-        window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(message)}`, '_blank');
-      });
-      
-      document.getElementById('floatingWa').addEventListener('click', function() {
-        window.open('https://wa.me/6285713087659', '_blank');
-      });
-      
-      // Login Toggle
-      document.getElementById('userModeBtn').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('adminToggleBtn').classList.remove('active');
-        document.getElementById('publicMode').style.display = 'block';
-        document.getElementById('adminMode').style.display = 'none';
-        document.getElementById('loginModal').classList.remove('active');
-      });
-      
-      document.getElementById('adminToggleBtn').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('userModeBtn').classList.remove('active');
-        
-        if (currentUser) {
-          document.getElementById('publicMode').style.display = 'none';
-          document.getElementById('adminMode').style.display = 'block';
-          document.getElementById('loginModal').classList.remove('active');
-        } else {
-          document.getElementById('loginModal').classList.toggle('active');
-        }
-      });
-      
-      // Login
-      document.getElementById('loginBtn').addEventListener('click', async function() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const hashedPassword = CryptoJS.SHA256(password).toString();
-        
-        const user = users.find(u => u.username === username && u.password === hashedPassword);
-        
-        if (user) {
-          const logData = {
-            username: user.username,
-            role: user.role,
-            ip: 'Client',
-            status: 'Sukses',
-            browser: navigator.userAgent.substring(0, 50)
-          };
+        try {
+          currentUser = JSON.parse(savedUser);
+          const userName = document.getElementById('userName');
+          if (userName) userName.textContent = currentUser.name;
           
-          await saveLoginLogToAPI(logData);
+          const publicMode = document.getElementById('publicMode');
+          const adminMode = document.getElementById('adminMode');
+          const adminToggleBtn = document.getElementById('adminToggleBtn');
+          const userModeBtn = document.getElementById('userModeBtn');
           
-          currentUser = user;
-          sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-          
-          document.getElementById('userName').textContent = user.name;
-          document.getElementById('publicMode').style.display = 'none';
-          document.getElementById('adminMode').style.display = 'block';
-          document.getElementById('loginModal').classList.remove('active');
+          if (publicMode) publicMode.style.display = 'none';
+          if (adminMode) adminMode.style.display = 'block';
+          if (adminToggleBtn) adminToggleBtn.classList.add('active');
+          if (userModeBtn) userModeBtn.classList.remove('active');
           
           loadTransactionsFromAPI();
           loadLoginLogsFromAPI();
-        } else {
-          alert('Username atau password salah');
+        } catch (e) {
+          console.error('Error parsing saved user', e);
         }
-      });
+      }
       
-      document.getElementById('logoutBtn').addEventListener('click', function() {
-        currentUser = null;
-        sessionStorage.removeItem('currentUser');
-        document.getElementById('publicMode').style.display = 'block';
-        document.getElementById('adminMode').style.display = 'none';
-        document.getElementById('userModeBtn').classList.add('active');
-        document.getElementById('adminToggleBtn').classList.remove('active');
-      });
+      // Category change
+      const kategoriSelect = document.getElementById('kategoriSelect');
+      if (kategoriSelect) {
+        kategoriSelect.addEventListener('change', function() {
+          renderTipeOptions();
+          renderItemOptions();
+        });
+      }
+      
+      const tipeSelect = document.getElementById('tipeSelect');
+      if (tipeSelect) {
+        tipeSelect.addEventListener('change', renderItemOptions);
+      }
+      
+      const itemSelect = document.getElementById('itemSelect');
+      if (itemSelect) {
+        itemSelect.addEventListener('change', function() {
+          const idx = parseInt(this.value);
+          if (!isNaN(idx) && filteredItems[idx]) {
+            updateDetail(filteredItems[idx]);
+          }
+        });
+      }
+      
+      const pickupYa = document.getElementById('pickupYa');
+      const pickupTidak = document.getElementById('pickupTidak');
+      
+      if (pickupYa) {
+        pickupYa.addEventListener('change', function() {
+          if (currentItem) updateDetail(currentItem);
+        });
+      }
+      
+      if (pickupTidak) {
+        pickupTidak.addEventListener('change', function() {
+          if (currentItem) updateDetail(currentItem);
+        });
+      }
+      
+      // WA Button
+      const waButton = document.getElementById('waButton');
+      if (waButton) {
+        waButton.addEventListener('click', function() {
+          const nama = document.getElementById('namaPelanggan');
+          const noHp = document.getElementById('noHpPelanggan');
+          const pickupYa = document.getElementById('pickupYa');
+          
+          if (!currentItem) {
+            alert('Pilih layanan terlebih dahulu');
+            return;
+          }
+          
+          if (!nama || !nama.value || !noHp || !noHp.value) {
+            alert('Nama dan No HP wajib diisi');
+            return;
+          }
+          
+          const total = currentItem.harga + (pickupYa && pickupYa.checked ? 25000 : 0);
+          
+          const message = `Halo Malik Service, saya ingin servis:\n\nNama: ${nama.value}\nNo HP: ${noHp.value}\nItem: ${currentItem.nama}\nHarga: ${formatRupiah(currentItem.harga)}\nPickup: ${pickupYa && pickupYa.checked ? 'Ya' : 'Tidak'}\nTotal: ${formatRupiah(total)}`;
+          
+          window.open(`https://wa.me/6285713087659?text=${encodeURIComponent(message)}`, '_blank');
+        });
+      }
+      
+      const floatingWa = document.getElementById('floatingWa');
+      if (floatingWa) {
+        floatingWa.addEventListener('click', function() {
+          window.open('https://wa.me/6285713087659', '_blank');
+        });
+      }
+      
+      // Login Toggle
+      const userModeBtn = document.getElementById('userModeBtn');
+      const adminToggleBtn = document.getElementById('adminToggleBtn');
+      const publicMode = document.getElementById('publicMode');
+      const adminMode = document.getElementById('adminMode');
+      const loginModal = document.getElementById('loginModal');
+      
+      if (userModeBtn) {
+        userModeBtn.addEventListener('click', function() {
+          this.classList.add('active');
+          if (adminToggleBtn) adminToggleBtn.classList.remove('active');
+          if (publicMode) publicMode.style.display = 'block';
+          if (adminMode) adminMode.style.display = 'none';
+          if (loginModal) loginModal.classList.remove('active');
+        });
+      }
+      
+      if (adminToggleBtn) {
+        adminToggleBtn.addEventListener('click', function() {
+          this.classList.add('active');
+          if (userModeBtn) userModeBtn.classList.remove('active');
+          
+          if (currentUser) {
+            if (publicMode) publicMode.style.display = 'none';
+            if (adminMode) adminMode.style.display = 'block';
+            if (loginModal) loginModal.classList.remove('active');
+          } else {
+            if (loginModal) loginModal.classList.toggle('active');
+          }
+        });
+      }
+      
+      // Login
+      const loginBtn = document.getElementById('loginBtn');
+      if (loginBtn) {
+        loginBtn.addEventListener('click', async function() {
+          const username = document.getElementById('username');
+          const password = document.getElementById('password');
+          
+          if (!username || !username.value || !password || !password.value) {
+            alert('Username dan password harus diisi');
+            return;
+          }
+          
+          const hashedPassword = CryptoJS.SHA256(password.value).toString();
+          
+          const user = users.find(u => u.username === username.value && u.password === hashedPassword);
+          
+          if (user) {
+            const logData = {
+              username: user.username,
+              role: user.role,
+              ip: 'Client',
+              status: 'Sukses',
+              browser: navigator.userAgent.substring(0, 50)
+            };
+            
+            await saveLoginLogToAPI(logData);
+            
+            currentUser = user;
+            sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            const userName = document.getElementById('userName');
+            if (userName) userName.textContent = user.name;
+            
+            if (publicMode) publicMode.style.display = 'none';
+            if (adminMode) adminMode.style.display = 'block';
+            if (loginModal) loginModal.classList.remove('active');
+            
+            loadTransactionsFromAPI();
+            loadLoginLogsFromAPI();
+          } else {
+            alert('Username atau password salah');
+          }
+        });
+      }
+      
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function() {
+          currentUser = null;
+          sessionStorage.removeItem('currentUser');
+          
+          if (publicMode) publicMode.style.display = 'block';
+          if (adminMode) adminMode.style.display = 'none';
+          if (userModeBtn) userModeBtn.classList.add('active');
+          if (adminToggleBtn) adminToggleBtn.classList.remove('active');
+        });
+      }
       
       // Tabs
       document.querySelectorAll('.tab-modern').forEach(tab => {
@@ -2119,155 +2441,262 @@ let serviceDB = [
           document.querySelectorAll('.tab-modern').forEach(t => t.classList.remove('active'));
           this.classList.add('active');
           document.querySelectorAll('.tab-content-modern').forEach(c => c.classList.remove('active'));
-          document.getElementById(`tab-${this.dataset.tab}`).classList.add('active');
+          const tabId = this.dataset.tab;
+          const tabContent = document.getElementById(`tab-${tabId}`);
+          if (tabContent) tabContent.classList.add('active');
         });
       });
       
       // Export Excel
-      document.getElementById('exportExcelBtn')?.addEventListener('click', function() {
-        let csv = "ID,Tanggal,Pelanggan,Item,Total,Kasir\n";
-        transactions.forEach(t => {
-          csv += `"${t.transaksi_id}","${t.tanggal}","${t.nama_pelanggan}","${t.item}","${t.total}","${t.kasir}"\n`;
+      const exportExcelBtn = document.getElementById('exportExcelBtn');
+      if (exportExcelBtn) {
+        exportExcelBtn.addEventListener('click', function() {
+          let csv = "ID,Tanggal,Pelanggan,Item,Total,Kasir\n";
+          transactions.forEach(t => {
+            csv += `"${t.transaksi_id || ''}","${t.tanggal || ''}","${t.nama_pelanggan || ''}","${t.item || ''}","${t.total || 0}","${t.kasir || 'Admin'}"\n`;
+          });
+          const blob = new Blob([csv], { type: 'text/csv' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `laporan_${new Date().toISOString().slice(0,10)}.csv`;
+          a.click();
         });
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `laporan_${new Date().toISOString().slice(0,10)}.csv`;
-        a.click();
-      });
+      }
       
       // Modal Transaksi
-      document.getElementById('tambahTransaksiBtn').addEventListener('click', function() {
-        document.getElementById('tambahTransaksiModal').classList.add('active');
-        initItemContainer();
-      });
-      
-      document.getElementById('tambahItemBtn').addEventListener('click', function() {
-        const container = document.getElementById('itemContainer');
-        const itemCount = container.children.length + 1;
-        container.insertAdjacentHTML('beforeend', getItemRowHTML(itemCount));
-        updateTotalItemCount();
-      });
-      
-      document.getElementById('closeTambahModal').addEventListener('click', function() {
-        document.getElementById('tambahTransaksiModal').classList.remove('active');
-      });
-      
-      document.getElementById('batalTambah').addEventListener('click', function() {
-        document.getElementById('tambahTransaksiModal').classList.remove('active');
-      });
-      
-      document.getElementById('transPickupCheckbox').addEventListener('change', hitungGrandTotal);
-      
-      document.getElementById('simpanMultiTransaksiBtn').addEventListener('click', async function() {
-        const nama = document.getElementById('transNama').value;
-        if (!nama) {
-          alert('Nama pelanggan harus diisi');
-          return;
-        }
-        
-        let items = [];
-        let subtotal = 0;
-        
-        document.querySelectorAll('.item-row-modern').forEach(row => {
-          const namaSelect = row.querySelector('.itemNama');
-          const hargaInput = row.querySelector('.itemHarga');
-          
-          if (namaSelect && namaSelect.value) {
-            const selectedText = namaSelect.options[namaSelect.selectedIndex]?.text || '';
-            items.push(selectedText.split(' - ')[0]);
-            const harga = parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0;
-            subtotal += harga;
+      const tambahTransaksiBtn = document.getElementById('tambahTransaksiBtn');
+      if (tambahTransaksiBtn) {
+        tambahTransaksiBtn.addEventListener('click', function() {
+          const modal = document.getElementById('tambahTransaksiModal');
+          if (modal) {
+            modal.classList.add('active');
+            initItemContainer();
           }
         });
-        
-        const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
-        const pickupBiaya = pickupYa ? 25000 : 0;
-        const totalAkhir = subtotal + pickupBiaya;
-        const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
-        
-        const transData = {
-          transaksi_id: idTransaksi,
-          item: items.join(', '),
-          subtotal: subtotal,
-          total: totalAkhir,
-          kasir: currentUser?.name || 'Admin',
-          nama_pelanggan: nama,
-          no_hp: document.getElementById('transNoHp').value,
-          alamat: document.getElementById('transAlamat').value,
-          tanggal: new Date().toISOString(),
-          pickup: pickupYa
-        };
-        
-        const success = await saveTransactionToAPI(transData);
-        
-        if (success) {
-          transactions.unshift(transData);
-          document.getElementById('tambahTransaksiModal').classList.remove('active');
-          loadAdminData();
-          previewPrint(items.join(', '), totalAkhir, nama, idTransaksi);
-        }
-      });
+      }
+      
+      const tambahItemBtn = document.getElementById('tambahItemBtn');
+      if (tambahItemBtn) {
+        tambahItemBtn.addEventListener('click', function() {
+          const container = document.getElementById('itemContainer');
+          if (container) {
+            const itemCount = container.children.length + 1;
+            container.insertAdjacentHTML('beforeend', getItemRowHTML(itemCount));
+            updateTotalItemCount();
+          }
+        });
+      }
+      
+      const closeTambahModal = document.getElementById('closeTambahModal');
+      if (closeTambahModal) {
+        closeTambahModal.addEventListener('click', function() {
+          const modal = document.getElementById('tambahTransaksiModal');
+          if (modal) modal.classList.remove('active');
+        });
+      }
+      
+      const batalTambah = document.getElementById('batalTambah');
+      if (batalTambah) {
+        batalTambah.addEventListener('click', function() {
+          const modal = document.getElementById('tambahTransaksiModal');
+          if (modal) modal.classList.remove('active');
+        });
+      }
+      
+      const transPickupCheckbox = document.getElementById('transPickupCheckbox');
+      if (transPickupCheckbox) {
+        transPickupCheckbox.addEventListener('change', hitungGrandTotal);
+      }
+      
+      const simpanMultiTransaksiBtn = document.getElementById('simpanMultiTransaksiBtn');
+      if (simpanMultiTransaksiBtn) {
+        simpanMultiTransaksiBtn.addEventListener('click', async function() {
+          const transNama = document.getElementById('transNama');
+          if (!transNama || !transNama.value) {
+            alert('Nama pelanggan harus diisi');
+            return;
+          }
+          
+          let items = [];
+          let subtotal = 0;
+          
+          document.querySelectorAll('.item-row-modern').forEach(row => {
+            const namaSelect = row.querySelector('.itemNama');
+            const hargaInput = row.querySelector('.itemHarga');
+            
+            if (namaSelect && namaSelect.value) {
+              const selectedText = namaSelect.options[namaSelect.selectedIndex]?.text || '';
+              items.push(selectedText.split(' - ')[0]);
+              const harga = hargaInput && hargaInput.value ? parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0 : 0;
+              subtotal += harga;
+            }
+          });
+          
+          const pickupYa = document.getElementById('transPickupCheckbox') && document.getElementById('transPickupCheckbox').checked;
+          const pickupBiaya = pickupYa ? 25000 : 0;
+          const totalAkhir = subtotal + pickupBiaya;
+          const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
+          
+          const transData = {
+            transaksi_id: idTransaksi,
+            item: items.join(', '),
+            subtotal: subtotal,
+            total: totalAkhir,
+            kasir: currentUser?.name || 'Admin',
+            nama_pelanggan: transNama.value,
+            no_hp: document.getElementById('transNoHp') ? document.getElementById('transNoHp').value : '',
+            alamat: document.getElementById('transAlamat') ? document.getElementById('transAlamat').value : '',
+            tanggal: new Date().toISOString(),
+            pickup: pickupYa
+          };
+          
+          const success = await saveTransactionToAPI(transData);
+          
+          if (success) {
+            transactions.unshift(transData);
+            const modal = document.getElementById('tambahTransaksiModal');
+            if (modal) modal.classList.remove('active');
+            loadAdminData();
+            previewPrint(items.join(', '), totalAkhir, transNama.value, idTransaksi);
+          }
+        });
+      }
       
       // Tambah Layanan
-      document.getElementById('tambahLayananBtn').addEventListener('click', function() {
-        const nama = prompt('Nama layanan:');
-        const harga = prompt('Harga:');
-        if (nama && harga) {
-          serviceDB.push({
-            kategori: 'Android',
-            tipe: 'Custom',
-            nama: nama,
-            jenis: 'Jasa',
-            harga: parseInt(harga),
-            estimasi: '1-2 Jam'
-          });
-          loadAdminData();
-        }
-      });
+      const tambahLayananBtn = document.getElementById('tambahLayananBtn');
+      if (tambahLayananBtn) {
+        tambahLayananBtn.addEventListener('click', function() {
+          const nama = prompt('Nama layanan:');
+          const harga = prompt('Harga:');
+          if (nama && harga) {
+            serviceDB.push({
+              kategori: 'Android',
+              tipe: 'Custom',
+              nama: nama,
+              jenis: 'Jasa',
+              harga: parseInt(harga),
+              estimasi: '1-2 Jam'
+            });
+            loadAdminData();
+          }
+        });
+      }
       
       // Simpan Diskon
-      document.getElementById('simpanDiskonBtn').addEventListener('click', function() {
-        const kode = document.getElementById('diskonKode').value;
-        const tipe = document.getElementById('diskonTipe').value;
-        const nilai = parseInt(document.getElementById('diskonNilai').value);
-        const minBelanja = parseInt(document.getElementById('diskonMinBelanja').value) || 0;
-        const berlaku = document.getElementById('diskonBerlaku').value;
-        
-        if (kode && nilai && berlaku) {
+      const simpanDiskonBtn = document.getElementById('simpanDiskonBtn');
+      if (simpanDiskonBtn) {
+        simpanDiskonBtn.addEventListener('click', function() {
+          const diskonKode = document.getElementById('diskonKode');
+          const diskonNilai = document.getElementById('diskonNilai');
+          const diskonBerlaku = document.getElementById('diskonBerlaku');
+          
+          if (!diskonKode || !diskonKode.value || !diskonNilai || !diskonNilai.value || !diskonBerlaku || !diskonBerlaku.value) {
+            alert('Kode, nilai, dan tanggal berlaku harus diisi');
+            return;
+          }
+          
+          const kode = diskonKode.value;
+          const tipe = document.getElementById('diskonTipe') ? document.getElementById('diskonTipe').value : 'persen';
+          const nilai = parseInt(diskonNilai.value);
+          const minBelanja = document.getElementById('diskonMinBelanja') ? parseInt(document.getElementById('diskonMinBelanja').value) || 0 : 0;
+          const berlaku = diskonBerlaku.value;
+          
           diskonList.push({ kode, tipe, nilai, minBelanja, berlaku });
           loadAdminData();
-          document.getElementById('diskonKode').value = '';
-          document.getElementById('diskonNilai').value = '';
-          document.getElementById('diskonMinBelanja').value = '';
-          document.getElementById('diskonBerlaku').value = '';
-        } else {
-          alert('Semua field harus diisi');
-        }
-      });
+          
+          diskonKode.value = '';
+          diskonNilai.value = '';
+          if (document.getElementById('diskonMinBelanja')) document.getElementById('diskonMinBelanja').value = '';
+          diskonBerlaku.value = '';
+        });
+      }
+      
+      // Modal Print
+      const closePrintModal = document.getElementById('closePrintModal');
+      const cancelPrint = document.getElementById('cancelPrint');
+      
+      if (closePrintModal) {
+        closePrintModal.addEventListener('click', function() {
+          const modal = document.getElementById('printResiModal');
+          if (modal) modal.classList.remove('active');
+        });
+      }
+      
+      if (cancelPrint) {
+        cancelPrint.addEventListener('click', function() {
+          const modal = document.getElementById('printResiModal');
+          if (modal) modal.classList.remove('active');
+        });
+      }
+      
+      const doPrintBtn = document.getElementById('doPrintBtn');
+      if (doPrintBtn) {
+        doPrintBtn.addEventListener('click', function() {
+          const preview = document.getElementById('printPreviewContent');
+          if (preview) {
+            const printContent = preview.innerHTML;
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(`
+              <html>
+                <head>
+                  <title>Cetak Resi - Malik Service</title>
+                  <style>
+                    body { font-family: 'Courier New', monospace; padding: 20px; max-width: 300px; margin: 0 auto; }
+                    .print-row { display: flex; justify-content: space-between; margin-bottom: 5px; }
+                    hr { border: 1px dashed #000; }
+                    .print-total-modern { font-size: 18px; font-weight: bold; text-align: right; margin-top: 10px; }
+                  </style>
+                </head>
+                <body>
+                  ${printContent}
+                </body>
+              </html>
+            `);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            
+            const modal = document.getElementById('printResiModal');
+            if (modal) modal.classList.remove('active');
+          }
+        });
+      }
       
       // Install PWA
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredPrompt = e;
+        
         setTimeout(() => {
           if (deferredPrompt) {
-            document.getElementById('installPrompt').classList.add('visible');
+            const installPrompt = document.getElementById('installPrompt');
+            if (installPrompt) installPrompt.classList.add('visible');
           }
         }, 3000);
       });
       
-      document.getElementById('installBtn').addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-        deferredPrompt.prompt();
-        deferredPrompt = null;
-        document.getElementById('installPrompt').classList.remove('visible');
-      });
+      const installBtn = document.getElementById('installBtn');
+      if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+          if (!deferredPrompt) return;
+          
+          deferredPrompt.prompt();
+          await deferredPrompt.userChoice;
+          
+          deferredPrompt = null;
+          const installPrompt = document.getElementById('installPrompt');
+          if (installPrompt) installPrompt.classList.remove('visible');
+        });
+      }
       
-      document.getElementById('installClose').addEventListener('click', () => {
-        document.getElementById('installPrompt').classList.remove('visible');
-      });
+      const installClose = document.getElementById('installClose');
+      if (installClose) {
+        installClose.addEventListener('click', () => {
+          const installPrompt = document.getElementById('installPrompt');
+          if (installPrompt) installPrompt.classList.remove('visible');
+        });
+      }
     });
     
     // Service Worker
