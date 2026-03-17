@@ -1,7 +1,12 @@
+// ============================================
+// API TRANSACTIONS - MALIK SERVICE
+// ============================================
+
 export async function onRequestGet(context) {
   const { env } = context;
   
   try {
+    // Ambil semua transaksi terbaru
     const { results } = await env.DB.prepare(
       "SELECT * FROM transactions ORDER BY tanggal DESC LIMIT 1000"
     ).all();
@@ -9,7 +14,9 @@ export async function onRequestGet(context) {
     return new Response(JSON.stringify(results), {
       headers: { 
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
       }
     });
   } catch (error) {
@@ -26,14 +33,29 @@ export async function onRequestGet(context) {
 export async function onRequestPost(context) {
   const { request, env } = context;
   
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type"
+      }
+    });
+  }
+  
   try {
     const data = await request.json();
     
+    // Generate ID transaksi unik
+    const transaksiId = data.id || data.transaksi_id || 'TRX-' + Date.now().toString().slice(-8) + '-' + Math.random().toString(36).substring(2,5).toUpperCase();
+    const tanggal = data.tanggal || new Date().toISOString();
+    
+    // Simpan transaksi ke database
     const { success } = await env.DB.prepare(
       "INSERT INTO transactions (transaksi_id, item, subtotal, diskon, total, kasir, nama_pelanggan, no_hp, alamat, tanggal, pickup, garansi) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     ).bind(
-      data.id || data.transaksi_id,
-      data.item || '',
+      transaksiId,
+      typeof data.item === 'string' ? data.item : (data.item ? JSON.stringify(data.item) : ''),
       data.subtotal || data.total || 0,
       data.diskon || 0,
       data.total || 0,
@@ -41,12 +63,12 @@ export async function onRequestPost(context) {
       data.nama_pelanggan || data.nama || '',
       data.no_hp || '',
       data.alamat || '',
-      data.tanggal || new Date().toISOString(),
+      tanggal,
       data.pickup ? 1 : 0,
       data.garansi ? 1 : 0
     ).run();
     
-    return new Response(JSON.stringify({ success, id: data.id }), {
+    return new Response(JSON.stringify({ success, id: transaksiId }), {
       headers: { 
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*"
@@ -69,6 +91,7 @@ export async function onRequestPut(context) {
   try {
     const data = await request.json();
     
+    // Update transaksi
     const { success } = await env.DB.prepare(
       "UPDATE transactions SET item = ?, total = ?, kasir = ?, nama_pelanggan = ? WHERE transaksi_id = ?"
     ).bind(
@@ -113,6 +136,7 @@ export async function onRequestDelete(context) {
       });
     }
     
+    // Hapus transaksi
     const { success } = await env.DB.prepare(
       "DELETE FROM transactions WHERE transaksi_id = ?"
     ).bind(id).run();
@@ -132,4 +156,14 @@ export async function onRequestDelete(context) {
       }
     });
   }
+}
+
+export async function onRequestOptions(context) {
+  return new Response(null, {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type"
+    }
+  });
 }
