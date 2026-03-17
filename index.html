@@ -1247,31 +1247,316 @@
   
   <script>
     // ============================================
-    // DATA LAYANAN
-    // ============================================
-    let serviceDB = [
-      // Android - Samsung
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 850000, estimasi: '1-2 Jam' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam' },
-      { kategori: 'Android', tipe: 'Power', nama: 'Samsung Port Charger Rusak - Jasa Servis', jenis: 'Jasa', harga: 120000, estimasi: '30-90 Menit' },
-      { kategori: 'Android', tipe: 'Software', nama: 'Samsung Software Error - Flashing', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit' },
-      
-      // Android - Xiaomi
-      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam' },
-      
-      // Android - Oppo
-      { kategori: 'Android', tipe: 'Layar', nama: 'Oppo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam' },
-      
-      // Laptop
-      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows', jenis: 'Jasa', harga: 75000, estimasi: '1-3 Jam' },
-      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade RAM DDR4 8GB', jenis: 'Sparepart', harga: 550000, estimasi: '1-2 Jam' },
-      { kategori: 'Laptop', tipe: 'Storage', nama: 'Upgrade SSD 256GB', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
-      { kategori: 'Laptop', tipe: 'Layar', nama: 'LCD Laptop 14 inch - Sparepart', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
-      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Baterai Laptop Ori - Sparepart', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam' },
-      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 180000, estimasi: '1-3 Jam' },
-    ];
+// DATA LAYANAN LENGKAP DENGAN HARGA TERTINGGI
+// ============================================
+let serviceDB = [
+  // SMARTPHONE - SAMSUNG
+  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Samsung LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Samsung Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Tombol', nama: 'Samsung Tombol Volume Macet - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Audio', nama: 'Samsung Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Kamera', nama: 'Samsung Kamera Buram - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Getar', nama: 'Samsung Getar Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 200000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Samsung IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Charging', nama: 'Samsung IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC RF', nama: 'Samsung No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 850000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC EMMC', nama: 'Samsung Bootloop - Jasa Servis', jenis: 'Jasa', harga: 950000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Lupa Pola - Unlock', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Samsung FRP Lock - Unlock', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Samsung Hang/Lambat - Optimasi', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+
+  // XIAOMI
+  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Xiaomi Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'USB', nama: 'Xiaomi USB Port Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Tombol', nama: 'Xiaomi Tombol Power Macet - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Mic Tidak Berfungsi - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Audio', nama: 'Xiaomi Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Kamera', nama: 'Xiaomi Kamera Rusak - Sparepart OEM', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Xiaomi IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC BMS', nama: 'Xiaomi IC BMS Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Charging', nama: 'Xiaomi IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 620000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Software Error - Flashing', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'Xiaomi Bootloop - Unbrick', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam' },
+
+  // OPPO
+  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'OPPO LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'OPPO Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'OPPO Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'OPPO IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Charging', nama: 'OPPO IC Charging Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Software', nama: 'OPPO Software Error - Flashing', jenis: 'Jasa', harga: 170000, estimasi: '1-2 Jam' },
+
+  // VIVO
+  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2100000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Vivo LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Vivo Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 270000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Vivo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Vivo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+
+  // REALME
+  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Realme LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Realme Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Realme Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Realme IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 680000, estimasi: '2-4 Jam' },
+
+  // INFINIX
+  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Infinix LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Infinix Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Infinix Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 260000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Infinix IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam' },
+
+  // TECNO
+  { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Tecno LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Tecno Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 420000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Tecno Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+
+  // ITEL
+  { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Itel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Itel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Itel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 220000, estimasi: '2-4 Jam' },
+
+  // IPHONE
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone X LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 850000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 11 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4200000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2300000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2600000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 13 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 5500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 14 LCD Pecah - Sparepart Copy', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone X Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 380000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 11 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 13 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 1300000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 14 Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Charger', nama: 'iPhone Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'IC Charging', nama: 'iPhone Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'IC Baseband', nama: 'iPhone No Service/IMEI - Jasa Servis', jenis: 'Jasa', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'IC NAND', nama: 'iPhone Bootloop - Jasa Servis', jenis: 'Jasa', harga: 2200000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'IC Power', nama: 'iPhone Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Face ID', nama: 'iPhone Face ID Rusak - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Speaker Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Audio', nama: 'iPhone Mic Rusak - Sparepart', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Tombol', nama: 'iPhone Tombol Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Software Error - Restore', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam' },
+  { kategori: 'iPhone', tipe: 'Software', nama: 'iPhone Lupa Password - Unlock', jenis: 'Jasa', harga: 500000, estimasi: '1-2 Jam' },
+
+  // GOOGLE PIXEL
+  { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Google Pixel LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Google Pixel Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Google Pixel Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Google Pixel IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+
+  // HUAWEI
+  { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Huawei LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Huawei Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Huawei Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 320000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Huawei IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC RF', nama: 'Huawei No Service - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+
+  // ASUS
+  { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Asus LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Asus Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Asus Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Asus IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam' },
+
+  // LENOVO
+  { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Lenovo LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Lenovo Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Lenovo Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 280000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Lenovo IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam' },
+
+  // MOTOROLA
+  { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Motorola LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 620000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Motorola Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 520000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Motorola Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 290000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Motorola IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 720000, estimasi: '2-4 Jam' },
+
+  // SONY
+  { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Sony LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Sony Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 580000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Sony Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 310000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Sony IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 780000, estimasi: '2-4 Jam' },
+
+  // NOKIA
+  { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Layar', nama: 'Nokia LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Baterai', nama: 'Nokia Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'Charger', nama: 'Nokia Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Android', tipe: 'IC Power', nama: 'Nokia IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - UNIVERSAL
+  { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows', jenis: 'Jasa', harga: 150000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR3', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR4', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM DDR5', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 120GB', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 240GB', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 480GB', jenis: 'Sparepart', harga: 750000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 256GB', jenis: 'Sparepart', harga: 650000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 512GB', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 1TB', jenis: 'Sparepart', harga: 1600000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 14 inch', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 15.6 inch', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop OEM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop Ori', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop Ori', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop OEM', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'DC Jack', nama: 'DC Jack Rusak - Jasa Servis', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Laptop Ori', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Cooling', nama: 'Fan Berisik - Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Charging', nama: 'Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC VGA', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC PCH', nama: 'Tidak Ada Display - Jasa Servis', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - ASUS
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Asus Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Asus Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Asus Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Asus Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - ACER
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Acer Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1600000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Acer Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Acer Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Acer Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - LENOVO
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Lenovo Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Lenovo Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 950000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Lenovo Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Lenovo Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1350000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - HP
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'HP Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1750000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'HP Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 980000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'HP Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 780000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'HP Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1380000, estimasi: '2-4 Jam' },
+
+  // LAPTOP - DELL
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'Dell Laptop Ganti LCD Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'Dell Laptop Ganti Baterai Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Dell Laptop Ganti Keyboard Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'Dell Laptop IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+
+  // MACBOOK
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Air Ganti LCD Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Pro Ganti LCD Ori', jenis: 'Sparepart', harga: 6000000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Ori', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1700000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'Charger', nama: 'MacBook Charger Ori', jenis: 'Sparepart', harga: 1200000, estimasi: '1-2 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Power', nama: 'MacBook IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 3000000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Backlight', nama: 'MacBook No Backlight - Jasa Servis', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam' },
+  { kategori: 'Laptop', tipe: 'IC Charging', nama: 'MacBook Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 2800000, estimasi: '2-4 Jam' },
+
+  // TABLET - SAMSUNG
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'Samsung Tab LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Baterai', nama: 'Samsung Tab Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Charger', nama: 'Samsung Tab Port Charger Rusak - Sparepart', jenis: 'Sparepart', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'IC Power', nama: 'Samsung Tab IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+
+  // IPAD
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1100000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Pro LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 2200000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart Ori', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Baterai', nama: 'iPad Baterai Kembung - Sparepart OEM', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'Tombol', nama: 'iPad Tombol Home Rusak - Sparepart', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'IC Power', nama: 'iPad IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1600000, estimasi: '2-4 Jam' },
+  { kategori: 'Tablet', tipe: 'IC Charging', nama: 'iPad Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' },
+
+  // GAMING CONSOLE
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Overheat - Ganti Pasta', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 Tidak Bisa Hidup - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS5 HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One Tidak Baca Disk - Ganti Optical Lens', jenis: 'Sparepart', harga: 650000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One HDMI Rusak - Jasa Servis', jenis: 'Jasa', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 750000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Joycon Drift - Ganti Analog', jenis: 'Sparepart', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+  { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Tidak Bisa Charging - Jasa Servis', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam' },
+
+  // PRINTER
+  { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Tidak Bisa Ngeprint - Jasa Servis', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Printer', tipe: 'Printer', nama: 'Printer Macet - Bersihkan', jenis: 'Jasa', harga: 200000, estimasi: '2-4 Jam' },
+  { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Tinta Tidak Keluar - Flushing', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam' },
+  { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Ganti Printhead', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam' },
+  { kategori: 'Printer', tipe: 'Canon', nama: 'Canon Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam' },
+  { kategori: 'Printer', tipe: 'HP', nama: 'HP Ganti Cartridge Ori', jenis: 'Sparepart', harga: 600000, estimasi: '2-4 Jam' },
+
+  // SMARTWATCH
+  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 3000000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch LCD Pecah - Sparepart OEM', jenis: 'Sparepart', harga: 1400000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart Ori', jenis: 'Sparepart', harga: 800000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Baterai Drop - Sparepart OEM', jenis: 'Sparepart', harga: 450000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch IC Power Rusak - Jasa Servis', jenis: 'Jasa', harga: 1300000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch LCD Pecah - Sparepart Ori', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam' },
+  { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Baterai Drop - Sparepart', jenis: 'Sparepart', harga: 550000, estimasi: '2-4 Jam' },
+
+  // DESKTOP PC
+  { kategori: 'Desktop', tipe: 'Power', nama: 'PC Tidak Bisa Hidup - Ganti Power Supply', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'Motherboard', nama: 'PC Tidak Bisa Hidup - Ganti Motherboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'RAM', nama: 'PC Lambat - Upgrade RAM', jenis: 'Sparepart', harga: 500000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'SSD', nama: 'PC Lambat - Upgrade SSD', jenis: 'Sparepart', harga: 900000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'Software', nama: 'Blue Screen - Flashing BIOS', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'Software', nama: 'Install Ulang Windows + Software', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam' },
+  { kategori: 'Desktop', tipe: 'Software', nama: 'Data Recovery', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam' }
+];
     
     let customItems = [];
     let diskonList = [
