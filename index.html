@@ -1777,6 +1777,11 @@
 </head>
 <body>
   <div class="app-wrapper">
+    <!-- WATERMARK LOGO DI BACKGROUND -->
+    <div style="position: fixed; bottom: 20px; left: 20px; opacity: 0.1; z-index: -1; pointer-events: none;">
+      <img src="images/logo malik service.png" alt="" style="width: 200px; height: auto; filter: grayscale(100%);">
+    </div>
+    
     <!-- Login Toggle -->
     <div class="login-toggle-modern">
       <button class="toggle-btn active" id="userModeBtn">
@@ -1821,10 +1826,32 @@
               <i class="fas fa-certificate"></i>
               <span>One Stop Service SEMARANG</span>
             </div>
+            
+            <!-- LOGO MALIK SERVICE DI HEADER -->
+            <div style="text-align: center; margin: 20px 0 15px 0;">
+              <img src="images/logo malik service.png" alt="Logo Malik Service" 
+                   style="width: 180px; height: auto; border-radius: 20px; 
+                          box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                          border: 4px solid white;
+                          background: white;
+                          padding: 8px;
+                          transition: transform 0.3s ease;
+                          animation: float 4s ease-in-out infinite;"
+                   onmouseover="this.style.transform='scale(1.05)'"
+                   onmouseout="this.style.transform='scale(1)'">
+            </div>
+            
             <h1 class="store-title animate-float-slow">Malik Service</h1>
             <p style="opacity: 0.9; font-size: 18px; animation: slideIn 0.8s ease-out;">Solusi Servis HP & Laptop Profesional</p>
             
             <div class="store-address">
+              <!-- LOGO KECIL DI STORE ADDRESS -->
+              <div class="address-item" style="gap: 15px;">
+                <img src="images/logo malik service.png" alt="Logo" 
+                     style="width: 40px; height: 40px; border-radius: 10px; object-fit: cover; border: 2px solid white;">
+                <span style="font-weight: 700;">Official Store</span>
+              </div>
+              
               <div class="address-item">
                 <i class="fas fa-map-pin"></i>
                 <span>Jl. Untung Suropati Ds.Jamalsari No.52, Kedungpane</span>
@@ -1877,6 +1904,9 @@
             <div class="section-title">
               <i class="fas fa-user-circle"></i>
               <span>Data Pelanggan</span>
+              <!-- LOGO KECIL DI SECTION TITLE -->
+              <img src="images/logo malik service.png" alt="" 
+                   style="width: 25px; height: 25px; border-radius: 5px; margin-left: 10px;">
             </div>
             
             <div class="form-grid-modern">
@@ -2020,7 +2050,12 @@
     <div id="adminMode" style="display: none;">
       <div class="admin-dashboard-modern">
         <div class="admin-header-modern">
-          <h2><i class="fas fa-store-alt"></i> Malik Kasir Pro</h2>
+          <h2>
+            <!-- LOGO DI ADMIN DASHBOARD -->
+            <img src="images/logo malik service.png" alt="" 
+                 style="width: 40px; height: 40px; border-radius: 10px; margin-right: 10px;">
+            <i class="fas fa-store-alt"></i> Malik Kasir Pro
+          </h2>
           <div class="user-info-modern">
             <span class="user-badge" id="userDisplay">
               <i class="fas fa-user-circle"></i> <span id="userName">Admin</span>
@@ -2212,7 +2247,11 @@
     <div class="modal-modern" id="tambahTransaksiModal">
       <div class="modal-content-modern">
         <div class="modal-header-modern">
-          <h3><i class="fas fa-plus-circle"></i> Transaksi Baru</h3>
+          <h3>
+            <img src="images/logo malik service.png" alt="" 
+                 style="width: 30px; height: 30px; border-radius: 8px; margin-right: 10px;">
+            <i class="fas fa-plus-circle"></i> Transaksi Baru
+          </h3>
           <button class="modal-close" id="closeTambahModal">&times;</button>
         </div>
         
@@ -2284,7 +2323,11 @@
     <div class="modal-modern" id="printResiModal">
       <div class="modal-content-modern">
         <div class="modal-header-modern">
-          <h3><i class="fas fa-receipt"></i> Cetak Resi</h3>
+          <h3>
+            <img src="images/logo malik service.png" alt="" 
+                 style="width: 30px; height: 30px; border-radius: 8px; margin-right: 10px;">
+            <i class="fas fa-receipt"></i> Cetak Resi
+          </h3>
           <button class="modal-close" id="closePrintModal">&times;</button>
         </div>
         <div id="printPreviewContent" class="print-preview-modern"></div>
@@ -2295,15 +2338,17 @@
       </div>
     </div>
     
-    <!-- Floating WA -->
-    <button class="floating-btn" id="floatingWa">
-      <i class="fab fa-whatsapp"></i>
+    <!-- Floating WA dengan Logo -->
+    <button class="floating-btn" id="floatingWa" style="display: flex; flex-direction: column; gap: 5px; padding: 0;">
+      <img src="images/logo malik service.png" alt="" 
+           style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; margin-top: 5px;">
+      <i class="fab fa-whatsapp" style="font-size: 20px; margin-bottom: 5px;"></i>
     </button>
     
     <!-- Install Prompt -->
     <div class="install-prompt-modern" id="installPrompt">
       <div class="install-icon">
-        <i class="fas fa-download"></i>
+        <img src="images/logo malik service.png" alt="" style="width: 40px; height: 40px; border-radius: 10px;">
       </div>
       <div class="install-content">
         <div class="install-title">Install Aplikasi</div>
@@ -3065,6 +3110,7 @@
       
       preview.innerHTML = `
         <div style="text-align: center; margin-bottom: 20px;">
+          <img src="images/logo malik service.png" alt="Malik Service" style="width: 100px; height: auto; margin-bottom: 10px;">
           <h4 style="font-size: 22px; margin-bottom: 4px;">MALIK SERVICE</h4>
           <p style="font-size: 13px;">Jl. Untung Suropati No.52, Kedungpane</p>
           <p style="font-size: 13px;">0857-1308-7659</p>
