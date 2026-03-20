@@ -2536,45 +2536,90 @@
     ];
     
     // ============================================
-    // STORAGE MANAGEMENT
+    // STORAGE MANAGEMENT - VERSI API (REALTIME)
     // ============================================
-    function loadAllData() {
-      // Load transaksi
-      try {
-        const savedTrans = localStorage.getItem('transactions');
-        transactions = savedTrans ? JSON.parse(savedTrans) : [];
-      } catch (e) {
-        transactions = [];
-      }
+    
+    // Load semua data dari API
+    async function loadAllData() {
+      console.log('🔄 Loading data from API...');
       
-      // Load login logs
       try {
-        const savedLogs = localStorage.getItem('loginLogs');
-        loginLogs = savedLogs ? JSON.parse(savedLogs) : [];
-      } catch (e) {
-        loginLogs = [];
+        // Load diskon dari API
+        try {
+          const diskonRes = await fetch('/api/diskon');
+          if (diskonRes.ok) {
+            diskonList = await diskonRes.json();
+            console.log('✅ Diskon from API:', diskonList.length);
+          } else {
+            throw new Error('Gagal load diskon');
+          }
+        } catch (e) {
+          console.log('⚠️ Gagal load diskon dari API, pakai localStorage');
+          loadDiskonFromLocalStorage();
+        }
+        
+        // Load transaksi dari API
+        try {
+          const transRes = await fetch('/api/transactions');
+          if (transRes.ok) {
+            transactions = await transRes.json();
+            console.log('✅ Transaksi from API:', transactions.length);
+          } else {
+            throw new Error('Gagal load transaksi');
+          }
+        } catch (e) {
+          console.log('⚠️ Gagal load transaksi dari API, pakai localStorage');
+          loadTransaksiFromLocalStorage();
+        }
+        
+        // Load data lain dari localStorage
+        loadLoginLogsFromLocalStorage();
+        loadCustomItemsFromLocalStorage();
+        
+      } catch (error) {
+        console.error('❌ Error loading data:', error);
+        loadAllFromLocalStorage();
       }
-      
-      // Load diskon
+    }
+    
+    // Fallback ke localStorage
+    function loadDiskonFromLocalStorage() {
       try {
         const savedDiskon = localStorage.getItem('diskonList');
         if (savedDiskon) {
           diskonList = JSON.parse(savedDiskon);
         } else {
-          // Default diskon
           diskonList = [
             { kode: 'PROMO10', tipe: 'persen', nilai: 10, minBelanja: 100000, berlaku: '2025-12-31', deskripsi: 'Diskon 10% untuk semua layanan' },
             { kode: 'NEWUSER20', tipe: 'persen', nilai: 20, minBelanja: 50000, berlaku: '2025-12-31', deskripsi: 'Diskon 20% untuk pelanggan baru' },
             { kode: 'PICKUPFREE', tipe: 'pickup', nilai: 25000, minBelanja: 0, berlaku: '2025-12-31', deskripsi: 'Gratis biaya pickup' },
             { kode: 'FLASHDISKON', tipe: 'nominal', nilai: 50000, minBelanja: 200000, berlaku: '2025-12-31', deskripsi: 'Potongan Rp50.000' }
           ];
-          saveDiskonToStorage();
         }
       } catch (e) {
         diskonList = [];
       }
-      
-      // Load custom items
+    }
+    
+    function loadTransaksiFromLocalStorage() {
+      try {
+        const savedTrans = localStorage.getItem('transactions');
+        transactions = savedTrans ? JSON.parse(savedTrans) : [];
+      } catch (e) {
+        transactions = [];
+      }
+    }
+    
+    function loadLoginLogsFromLocalStorage() {
+      try {
+        const savedLogs = localStorage.getItem('loginLogs');
+        loginLogs = savedLogs ? JSON.parse(savedLogs) : [];
+      } catch (e) {
+        loginLogs = [];
+      }
+    }
+    
+    function loadCustomItemsFromLocalStorage() {
       try {
         const savedItems = localStorage.getItem('customItems');
         customItems = savedItems ? JSON.parse(savedItems) : [];
@@ -2583,35 +2628,98 @@
       }
     }
     
-    function saveDiskonToStorage() {
+    function loadAllFromLocalStorage() {
+      loadDiskonFromLocalStorage();
+      loadTransaksiFromLocalStorage();
+      loadLoginLogsFromLocalStorage();
+      loadCustomItemsFromLocalStorage();
+    }
+    
+    // Simpan diskon ke API
+    async function saveDiskonToStorage() {
       try {
+        const response = await fetch('/api/diskon', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(diskonList)
+        });
+        
+        if (response.ok) {
+          console.log('✅ Diskon tersimpan di database');
+          // Backup ke localStorage
+          localStorage.setItem('diskonList', JSON.stringify(diskonList));
+        } else {
+          throw new Error('Gagal simpan ke API');
+        }
+      } catch (e) {
+        console.log('⚠️ Gagal simpan ke API, pakai localStorage');
         localStorage.setItem('diskonList', JSON.stringify(diskonList));
-      } catch (e) {
-        console.log('Gagal simpan diskon');
       }
     }
     
-    function saveTransactionsToStorage() {
+    // Simpan transaksi ke API
+    async function saveTransactionToAPI(transData) {
       try {
+        const response = await fetch('/api/transactions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(transData)
+        });
+        
+        if (response.ok) {
+          const result = await response.json();
+          console.log('✅ Transaksi tersimpan di database:', result.id);
+          
+          // Update localStorage
+          const allTrans = [...transactions];
+          localStorage.setItem('transactions', JSON.stringify(allTrans));
+          
+          return { success: true, id: result.id };
+        } else {
+          throw new Error('Gagal simpan ke API');
+        }
+      } catch (e) {
+        console.log('⚠️ Gagal simpan transaksi ke API, pakai localStorage');
         localStorage.setItem('transactions', JSON.stringify(transactions));
-      } catch (e) {
-        console.log('Gagal simpan transaksi');
+        return { success: false, error: e.message };
       }
     }
     
+    // Simpan transaksi (backward compatibility)
+    function saveTransactionsToStorage() {
+      localStorage.setItem('transactions', JSON.stringify(transactions));
+    }
+    
+    // Simpan login logs
     function saveLoginLogsToStorage() {
-      try {
-        localStorage.setItem('loginLogs', JSON.stringify(loginLogs.slice(0, 100)));
-      } catch (e) {
-        console.log('Gagal simpan log');
-      }
+      localStorage.setItem('loginLogs', JSON.stringify(loginLogs.slice(0, 100)));
     }
     
+    // Simpan custom items
     function saveCustomItemsToStorage() {
+      localStorage.setItem('customItems', JSON.stringify(customItems));
+    }
+    
+    // Hapus diskon via API
+    async function deleteDiskonFromAPI(kode, index) {
       try {
-        localStorage.setItem('customItems', JSON.stringify(customItems));
+        const response = await fetch(`/api/diskon?kode=${encodeURIComponent(kode)}`, {
+          method: 'DELETE'
+        });
+        
+        if (response.ok) {
+          console.log('✅ Diskon dihapus dari database');
+          diskonList.splice(index, 1);
+          localStorage.setItem('diskonList', JSON.stringify(diskonList));
+          return true;
+        } else {
+          throw new Error('Gagal hapus dari API');
+        }
       } catch (e) {
-        console.log('Gagal simpan custom items');
+        console.log('⚠️ Gagal hapus dari API, hapus lokal saja');
+        diskonList.splice(index, 1);
+        localStorage.setItem('diskonList', JSON.stringify(diskonList));
+        return false;
       }
     }
     
@@ -3154,10 +3262,10 @@
       modal.classList.add('active');
     };
     
-    window.hapusDiskon = function(index) {
+    window.hapusDiskon = async function(index) {
       if (confirm('Hapus diskon ini?')) {
-        diskonList.splice(index, 1);
-        saveDiskonToStorage();
+        const kode = diskonList[index].kode;
+        await deleteDiskonFromAPI(kode, index);
         loadAdminData();
         renderPromoBanner();
         renderDiskonInfo();
@@ -3383,9 +3491,9 @@
     // ============================================
     // EVENT LISTENERS
     // ============================================
-    document.addEventListener('DOMContentLoaded', function() {
-      // Load all data from localStorage
-      loadAllData();
+    document.addEventListener('DOMContentLoaded', async function() {
+      // Load all data from API
+      await loadAllData();
       
       // Initialize
       renderTipeOptions();
@@ -3736,8 +3844,15 @@
             pickup: pickupYa
           };
           
-          transactions.unshift(transData);
-          saveTransactionsToStorage();
+          // Simpan ke API
+          const result = await saveTransactionToAPI(transData);
+          if (result.success) {
+            transactions.unshift(transData);
+          } else {
+            // Fallback
+            transactions.unshift(transData);
+            saveTransactionsToStorage();
+          }
           
           const modal = document.getElementById('tambahTransaksiModal');
           if (modal) modal.classList.remove('active');
@@ -3788,7 +3903,7 @@
       // Simpan Diskon
       const simpanDiskonBtn = document.getElementById('simpanDiskonBtn');
       if (simpanDiskonBtn) {
-        simpanDiskonBtn.addEventListener('click', function() {
+        simpanDiskonBtn.addEventListener('click', async function() {
           const diskonKode = document.getElementById('diskonKode');
           const diskonTipe = document.getElementById('diskonTipe');
           const diskonNilai = document.getElementById('diskonNilai');
@@ -3834,7 +3949,7 @@
             });
           }
           
-          saveDiskonToStorage();
+          await saveDiskonToStorage();
           
           // Reset form
           diskonKode.value = '';
