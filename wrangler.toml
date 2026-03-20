@@ -1,0 +1,19 @@
+name = "malik-service-api"
+main = "functions/api/transactions.js"
+compatibility_date = "2024-01-01"
+
+# D1 Database binding
+[[d1_databases]]
+binding = "DB"              # HARUS "DB" (sesuai kode)
+database_name = "malik-service-db"
+database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"  # GANTI DENGAN ID DATABASE KAMU!
+
+# Environment variables (opsional)
+[vars]
+ENVIRONMENT = "production"
+SITE_NAME = "Malik Service"
+SITE_URL = "https://malikservice.com"
+
+# Observability (untuk logs)
+[observability]
+enabled = true
