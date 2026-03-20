@@ -3963,6 +3963,13 @@
           }
           
           saveDiskonToStorage();
+          // Kirim ke server biar bisa sync ke HP
+if (socket && isConnected) {
+  socket.send(JSON.stringify({ 
+    type: 'updateDiskon', 
+    diskon: diskonList 
+  }));
+}
           
           // Broadcast ke WebSocket
           if (socket && isConnected) {
