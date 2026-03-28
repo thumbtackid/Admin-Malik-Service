@@ -2,7 +2,6 @@
 // API TRANSACTIONS - MALIK SERVICE
 // ============================================
 
-// Headers CORS yang konsisten
 const headers = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
@@ -10,7 +9,6 @@ const headers = {
   'Access-Control-Allow-Headers': 'Content-Type'
 };
 
-// Handler utama
 export async function onRequest(context) {
   const { request, env } = context;
   
@@ -20,52 +18,53 @@ export async function onRequest(context) {
   }
   
   try {
-    // Cek koneksi database
     if (!env || !env.DB) {
       throw new Error('Database tidak terhubung');
     }
     
-    // Routing berdasarkan method
-    if (request.method === 'GET') {
-      return await handleGET(env);
-    }
+    // Pastikan tabel ada
+    await ensureTableExists(env.DB);
     
-    if (request.method === 'POST') {
-      return await handlePOST(request, env);
+    // Routing
+    switch (request.method) {
+      case 'GET':
+        return await handleGET(env.DB);
+      case 'POST':
+        return await handlePOST(request, env.DB);
+      case 'PUT':
+        return await handlePUT(request, env.DB);
+      case 'DELETE':
+        return await handleDELETE(request, env.DB);
+      default:
+        return new Response(JSON.stringify({ error: 'Method tidak diizinkan' }), { 
+          status: 405, 
+          headers 
+        });
     }
-    
-    if (request.method === 'PUT') {
-      return await handlePUT(request, env);
-    }
-    
-    if (request.method === 'DELETE') {
-      return await handleDELETE(request, env);
-    }
-    
-    return new Response(JSON.stringify({ error: 'Method tidak diizinkan' }), { 
-      status: 405, 
-      headers 
-    });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { 
+    console.error('API Error:', error);
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      timestamp: new Date().toISOString()
+    }), { 
       status: 500, 
       headers 
     });
   }
 }
 
-// GET - Ambil semua transaksi
-async function handleGET(env) {
+// Pastikan tabel ada (konsisten dengan websocket.js)
+async function ensureTableExists(db) {
   try {
     // Cek apakah tabel ada
-    const tableCheck = await env.DB.prepare(
+    const tableCheck = await db.prepare(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='transactions'"
     ).first();
     
-    // Buat tabel jika belum ada
     if (!tableCheck) {
-      await env.DB.prepare(`
+      // Buat tabel - HAPUS kolom garansi agar konsisten dengan websocket.js
+      await db.prepare(`
         CREATE TABLE IF NOT EXISTS transactions (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           transaksi_id TEXT UNIQUE,
@@ -79,19 +78,28 @@ async function handleGET(env) {
           alamat TEXT,
           tanggal TEXT,
           pickup INTEGER DEFAULT 0,
-          garansi INTEGER DEFAULT 0
+          created_at TEXT DEFAULT (datetime('now'))
         )
       `).run();
+      console.log('✅ Transactions table created');
     }
-    
-    // Ambil semua transaksi
-    const { results } = await env.DB.prepare(
+  } catch (error) {
+    console.error('Error creating table:', error);
+    throw error;
+  }
+}
+
+// GET - Ambil semua transaksi
+async function handleGET(db) {
+  try {
+    const { results } = await db.prepare(
       "SELECT * FROM transactions ORDER BY tanggal DESC LIMIT 1000"
     ).all();
     
-    return new Response(JSON.stringify(results), { headers });
+    return new Response(JSON.stringify(results || []), { headers });
     
   } catch (error) {
+    console.error('GET Error:', error);
     return new Response(JSON.stringify({ error: error.message }), { 
       status: 500, 
       headers 
@@ -100,9 +108,17 @@ async function handleGET(env) {
 }
 
 // POST - Simpan transaksi baru
-async function handlePOST(request, env) {
+async function handlePOST(request, db) {
   try {
     const data = await request.json();
+    
+    // Validasi data
+    if (!data.nama_pelanggan && !data.nama) {
+      return new Response(JSON.stringify({ error: 'Nama pelanggan wajib diisi' }), { 
+        status: 400, 
+        headers 
+      });
+    }
     
     // Generate ID transaksi
     const transaksiId = data.transaksi_id || 
@@ -118,8 +134,10 @@ async function handlePOST(request, env) {
       itemString = data.item.join(', ');
     } else if (typeof data.item === 'string') {
       itemString = data.item;
+    } else if (data.item) {
+      itemString = JSON.stringify(data.item);
     } else {
-      itemString = JSON.stringify(data.item || '');
+      itemString = '';
     }
     
     // Hitung total
@@ -127,33 +145,75 @@ async function handlePOST(request, env) {
     const diskon = Number(data.diskon) || 0;
     const total = Number(data.total) || (subtotal - diskon);
     
-    // Simpan ke database
-    await env.DB.prepare(`
-      INSERT INTO transactions 
-      (transaksi_id, item, subtotal, diskon, total, kasir, nama_pelanggan, no_hp, alamat, tanggal, pickup, garansi) 
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `).bind(
-      transaksiId,
-      itemString,
-      subtotal,
-      diskon,
-      total,
-      data.kasir || 'Admin',
-      data.nama_pelanggan || data.nama || '',
-      data.no_hp || '',
-      data.alamat || '',
-      tanggal,
-      data.pickup ? 1 : 0,
-      data.garansi ? 1 : 0
-    ).run();
+    // Cek apakah ID sudah ada (untuk update)
+    const existing = await db.prepare(
+      'SELECT id FROM transactions WHERE transaksi_id = ?'
+    ).bind(transaksiId).first();
+    
+    let result;
+    if (existing) {
+      // Update existing
+      result = await db.prepare(`
+        UPDATE transactions SET
+          item = ?,
+          subtotal = ?,
+          diskon = ?,
+          total = ?,
+          kasir = ?,
+          nama_pelanggan = ?,
+          no_hp = ?,
+          alamat = ?,
+          tanggal = ?,
+          pickup = ?
+        WHERE transaksi_id = ?
+      `).bind(
+        itemString,
+        subtotal,
+        diskon,
+        total,
+        data.kasir || 'Admin',
+        data.nama_pelanggan || data.nama || '',
+        data.no_hp || '',
+        data.alamat || '',
+        tanggal,
+        data.pickup ? 1 : 0,
+        transaksiId
+      ).run();
+    } else {
+      // Insert baru
+      result = await db.prepare(`
+        INSERT INTO transactions 
+        (transaksi_id, item, subtotal, diskon, total, kasir, nama_pelanggan, no_hp, alamat, tanggal, pickup) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `).bind(
+        transaksiId,
+        itemString,
+        subtotal,
+        diskon,
+        total,
+        data.kasir || 'Admin',
+        data.nama_pelanggan || data.nama || '',
+        data.no_hp || '',
+        data.alamat || '',
+        tanggal,
+        data.pickup ? 1 : 0
+      ).run();
+    }
+    
+    console.log(`💾 Transaction saved: ${transaksiId}`);
     
     return new Response(JSON.stringify({ 
       success: true, 
-      id: transaksiId 
+      id: transaksiId,
+      changes: result.changes
     }), { headers });
     
   } catch (error) {
-    return new Response(JSON.stringify({ error: error.message }), { 
+    console.error('POST Error:', error);
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      stack: error.stack 
+    }), { 
       status: 500, 
       headers 
     });
@@ -161,20 +221,39 @@ async function handlePOST(request, env) {
 }
 
 // PUT - Update transaksi
-async function handlePUT(request, env) {
+async function handlePUT(request, db) {
   try {
     const data = await request.json();
     
-    if (!data.transaksi_id) {
-      return new Response(JSON.stringify({ error: 'ID diperlukan' }), { 
+    if (!data.transaksi_id && !data.id) {
+      return new Response(JSON.stringify({ error: 'ID transaksi diperlukan' }), { 
         status: 400, 
         headers 
       });
     }
     
-    await env.DB.prepare(`
+    const transaksiId = data.transaksi_id || data.id;
+    
+    // Cek apakah transaksi ada
+    const existing = await db.prepare(
+      'SELECT id FROM transactions WHERE transaksi_id = ?'
+    ).bind(transaksiId).first();
+    
+    if (!existing) {
+      return new Response(JSON.stringify({ error: 'Transaksi tidak ditemukan' }), { 
+        status: 404, 
+        headers 
+      });
+    }
+    
+    await db.prepare(`
       UPDATE transactions 
-      SET item = ?, total = ?, kasir = ?, nama_pelanggan = ?, no_hp = ?, alamat = ?
+      SET item = ?, 
+          total = ?, 
+          kasir = ?, 
+          nama_pelanggan = ?, 
+          no_hp = ?, 
+          alamat = ?
       WHERE transaksi_id = ?
     `).bind(
       data.item || '',
@@ -183,12 +262,13 @@ async function handlePUT(request, env) {
       data.nama_pelanggan || '',
       data.no_hp || '',
       data.alamat || '',
-      data.transaksi_id
+      transaksiId
     ).run();
     
     return new Response(JSON.stringify({ success: true }), { headers });
     
   } catch (error) {
+    console.error('PUT Error:', error);
     return new Response(JSON.stringify({ error: error.message }), { 
       status: 500, 
       headers 
@@ -197,25 +277,41 @@ async function handlePUT(request, env) {
 }
 
 // DELETE - Hapus transaksi
-async function handleDELETE(request, env) {
+async function handleDELETE(request, db) {
   try {
     const url = new URL(request.url);
     const id = url.searchParams.get('id');
     
     if (!id) {
-      return new Response(JSON.stringify({ error: 'ID diperlukan' }), { 
+      return new Response(JSON.stringify({ error: 'Parameter id diperlukan' }), { 
         status: 400, 
         headers 
       });
     }
     
-    await env.DB.prepare(
+    // Cek apakah transaksi ada
+    const existing = await db.prepare(
+      'SELECT id FROM transactions WHERE transaksi_id = ?'
+    ).bind(id).first();
+    
+    if (!existing) {
+      return new Response(JSON.stringify({ error: 'Transaksi tidak ditemukan' }), { 
+        status: 404, 
+        headers 
+      });
+    }
+    
+    const result = await db.prepare(
       "DELETE FROM transactions WHERE transaksi_id = ?"
     ).bind(id).run();
     
-    return new Response(JSON.stringify({ success: true }), { headers });
+    return new Response(JSON.stringify({ 
+      success: true,
+      deleted: result.changes > 0 
+    }), { headers });
     
   } catch (error) {
+    console.error('DELETE Error:', error);
     return new Response(JSON.stringify({ error: error.message }), { 
       status: 500, 
       headers 
