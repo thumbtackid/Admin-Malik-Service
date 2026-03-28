@@ -1000,26 +1000,83 @@
     }
     
     function handleWebSocketMessage(data) {
-      console.log('📦 WebSocket message:', data);
-      switch(data.type) {
-        case 'sync':
-          if (data.transactions) { transactions = data.transactions; saveTransactionsToStorage(); }
-          if (data.diskon) { diskonList = data.diskon; saveDiskonToStorage(); }
-          refreshAllUI();
-          showToast('Data diperbarui secara realtime', 'success');
-          break;
-        case 'newTransaction':
-          if (data.transaction) { transactions.unshift(data.transaction); saveTransactionsToStorage(); refreshAdminUI(); showToast('Transaksi baru dari kasir lain', 'success'); }
-          break;
-        case 'newDiskon':
-          if (data.diskon) { diskonList.push(data.diskon); saveDiskonToStorage(); refreshAllUI(); showToast('Promo baru ditambahkan!', 'success'); }
-          break;
-        case 'deleteDiskon':
-          if (data.kode) { const index = diskonList.findIndex(d => d.kode === data.kode); if (index !== -1) { diskonList.splice(index, 1); saveDiskonToStorage(); refreshAllUI(); } }
-          break;
-        case 'ping': socket.send(JSON.stringify({ type: 'pong' })); break;
+  console.log('📦 WebSocket message:', data);
+  
+  switch(data.type) {
+    case 'sync':
+      if (data.transactions) {
+        transactions = data.transactions;
+        saveTransactionsToStorage();
       }
-    }
+      if (data.diskon) {
+        diskonList = data.diskon;
+        saveDiskonToStorage();
+      }
+      if (data.customItems) {
+        customItems = data.customItems;
+        saveCustomItemsToStorage();
+      }
+      if (data.loginLogs) {
+        loginLogs = data.loginLogs;
+        saveLoginLogsToStorage();
+      }
+      refreshAllUI();
+      if (currentUser) loadAdminData();
+      showToast('Data diperbarui secara realtime', 'success');
+      break;
+      
+    case 'newTransaction':
+      if (data.transaction) {
+        // Cek apakah transaksi sudah ada (hindari duplikat)
+        const exists = transactions.some(t => t.transaksi_id === data.transaction.transaksi_id);
+        if (!exists) {
+          transactions.unshift(data.transaction);
+          saveTransactionsToStorage();
+          refreshAllUI();
+          if (currentUser) loadAdminData();
+          showToast('📱 Transaksi baru dari kasir lain!', 'success');
+        }
+      }
+      break;
+      
+    case 'newDiskon':
+      if (data.diskon) {
+        const exists = diskonList.some(d => d.kode === data.diskon.kode);
+        if (!exists) {
+          diskonList.push(data.diskon);
+          saveDiskonToStorage();
+          refreshAllUI();
+          showToast('🏷️ Promo baru ditambahkan!', 'success');
+        }
+      }
+      break;
+      
+    case 'deleteDiskon':
+      if (data.kode) {
+        const index = diskonList.findIndex(d => d.kode === data.kode);
+        if (index !== -1) {
+          diskonList.splice(index, 1);
+          saveDiskonToStorage();
+          refreshAllUI();
+          showToast('🗑️ Promo dihapus!', 'warning');
+        }
+      }
+      break;
+      
+    case 'updateDiskon':
+      if (data.diskon) {
+        diskonList = data.diskon;
+        saveDiskonToStorage();
+        refreshAllUI();
+        showToast('🏷️ Data promo diperbarui!', 'success');
+      }
+      break;
+      
+    case 'ping':
+      socket.send(JSON.stringify({ type: 'pong' }));
+      break;
+  }
+}
     
     function refreshAllUI() {
       if (document.getElementById('publicMode').style.display !== 'none') { renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); if (currentItem) { const updatedItem = [...serviceDB, ...customItems].find(i => i.nama === currentItem.nama && i.harga === currentItem.harga); if (updatedItem) { currentItem = updatedItem; updateDetail(currentItem); } } }
