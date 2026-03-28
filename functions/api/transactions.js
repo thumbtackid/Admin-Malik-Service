@@ -54,16 +54,14 @@ export async function onRequest(context) {
   }
 }
 
-// Pastikan tabel ada (konsisten dengan websocket.js)
+// Pastikan tabel ada
 async function ensureTableExists(db) {
   try {
-    // Cek apakah tabel ada
     const tableCheck = await db.prepare(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='transactions'"
     ).first();
     
     if (!tableCheck) {
-      // Buat tabel - HAPUS kolom garansi agar konsisten dengan websocket.js
       await db.prepare(`
         CREATE TABLE IF NOT EXISTS transactions (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -150,10 +148,9 @@ async function handlePOST(request, db) {
       'SELECT id FROM transactions WHERE transaksi_id = ?'
     ).bind(transaksiId).first();
     
-    let result;
     if (existing) {
       // Update existing
-      result = await db.prepare(`
+      await db.prepare(`
         UPDATE transactions SET
           item = ?,
           subtotal = ?,
@@ -181,7 +178,7 @@ async function handlePOST(request, db) {
       ).run();
     } else {
       // Insert baru
-      result = await db.prepare(`
+      await db.prepare(`
         INSERT INTO transactions 
         (transaksi_id, item, subtotal, diskon, total, kasir, nama_pelanggan, no_hp, alamat, tanggal, pickup) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -204,15 +201,13 @@ async function handlePOST(request, db) {
     
     return new Response(JSON.stringify({ 
       success: true, 
-      id: transaksiId,
-      changes: result.changes
+      id: transaksiId
     }), { headers });
     
   } catch (error) {
     console.error('POST Error:', error);
     return new Response(JSON.stringify({ 
-      error: error.message,
-      stack: error.stack 
+      error: error.message
     }), { 
       status: 500, 
       headers 
@@ -301,13 +296,12 @@ async function handleDELETE(request, db) {
       });
     }
     
-    const result = await db.prepare(
+    await db.prepare(
       "DELETE FROM transactions WHERE transaksi_id = ?"
     ).bind(id).run();
     
     return new Response(JSON.stringify({ 
-      success: true,
-      deleted: result.changes > 0 
+      success: true
     }), { headers });
     
   } catch (error) {
