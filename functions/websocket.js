@@ -18,9 +18,11 @@ export async function onRequest(context) {
   
   const clientId = crypto.randomUUID();
   
-  // Simpan koneksi ke global (gunakan context.waitUntil untuk persistensi)
+  // Simpan koneksi (gunakan Map global)
   if (!globalThis.clients) globalThis.clients = new Map();
   globalThis.clients.set(clientId, server);
+  
+  console.log(`🔌 New client connected: ${clientId}, total clients: ${globalThis.clients.size}`);
   
   // Handle incoming messages
   server.addEventListener('message', async (event) => {
@@ -30,53 +32,68 @@ export async function onRequest(context) {
       
       switch(data.type) {
         case 'sync':
-          // Kirim semua data dari database
           await sendSyncData(server, db);
           break;
           
         case 'newTransaction':
-          // Simpan transaksi ke D1
-          const transaction = data.transaction;
-          await saveTransaction(db, transaction);
-          
-          // Broadcast ke semua client lain
-          broadcastToOthers(clientId, {
-            type: 'newTransaction',
-            transaction: transaction
-          });
+          try {
+            const transaction = data.transaction;
+            await saveTransaction(db, transaction);
+            broadcastToOthers(clientId, {
+              type: 'newTransaction',
+              transaction: transaction
+            });
+            server.send(JSON.stringify({ type: 'success', message: 'Transaction saved' }));
+          } catch (error) {
+            console.error('Error saving transaction:', error);
+            server.send(JSON.stringify({ type: 'error', message: error.message }));
+          }
           break;
           
         case 'updateDiskon':
-          // Update semua diskon ke D1
-          await updateDiskon(db, data.diskon);
-          
-          broadcastToOthers(clientId, {
-            type: 'updateDiskon',
-            diskon: data.diskon
-          });
+          try {
+            await updateDiskon(db, data.diskon);
+            broadcastToOthers(clientId, {
+              type: 'updateDiskon',
+              diskon: data.diskon
+            });
+            server.send(JSON.stringify({ type: 'success', message: 'Discounts updated' }));
+          } catch (error) {
+            console.error('Error updating diskon:', error);
+            server.send(JSON.stringify({ type: 'error', message: error.message }));
+          }
           break;
           
         case 'updateCustomItems':
-          // Update custom items ke D1
-          await updateCustomItems(db, data.customItems);
-          
-          broadcastToOthers(clientId, {
-            type: 'updateCustomItems',
-            customItems: data.customItems
-          });
+          try {
+            await updateCustomItems(db, data.customItems);
+            broadcastToOthers(clientId, {
+              type: 'updateCustomItems',
+              customItems: data.customItems
+            });
+            server.send(JSON.stringify({ type: 'success', message: 'Custom items updated' }));
+          } catch (error) {
+            console.error('Error updating custom items:', error);
+            server.send(JSON.stringify({ type: 'error', message: error.message }));
+          }
           break;
           
         case 'newLoginLog':
-          // Simpan log login
-          await saveLoginLog(db, data.log);
+          try {
+            await saveLoginLog(db, data.log);
+            server.send(JSON.stringify({ type: 'success', message: 'Login log saved' }));
+          } catch (error) {
+            console.error('Error saving login log:', error);
+          }
           break;
           
         case 'ping':
-          server.send(JSON.stringify({ type: 'pong' }));
+          server.send(JSON.stringify({ type: 'pong', timestamp: Date.now() }));
           break;
           
         default:
           console.log(`Unknown message type: ${data.type}`);
+          server.send(JSON.stringify({ type: 'error', message: `Unknown type: ${data.type}` }));
       }
     } catch (error) {
       console.error('Error processing message:', error);
@@ -88,7 +105,12 @@ export async function onRequest(context) {
   });
   
   server.addEventListener('close', () => {
-    console.log(`🔌 Client disconnected: ${clientId}`);
+    console.log(`🔌 Client disconnected: ${clientId}, remaining: ${globalThis.clients.size - 1}`);
+    globalThis.clients.delete(clientId);
+  });
+  
+  server.addEventListener('error', (error) => {
+    console.error(`WebSocket error for ${clientId}:`, error);
     globalThis.clients.delete(clientId);
   });
   
@@ -187,13 +209,13 @@ async function sendSyncData(server, db) {
     
     server.send(JSON.stringify({
       type: 'sync',
-      transactions: transactions.results,
-      diskon: diskon.results,
-      customItems: customItems.results,
-      loginLogs: loginLogs.results
+      transactions: transactions.results || [],
+      diskon: diskon.results || [],
+      customItems: customItems.results || [],
+      loginLogs: loginLogs.results || []
     }));
     
-    console.log(`📤 Synced: ${transactions.results.length} transactions, ${diskon.results.length} discounts`);
+    console.log(`📤 Synced: ${transactions.results?.length || 0} transactions, ${diskon.results?.length || 0} discounts`);
   } catch (error) {
     console.error('Error sending sync data:', error);
     server.send(JSON.stringify({ type: 'error', message: 'Sync failed' }));
@@ -203,10 +225,23 @@ async function sendSyncData(server, db) {
 // Simpan transaksi
 async function saveTransaction(db, transaction) {
   try {
+    const transaksiId = transaction.transaksi_id || 'TRX-' + Date.now().toString().slice(-6);
+    const tanggal = transaction.tanggal || new Date().toISOString();
+    
+    // Proses item
+    let itemString = '';
+    if (Array.isArray(transaction.item)) {
+      itemString = transaction.item.join(', ');
+    } else if (typeof transaction.item === 'string') {
+      itemString = transaction.item;
+    } else {
+      itemString = JSON.stringify(transaction.item || '');
+    }
+    
     // Cek apakah sudah ada
     const existing = await db.prepare(
       'SELECT id FROM transactions WHERE transaksi_id = ?'
-    ).bind(transaction.transaksi_id).first();
+    ).bind(transaksiId).first();
     
     if (existing) {
       // Update
@@ -224,17 +259,17 @@ async function saveTransaction(db, transaction) {
           pickup = ?
         WHERE transaksi_id = ?
       `).bind(
-        transaction.item,
+        itemString,
         transaction.subtotal || 0,
         transaction.diskon || 0,
         transaction.total || 0,
         transaction.kasir || 'Admin',
-        transaction.nama_pelanggan,
+        transaction.nama_pelanggan || '',
         transaction.no_hp || '',
         transaction.alamat || '',
-        transaction.tanggal || new Date().toISOString(),
+        tanggal,
         transaction.pickup ? 1 : 0,
-        transaction.transaksi_id
+        transaksiId
       ).run();
     } else {
       // Insert
@@ -244,21 +279,21 @@ async function saveTransaction(db, transaction) {
           nama_pelanggan, no_hp, alamat, tanggal, pickup
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `).bind(
-        transaction.transaksi_id,
-        transaction.item,
+        transaksiId,
+        itemString,
         transaction.subtotal || 0,
         transaction.diskon || 0,
         transaction.total || 0,
         transaction.kasir || 'Admin',
-        transaction.nama_pelanggan,
+        transaction.nama_pelanggan || '',
         transaction.no_hp || '',
         transaction.alamat || '',
-        transaction.tanggal || new Date().toISOString(),
+        tanggal,
         transaction.pickup ? 1 : 0
       ).run();
     }
     
-    console.log(`💾 Saved transaction: ${transaction.transaksi_id}`);
+    console.log(`💾 Saved transaction: ${transaksiId}`);
   } catch (error) {
     console.error('Error saving transaction:', error);
     throw error;
@@ -278,10 +313,10 @@ async function updateDiskon(db, diskonList) {
         VALUES (?, ?, ?, ?, ?, ?)
       `).bind(
         d.kode,
-        d.tipe,
-        d.nilai,
-        d.minBelanja || 0,
-        d.berlaku,
+        d.tipe || 'persen',
+        d.nilai || 0,
+        d.minBelanja || d.min_belanja || 0,
+        d.berlaku || '2025-12-31',
         d.deskripsi || ''
       ).run();
     }
@@ -329,10 +364,10 @@ async function saveLoginLog(db, log) {
       INSERT INTO login_logs (username, role, ip, status, browser, timestamp)
       VALUES (?, ?, ?, ?, ?, ?)
     `).bind(
-      log.username,
-      log.role,
+      log.username || 'unknown',
+      log.role || 'unknown',
       log.ip || 'Client',
-      log.status,
+      log.status || 'Sukses',
       log.browser || 'Unknown',
       log.timestamp || new Date().toISOString()
     ).run();
@@ -347,9 +382,19 @@ async function saveLoginLog(db, log) {
 function broadcastToOthers(senderId, message) {
   if (!globalThis.clients) return;
   
+  let count = 0;
   for (const [id, client] of globalThis.clients) {
     if (id !== senderId && client.readyState === 1) { // WebSocket.OPEN
-      client.send(JSON.stringify(message));
+      try {
+        client.send(JSON.stringify(message));
+        count++;
+      } catch (error) {
+        console.error(`Failed to broadcast to ${id}:`, error);
+      }
     }
+  }
+  
+  if (count > 0) {
+    console.log(`📡 Broadcast to ${count} other clients`);
   }
 }
