@@ -936,23 +936,54 @@
     // API FUNCTIONS
     // ============================================
     async function loadDataFromAPI() {
-      console.log('🔄 Loading data from API...');
-      try {
-        const transRes = await fetch(`${API_BASE_URL}/api/transactions`);
-        if (transRes.ok) {
-          const data = await transRes.json();
-          if (data && data.length > 0) { transactions = data; saveTransactionsToStorage(); console.log(`✅ Loaded ${transactions.length} transactions`); }
+  console.log('🔄 Loading data from API...');
+  
+  try {
+    // Load transaksi
+    const transRes = await fetch(`${API_BASE_URL}/api/transactions`);
+    if (transRes.ok) {
+      const data = await transRes.json();
+      if (data && data.length > 0) {
+        // Cek apakah ada data baru
+        const currentIds = transactions.map(t => t.transaksi_id).join(',');
+        const newIds = data.map(t => t.transaksi_id).join(',');
+        
+        if (currentIds !== newIds) {
+          transactions = data;
+          saveTransactionsToStorage();
+          console.log(`✅ Loaded ${transactions.length} transactions from API`);
+          refreshAllUI();
+          if (currentUser) loadAdminData();
+          showToast(`📊 ${transactions.length} transaksi dimuat`, 'success');
         }
-        const diskonRes = await fetch(`${API_BASE_URL}/api/diskon`);
-        if (diskonRes.ok) {
-          const data = await diskonRes.json();
-          if (data && data.length > 0) { diskonList = data; saveDiskonToStorage(); console.log(`✅ Loaded ${diskonList.length} discounts`); }
-        }
-        refreshAllUI();
-        if (currentUser) loadAdminData();
-        return true;
-      } catch (error) { console.error('Error loading from API:', error); loadAllData(); return false; }
+      }
     }
+    
+    // Load diskon
+    const diskonRes = await fetch(`${API_BASE_URL}/api/diskon`);
+    if (diskonRes.ok) {
+      const data = await diskonRes.json();
+      if (data && data.length > 0) {
+        const currentCodes = diskonList.map(d => d.kode).join(',');
+        const newCodes = data.map(d => d.kode).join(',');
+        
+        if (currentCodes !== newCodes) {
+          diskonList = data;
+          saveDiskonToStorage();
+          console.log(`✅ Loaded ${diskonList.length} discounts from API`);
+          renderPromoBanner();
+          renderDiskonInfo();
+        }
+      }
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error loading from API:', error);
+    loadAllData();
+    return false;
+  }
+}
     
     function loadOfflineQueue() { try { const saved = localStorage.getItem('offlineQueue'); if (saved) offlineQueue = JSON.parse(saved); } catch(e) { offlineQueue = []; } }
     function saveOfflineQueue() { localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue)); }
