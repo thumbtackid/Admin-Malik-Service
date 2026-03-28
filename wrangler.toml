@@ -1,5 +1,5 @@
 name = "malik-service-api"
-main = "functions/websocket.js"  # Ganti ke websocket.js
+main = "functions/websocket.js"
 compatibility_date = "2026-01-01"
 
 # D1 Database binding
@@ -11,13 +11,20 @@ database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"
 # Routes - WebSocket endpoint
 [[routes]]
 pattern = "malik-service-ws.thumbtackid.workers.dev"
-zone_id = "your-zone-id"  # Isi dengan zone ID Anda
+# GANTI DENGAN ZONE ID ANDA (bisa cek di dashboard Cloudflare)
+zone_id = "your-zone-id-here"
+
+# Routes - API endpoint
+[[routes]]
+pattern = "malik-service-api.thumbtackid.workers.dev"
+zone_id = "your-zone-id-here"
 
 # Environment variables
 [vars]
 ENVIRONMENT = "production"
 SITE_NAME = "Malik Service"
 WS_URL = "wss://malik-service-ws.thumbtackid.workers.dev"
+API_URL = "https://malik-service-api.thumbtackid.workers.dev"
 
 # Observability
 [observability]
