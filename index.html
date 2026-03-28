@@ -700,7 +700,16 @@
     
     <div id="adminMode" style="display: none;">
       <div class="admin-dashboard-modern">
-        <div class="admin-header-modern"><h2><img src="images/logo malik service.png" alt="" style="width: 40px; height: 40px; border-radius: 10px; margin-right: 10px;"><i class="fas fa-store-alt"></i> Malik Kasir Pro</h2><div class="user-info-modern"><span class="user-badge"><i class="fas fa-user-circle"></i> <span id="userName">Admin</span></span><button class="logout-btn-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Keluar</button></div></div>
+        <div class="admin-header-modern">
+          <h2><img src="images/logo malik service.png" alt="" style="width: 40px; height: 40px; border-radius: 10px; margin-right: 10px;"><i class="fas fa-store-alt"></i> Malik Kasir Pro</h2>
+          <div class="user-info-modern">
+            <span class="user-badge"><i class="fas fa-user-circle"></i> <span id="userName">Admin</span></span>
+            <button class="btn-modern" id="manualRefreshBtn" style="width: auto; padding: 10px 20px; background: var(--primary); margin-left: 10px;">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button class="logout-btn-modern" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Keluar</button>
+          </div>
+        </div>
         
         <div class="stats-grid-modern">
           <div class="stat-card-modern"><i class="fas fa-shopping-cart"></i><div class="stat-value" id="totalTransaksi">0</div><div class="stat-label">Total Transaksi</div></div>
@@ -721,26 +730,26 @@
         <div class="tab-content-modern active" id="tab-transaksi">
           <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;"><button class="btn-modern" id="tambahTransaksiBtn" style="width: auto; padding: 14px 28px; background: var(--primary);"><i class="fas fa-plus"></i> Transaksi Baru</button><button class="btn-modern" id="exportExcelBtn" style="width: auto; padding: 14px 28px; background: var(--success);"><i class="fas fa-file-excel"></i> Export Excel</button></div>
           <div class="filter-item-modern" style="margin-bottom: 20px;"><input type="text" id="searchTransaksi" placeholder="🔍 Cari transaksi..." style="width: 100%; padding: 14px; border: 2px solid var(--gray-200); border-radius: var(--radius-md);"></div>
-          <div style="overflow-x: auto;"><table class="table-modern"><thead><tr><th>ID</th><th>Tanggal</th><th>Pelanggan</th><th>Item</th><th>Total</th><th>Kasir</th><th>Aksi</th></tr></thead><tbody id="transaksiTable"><tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr></tbody></table></div>
+          <div style="overflow-x: auto;"><table class="table-modern"><thead> bon<th>ID</th><th>Tanggal</th><th>Pelanggan</th><th>Item</th><th>Total</th><th>Kasir</th><th>Aksi</th> </tr></thead><tbody id="transaksiTable"> <td colspan="7" style="text-align: center;">Belum ada transaksi</td> </tr></tbody></table></div>
         </div>
         
         <div class="tab-content-modern" id="tab-laporan">
           <div class="stats-grid-modern" style="grid-template-columns: repeat(3, 1fr);"><div class="stat-card-modern"><div class="stat-value" id="laporanTotalTransaksi">0</div><div class="stat-label">Total Transaksi</div></div><div class="stat-card-modern"><div class="stat-value" id="laporanTotalPendapatan">Rp 0</div><div class="stat-label">Total Pendapatan</div></div><div class="stat-card-modern"><div class="stat-value" id="laporanRataRata">Rp 0</div><div class="stat-label">Rata-rata per Transaksi</div></div></div>
-          <table class="table-modern"><thead><tr><th>Tanggal</th><th>Jumlah Transaksi</th><th>Pendapatan</th></tr></thead><tbody id="laporanTable"><tr><td colspan="3" style="text-align: center;">Belum ada data laporan</td></tr></tbody></table>
+          <table class="table-modern"><thead> <th>Tanggal</th><th>Jumlah Transaksi</th><th>Pendapatan</th> </tr></thead><tbody id="laporanTable"> <td colspan="3" style="text-align: center;">Belum ada data laporan</td> </tr></tbody></table>
         </div>
         
         <div class="tab-content-modern" id="tab-loginLog">
           <div class="filter-item-modern" style="margin-bottom: 20px;"><input type="text" id="searchLogin" placeholder="🔍 Cari log login..." style="width: 100%; padding: 14px; border: 2px solid var(--gray-200); border-radius: var(--radius-md);"></div>
-          <table class="table-modern"><thead><tr><th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th><th>Browser</th></tr></thead><tbody id="loginLogTable"><tr><td colspan="6" style="text-align: center;">Memuat log login...</td></tr></tbody></table>
+          <table class="table-modern"><thead> <th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th><th>Browser</th> </tr></thead><tbody id="loginLogTable"> <td colspan="6" style="text-align: center;">Memuat log login...</td> </tr></tbody></table>
         </div>
         
-        <div class="tab-content-modern" id="tab-users"><table class="table-modern"><thead><tr><th>Username</th><th>Role</th><th>Nama</th><th>Status</th></tr></thead><tbody id="usersTable"><tr><td colspan="4" style="text-align: center;">Memuat data user...</td></tr></tbody></table></div>
+        <div class="tab-content-modern" id="tab-users"><table class="table-modern"><thead> <th>Username</th><th>Role</th><th>Nama</th><th>Status</th> </tr></thead><tbody id="usersTable"> <td colspan="4" style="text-align: center;">Memuat data user...</td> </tr></tbody></table></div>
         
         <div class="tab-content-modern" id="tab-services"><div style="margin-bottom: 24px;"><button class="btn-modern" id="tambahLayananBtn" style="width: auto; padding: 12px 24px; background: var(--success);"><i class="fas fa-plus"></i> Tambah Layanan Baru</button></div><div class="service-list" id="serviceList" style="background: var(--gray-50); border-radius: var(--radius-lg); padding: 24px; max-height: 500px; overflow-y: auto;"></div></div>
         
         <div class="tab-content-modern" id="tab-diskon">
           <div class="diskon-section" style="margin-bottom: 28px;"><h3 style="margin-bottom: 20px; color: #92400e;"><i class="fas fa-tags"></i> Tambah Diskon / Promo</h3><div class="form-grid-modern"><div class="form-field"><input type="text" id="diskonKode" placeholder="Kode Promo (contoh: PROMO10)"></div><div class="form-field"><select id="diskonTipe"><option value="persen">Persen (%)</option><option value="nominal">Nominal (Rp)</option></select></div><div class="form-field"><input type="number" id="diskonNilai" placeholder="Nilai Diskon"></div><div class="form-field"><input type="number" id="diskonMinBelanja" placeholder="Min. Belanja (Rp)"></div><div class="form-field"><input type="date" id="diskonBerlaku"></div><div class="form-field"><button class="btn-modern" id="simpanDiskonBtn" style="padding: 14px; background: var(--primary);"><i class="fas fa-save"></i> Simpan Diskon</button></div></div></div>
-          <h3 style="margin-bottom: 20px; color: var(--primary);">Daftar Diskon Aktif</h3><table class="table-modern"><thead><tr><th>Kode</th><th>Tipe</th><th>Nilai</th><th>Min Belanja</th><th>Berlaku</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="diskonTable"><tr><td colspan="7" style="text-align: center;">Belum ada promo</td></tr></tbody></table>
+          <h3 style="margin-bottom: 20px; color: var(--primary);">Daftar Diskon Aktif</h3><table class="table-modern"><thead> <th>Kode</th><th>Tipe</th><th>Nilai</th><th>Min Belanja</th><th>Berlaku</th><th>Status</th><th>Aksi</th> </tr></thead><tbody id="diskonTable"> <td colspan="7" style="text-align: center;">Belum ada promo</td> </tr></tbody></table>
         </div>
       </div>
     </div>
@@ -780,12 +789,32 @@
     let reconnectTimer = null;
     let isConnected = false;
     let offlineQueue = [];
+    let autoRefreshInterval = null;
+    
+    // ============================================
+    // AUTO REFRESH FUNCTIONS
+    // ============================================
+    function startAutoRefresh() {
+      if (autoRefreshInterval) clearInterval(autoRefreshInterval);
+      autoRefreshInterval = setInterval(async () => {
+        if (navigator.onLine && isConnected) {
+          console.log('🔄 Auto refresh data...');
+          await loadDataFromAPI();
+        }
+      }, 15000);
+    }
+    
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+      }
+    }
     
     // ============================================
     // DATA LAYANAN LENGKAP
     // ============================================
     let serviceDB = [
-      // ========== ANDROID ==========
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Original', jenis: 'Sparepart', harga: 850000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Premium', jenis: 'Sparepart', harga: 550000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Standard', jenis: 'Sparepart', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
@@ -822,8 +851,6 @@
       { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Ganti Baterai Original', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'OPPO Reno/Find Series Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Vivo V/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      
-      // ========== IPHONE ==========
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Original', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12/11/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
@@ -842,8 +869,6 @@
       { kategori: 'iPhone', tipe: 'Audio', nama: 'Ganti Mic iPhone (Universal)', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Software', nama: 'Restore/Update iOS', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'iPhone', tipe: 'Software', nama: 'Unlock iCloud (Jasa Khusus)', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
-      
-      // ========== LAPTOP ==========
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows 10/11 + Driver', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Microsoft Office', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
@@ -874,16 +899,12 @@
       { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Original', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Original', jenis: 'Sparepart', harga: 2200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      
-      // ========== TABLET ==========
       { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 7-8 inch', jenis: 'Sparepart', harga: 700000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 10 inch', jenis: 'Sparepart', harga: 1000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air/Pro Ganti LCD Original', jenis: 'Sparepart', harga: 3800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Baterai', nama: 'Ganti Baterai Tablet Android', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Baterai', nama: 'Ganti Baterai iPad Original', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      
-      // ========== GAMING CONSOLE ==========
       { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Ganti Optical Lens', jenis: 'Sparepart', harga: 600000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Service HDMI Rusak', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
@@ -891,21 +912,15 @@
       { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One/Series Service', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Ganti LCD', jenis: 'Sparepart', harga: 1300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Ganti Joycon', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      
-      // ========== PRINTER ==========
       { kategori: 'Printer', tipe: 'Printer', nama: 'Service Printer (Tidak Ngeprint/Macet)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Flushing (Tinta Tidak Keluar)', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Printer', tipe: 'Canon', nama: 'Canon Ganti Printhead', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Printer', tipe: 'HP', nama: 'HP Ganti Cartridge Original', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
-      
-      // ========== SMARTWATCH ==========
       { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Ganti LCD', jenis: 'Sparepart', harga: 2500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Ganti Baterai', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Ganti LCD', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Ganti Baterai', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      
-      // ========== DESKTOP PC ==========
       { kategori: 'Desktop', tipe: 'Power', nama: 'Ganti Power Supply PC 450W', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
       { kategori: 'Desktop', tipe: 'Power', nama: 'Ganti Power Supply PC 600W', jenis: 'Sparepart', harga: 750000, estimasi: '1 Jam', garansi: '30 Hari' },
       { kategori: 'Desktop', tipe: 'RAM', nama: 'Upgrade RAM PC DDR3/DDR4', jenis: 'Sparepart', harga: 400000, estimasi: '1 Jam', garansi: '30 Hari' },
@@ -936,54 +951,51 @@
     // API FUNCTIONS
     // ============================================
     async function loadDataFromAPI() {
-  console.log('🔄 Loading data from API...');
-  
-  try {
-    // Load transaksi
-    const transRes = await fetch(`${API_BASE_URL}/api/transactions`);
-    if (transRes.ok) {
-      const data = await transRes.json();
-      if (data && data.length > 0) {
-        // Cek apakah ada data baru
-        const currentIds = transactions.map(t => t.transaksi_id).join(',');
-        const newIds = data.map(t => t.transaksi_id).join(',');
-        
-        if (currentIds !== newIds) {
-          transactions = data;
-          saveTransactionsToStorage();
-          console.log(`✅ Loaded ${transactions.length} transactions from API`);
-          refreshAllUI();
-          if (currentUser) loadAdminData();
-          showToast(`📊 ${transactions.length} transaksi dimuat`, 'success');
+      console.log('🔄 Loading data from API...');
+      
+      try {
+        const transRes = await fetch(`${API_BASE_URL}/api/transactions`);
+        if (transRes.ok) {
+          const data = await transRes.json();
+          if (data && data.length > 0) {
+            const currentIds = transactions.map(t => t.transaksi_id).join(',');
+            const newIds = data.map(t => t.transaksi_id).join(',');
+            
+            if (currentIds !== newIds) {
+              transactions = data;
+              saveTransactionsToStorage();
+              console.log(`✅ Loaded ${transactions.length} transactions from API`);
+              refreshAllUI();
+              if (currentUser) loadAdminData();
+              showToast(`📊 ${transactions.length} transaksi dimuat`, 'success');
+            }
+          }
         }
+        
+        const diskonRes = await fetch(`${API_BASE_URL}/api/diskon`);
+        if (diskonRes.ok) {
+          const data = await diskonRes.json();
+          if (data && data.length > 0) {
+            const currentCodes = diskonList.map(d => d.kode).join(',');
+            const newCodes = data.map(d => d.kode).join(',');
+            
+            if (currentCodes !== newCodes) {
+              diskonList = data;
+              saveDiskonToStorage();
+              console.log(`✅ Loaded ${diskonList.length} discounts from API`);
+              renderPromoBanner();
+              renderDiskonInfo();
+            }
+          }
+        }
+        
+        return true;
+      } catch (error) {
+        console.error('Error loading from API:', error);
+        loadAllData();
+        return false;
       }
     }
-    
-    // Load diskon
-    const diskonRes = await fetch(`${API_BASE_URL}/api/diskon`);
-    if (diskonRes.ok) {
-      const data = await diskonRes.json();
-      if (data && data.length > 0) {
-        const currentCodes = diskonList.map(d => d.kode).join(',');
-        const newCodes = data.map(d => d.kode).join(',');
-        
-        if (currentCodes !== newCodes) {
-          diskonList = data;
-          saveDiskonToStorage();
-          console.log(`✅ Loaded ${diskonList.length} discounts from API`);
-          renderPromoBanner();
-          renderDiskonInfo();
-        }
-      }
-    }
-    
-    return true;
-  } catch (error) {
-    console.error('Error loading from API:', error);
-    loadAllData();
-    return false;
-  }
-}
     
     function loadOfflineQueue() { try { const saved = localStorage.getItem('offlineQueue'); if (saved) offlineQueue = JSON.parse(saved); } catch(e) { offlineQueue = []; } }
     function saveOfflineQueue() { localStorage.setItem('offlineQueue', JSON.stringify(offlineQueue)); }
@@ -1012,50 +1024,50 @@
     // WEBSOCKET
     // ============================================
     function connectWebSocket() {
-  if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) return;
-  
-  try {
-    socket = new WebSocket(WS_URL);
-    
-    socket.onopen = function() {
-      console.log('✅ WebSocket terhubung - ID:', Math.random().toString(36).substring(2, 8));
-      isConnected = true;
-      updateRealtimeStatus('Terhubung', 'success');
-      socket.send(JSON.stringify({ type: 'sync', client: 'web' }));
-      setTimeout(processOfflineQueue, 1000);
-    };
-    
-    socket.onmessage = function(event) {
-      console.log('📨 WebSocket message diterima:', event.data.substring(0, 100));
+      if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) return;
+      
       try {
-        const data = JSON.parse(event.data);
-        handleWebSocketMessage(data);
+        socket = new WebSocket(WS_URL);
+        
+        socket.onopen = function() {
+          console.log('✅ WebSocket terhubung - ID:', Math.random().toString(36).substring(2, 8));
+          isConnected = true;
+          updateRealtimeStatus('Terhubung', 'success');
+          socket.send(JSON.stringify({ type: 'sync', client: 'web' }));
+          setTimeout(processOfflineQueue, 1000);
+        };
+        
+        socket.onmessage = function(event) {
+          console.log('📨 WebSocket message diterima:', event.data.substring(0, 100));
+          try {
+            const data = JSON.parse(event.data);
+            handleWebSocketMessage(data);
+          } catch (e) {
+            console.error('Error parsing WebSocket message:', e);
+          }
+        };
+        
+        socket.onclose = function() {
+          console.log('❌ WebSocket terputus');
+          isConnected = false;
+          updateRealtimeStatus('Terputus', 'danger');
+          if (reconnectTimer) clearTimeout(reconnectTimer);
+          reconnectTimer = setTimeout(connectWebSocket, 3000);
+        };
+        
+        socket.onerror = function(error) {
+          console.error('WebSocket error:', error);
+          isConnected = false;
+          updateRealtimeStatus('Error', 'danger');
+        };
+        
       } catch (e) {
-        console.error('Error parsing WebSocket message:', e);
+        console.error('Gagal konek WebSocket:', e);
+        updateRealtimeStatus('Gagal konek', 'danger');
+        if (reconnectTimer) clearTimeout(reconnectTimer);
+        reconnectTimer = setTimeout(connectWebSocket, 5000);
       }
-    };
-    
-    socket.onclose = function() {
-      console.log('❌ WebSocket terputus');
-      isConnected = false;
-      updateRealtimeStatus('Terputus', 'danger');
-      if (reconnectTimer) clearTimeout(reconnectTimer);
-      reconnectTimer = setTimeout(connectWebSocket, 3000);
-    };
-    
-    socket.onerror = function(error) {
-      console.error('WebSocket error:', error);
-      isConnected = false;
-      updateRealtimeStatus('Error', 'danger');
-    };
-    
-  } catch (e) {
-    console.error('Gagal konek WebSocket:', e);
-    updateRealtimeStatus('Gagal konek', 'danger');
-    if (reconnectTimer) clearTimeout(reconnectTimer);
-    reconnectTimer = setTimeout(connectWebSocket, 5000);
-  }
-}
+    }
     
     function updateRealtimeStatus(text, type) {
       const badge = document.getElementById('realtimeBadge'), status = document.getElementById('realtimeStatus');
@@ -1066,83 +1078,82 @@
     }
     
     function handleWebSocketMessage(data) {
-  console.log('📦 WebSocket message:', data);
-  
-  switch(data.type) {
-    case 'sync':
-      if (data.transactions) {
-        transactions = data.transactions;
-        saveTransactionsToStorage();
-      }
-      if (data.diskon) {
-        diskonList = data.diskon;
-        saveDiskonToStorage();
-      }
-      if (data.customItems) {
-        customItems = data.customItems;
-        saveCustomItemsToStorage();
-      }
-      if (data.loginLogs) {
-        loginLogs = data.loginLogs;
-        saveLoginLogsToStorage();
-      }
-      refreshAllUI();
-      if (currentUser) loadAdminData();
-      showToast('Data diperbarui secara realtime', 'success');
-      break;
+      console.log('📦 WebSocket message:', data);
       
-    case 'newTransaction':
-      if (data.transaction) {
-        // Cek apakah transaksi sudah ada (hindari duplikat)
-        const exists = transactions.some(t => t.transaksi_id === data.transaction.transaksi_id);
-        if (!exists) {
-          transactions.unshift(data.transaction);
-          saveTransactionsToStorage();
+      switch(data.type) {
+        case 'sync':
+          if (data.transactions) {
+            transactions = data.transactions;
+            saveTransactionsToStorage();
+          }
+          if (data.diskon) {
+            diskonList = data.diskon;
+            saveDiskonToStorage();
+          }
+          if (data.customItems) {
+            customItems = data.customItems;
+            saveCustomItemsToStorage();
+          }
+          if (data.loginLogs) {
+            loginLogs = data.loginLogs;
+            saveLoginLogsToStorage();
+          }
           refreshAllUI();
           if (currentUser) loadAdminData();
-          showToast('📱 Transaksi baru dari kasir lain!', 'success');
-        }
+          showToast('Data diperbarui secara realtime', 'success');
+          break;
+          
+        case 'newTransaction':
+          if (data.transaction) {
+            const exists = transactions.some(t => t.transaksi_id === data.transaction.transaksi_id);
+            if (!exists) {
+              transactions.unshift(data.transaction);
+              saveTransactionsToStorage();
+              refreshAllUI();
+              if (currentUser) loadAdminData();
+              showToast('📱 Transaksi baru dari kasir lain!', 'success');
+            }
+          }
+          break;
+          
+        case 'newDiskon':
+          if (data.diskon) {
+            const exists = diskonList.some(d => d.kode === data.diskon.kode);
+            if (!exists) {
+              diskonList.push(data.diskon);
+              saveDiskonToStorage();
+              refreshAllUI();
+              showToast('🏷️ Promo baru ditambahkan!', 'success');
+            }
+          }
+          break;
+          
+        case 'deleteDiskon':
+          if (data.kode) {
+            const index = diskonList.findIndex(d => d.kode === data.kode);
+            if (index !== -1) {
+              diskonList.splice(index, 1);
+              saveDiskonToStorage();
+              refreshAllUI();
+              showToast('🗑️ Promo dihapus!', 'warning');
+            }
+          }
+          break;
+          
+        case 'updateDiskon':
+          if (data.diskon) {
+            diskonList = data.diskon;
+            saveDiskonToStorage();
+            refreshAllUI();
+            showToast('🏷️ Data promo diperbarui!', 'success');
+          }
+          break;
+          
+        case 'ping':
+          socket.send(JSON.stringify({ type: 'pong' }));
+          break;
       }
-      break;
-      
-    case 'newDiskon':
-      if (data.diskon) {
-        const exists = diskonList.some(d => d.kode === data.diskon.kode);
-        if (!exists) {
-          diskonList.push(data.diskon);
-          saveDiskonToStorage();
-          refreshAllUI();
-          showToast('🏷️ Promo baru ditambahkan!', 'success');
-        }
-      }
-      break;
-      
-    case 'deleteDiskon':
-      if (data.kode) {
-        const index = diskonList.findIndex(d => d.kode === data.kode);
-        if (index !== -1) {
-          diskonList.splice(index, 1);
-          saveDiskonToStorage();
-          refreshAllUI();
-          showToast('🗑️ Promo dihapus!', 'warning');
-        }
-      }
-      break;
-      
-    case 'updateDiskon':
-      if (data.diskon) {
-        diskonList = data.diskon;
-        saveDiskonToStorage();
-        refreshAllUI();
-        showToast('🏷️ Data promo diperbarui!', 'success');
-      }
-      break;
-      
-    case 'ping':
-      socket.send(JSON.stringify({ type: 'pong' }));
-      break;
-  }
-}
+    }
     
     function refreshAllUI() {
       if (document.getElementById('publicMode').style.display !== 'none') { renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); if (currentItem) { const updatedItem = [...serviceDB, ...customItems].find(i => i.nama === currentItem.nama && i.harga === currentItem.harga); if (updatedItem) { currentItem = updatedItem; updateDetail(currentItem); } } }
@@ -1307,14 +1318,14 @@
       const loginLogTable = document.getElementById('loginLogTable');
       if (loginLogTable) {
         let logHtml = '';
-        loginLogs.slice(0, 50).forEach(log => { logHtml += `<tr><td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td>${log.username || '-'}</td><td>${log.role || '-'}</td><td>${log.ip || '-'}</td><td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td>${log.browser || 'Unknown'}</td></tr>`; });
+        loginLogs.slice(0, 50).forEach(log => { logHtml += ` <td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td>${log.username || '-'}</td><td>${log.role || '-'}</td><td>${log.ip || '-'}</td><td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td>${log.browser || 'Unknown'}</td> `; });
         loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada log</td></tr>';
       }
       
       const transaksiTable = document.getElementById('transaksiTable');
       if (transaksiTable) {
         let transaksiHtml = '';
-        transactions.slice(0, 50).forEach(t => { transaksiHtml += `<tr><td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`; });
+        transactions.slice(0, 50).forEach(t => { transaksiHtml += ` <td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td> `; });
         transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>';
       }
       
@@ -1331,17 +1342,17 @@
       const laporanTable = document.getElementById('laporanTable');
       if (laporanTable) {
         let laporanHtml = '';
-        Object.entries(laporanByDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 30).forEach(([date, data]) => { laporanHtml += `<tr><td>${date}</td><td>${data.count} transaksi</td><td>${formatRupiah(data.total)}</td></tr>`; });
+        Object.entries(laporanByDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 30).forEach(([date, data]) => { laporanHtml += ` <td>${date}</td><td>${data.count} transaksi</td><td>${formatRupiah(data.total)}</td> `; });
         laporanTable.innerHTML = laporanHtml || '<tr><td colspan="3" style="text-align: center;">Belum ada data laporan</td></tr>';
       }
       
       const usersTable = document.getElementById('usersTable');
-      if (usersTable) { let usersHtml = ''; users.forEach(u => { usersHtml += `<tr><td>${u.username}</td><td>${u.role === 'admin' ? 'Administrator' : 'Kasir'}</td><td>${u.name}</td><td><span class="status-badge status-success">Aktif</span></td></tr>`; }); usersTable.innerHTML = usersHtml; }
+      if (usersTable) { let usersHtml = ''; users.forEach(u => { usersHtml += ` <td>${u.username}</td><td>${u.role === 'admin' ? 'Administrator' : 'Kasir'}</td><td>${u.name}</td><td><span class="status-badge status-success">Aktif</span></td> `; }); usersTable.innerHTML = usersHtml; }
       
       const diskonTable = document.getElementById('diskonTable');
       if (diskonTable) {
         let diskonHtml = '';
-        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += `<tr><td><strong>${d.kode}</strong></td><td>${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td><td>${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td><td>${formatRupiah(d.minBelanja || 0)}</td><td>${new Date(d.berlaku).toLocaleDateString('id-ID')}</td><td><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td><td><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td></tr>`; });
+        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += ` <td><strong>${d.kode}</strong></td><td>${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td><td>${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td><td>${formatRupiah(d.minBelanja || 0)}</td><td>${new Date(d.berlaku).toLocaleDateString('id-ID')}</td><td><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td><td><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td> `; });
         diskonTable.innerHTML = diskonHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada promo</td></tr>';
       }
       renderServiceList();
@@ -1392,10 +1403,21 @@
       loadOfflineQueue();
       await loadDataFromAPI();
       connectWebSocket();
+      startAutoRefresh();
       renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); startCountdown();
       
       const savedUser = sessionStorage.getItem('currentUser');
       if (savedUser) { try { currentUser = JSON.parse(savedUser); document.getElementById('userName').textContent = currentUser.name; document.getElementById('publicMode').style.display = 'none'; document.getElementById('adminMode').style.display = 'block'; document.getElementById('adminToggleBtn').classList.add('active'); document.getElementById('userModeBtn').classList.remove('active'); loadAdminData(); } catch(e) { console.error('Error parsing saved user', e); } }
+      
+      // Tombol refresh manual
+      document.getElementById('manualRefreshBtn')?.addEventListener('click', async () => {
+        showToast('🔄 Menyegarkan data...', 'warning');
+        await loadDataFromAPI();
+        if (socket && isConnected) {
+          socket.send(JSON.stringify({ type: 'sync', client: 'web' }));
+        }
+        showToast('✅ Data berhasil disegarkan!', 'success');
+      });
       
       document.getElementById('kategoriSelect')?.addEventListener('change', () => { renderTipeOptions(); renderItemOptions(); });
       document.getElementById('tipeSelect')?.addEventListener('change', renderItemOptions);
@@ -1437,7 +1459,16 @@
         } else alert('Username atau password salah');
       });
       
-      document.getElementById('logoutBtn')?.addEventListener('click', () => { currentUser = null; sessionStorage.removeItem('currentUser'); document.getElementById('publicMode').style.display = 'block'; document.getElementById('adminMode').style.display = 'none'; document.getElementById('userModeBtn').classList.add('active'); document.getElementById('adminToggleBtn').classList.remove('active'); showToast('Berhasil logout'); });
+      document.getElementById('logoutBtn')?.addEventListener('click', () => { 
+        currentUser = null; 
+        sessionStorage.removeItem('currentUser'); 
+        stopAutoRefresh();
+        document.getElementById('publicMode').style.display = 'block'; 
+        document.getElementById('adminMode').style.display = 'none'; 
+        document.getElementById('userModeBtn').classList.add('active'); 
+        document.getElementById('adminToggleBtn').classList.remove('active'); 
+        showToast('Berhasil logout'); 
+      });
       
       document.querySelectorAll('.tab-modern').forEach(tab => { tab.addEventListener('click', function() { document.querySelectorAll('.tab-modern').forEach(t => t.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab-content-modern').forEach(c => c.classList.remove('active')); const tabId = this.dataset.tab; const tabContent = document.getElementById(`tab-${tabId}`); if (tabContent) tabContent.classList.add('active'); if (tabId === 'services') renderServiceList(); }); });
       
@@ -1505,7 +1536,7 @@
         loadAdminData(); renderPromoBanner(); renderDiskonInfo();
       });
       
-      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 50).forEach(t => { transaksiHtml += ` <tr><td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`; }); transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Tidak ada hasil</td></tr>'; });
+      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 50).forEach(t => { transaksiHtml += `<tr><td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`; }); transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Tidak ada hasil</td></tr>'; });
       
       document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `<tr><td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td>${log.username || '-'}</td><td>${log.role || '-'}</td><td>${log.ip || '-'}</td><td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td>${log.browser || 'Unknown'}</td></tr>`; }); loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Tidak ada hasil</td></tr>'; });
       
