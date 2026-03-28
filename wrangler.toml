@@ -1,19 +1,24 @@
 name = "malik-service-api"
-main = "functions/api/transactions.js"
-compatibility_date = "2024-01-01"
+main = "functions/websocket.js"  # Ganti ke websocket.js
+compatibility_date = "2026-01-01"
 
 # D1 Database binding
 [[d1_databases]]
-binding = "DB"              # HARUS "DB" (sesuai kode)
+binding = "DB"
 database_name = "malik-service-db"
-database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"  # GANTI DENGAN ID DATABASE KAMU!
+database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"
 
-# Environment variables (opsional)
+# Routes - WebSocket endpoint
+[[routes]]
+pattern = "malik-service-ws.thumbtackid.workers.dev"
+zone_id = "your-zone-id"  # Isi dengan zone ID Anda
+
+# Environment variables
 [vars]
 ENVIRONMENT = "production"
 SITE_NAME = "Malik Service"
-SITE_URL = "https://malikservice.com"
+WS_URL = "wss://malik-service-ws.thumbtackid.workers.dev"
 
-# Observability (untuk logs)
+# Observability
 [observability]
 enabled = true
