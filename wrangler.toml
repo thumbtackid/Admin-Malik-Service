@@ -8,11 +8,11 @@ binding = "DB"
 database_name = "malik-service-db"
 database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"
 
-# Routes - API endpoint (tanpa zone_id)
+# Routes - API endpoint
 [[routes]]
 pattern = "malik-service-api.thumbtackid.workers.dev/api/*"
 
-# Routes - WebSocket endpoint (tanpa zone_id)
+# Routes - WebSocket endpoint
 [[routes]]
 pattern = "malik-service-ws.thumbtackid.workers.dev"
 
