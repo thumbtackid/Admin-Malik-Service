@@ -24,7 +24,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
   
   <style>
-    /* ===== RESET & VARIABLES ===== */
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
       --primary: #2563eb;
@@ -447,11 +446,76 @@
     .tab-modern.active { background: var(--primary); color: white; animation: pulse-glow 2s ease-in-out infinite; }
     .tab-content-modern { display: none; animation: slideIn 0.3s ease-out; }
     .tab-content-modern.active { display: block; }
-    .table-modern { width: 100%; border-collapse: collapse; background: white; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-md); }
-    .table-modern th { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; padding: 18px; text-align: left; font-weight: 600; }
-    .table-modern td { padding: 16px 18px; border-bottom: 1px solid var(--gray-200); }
+    /* ===== TABEL RESPONSIF TANPA SCROLL ===== */
+    .table-modern {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .table-modern th {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 12px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .table-modern td {
+      padding: 12px 12px;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 14px;
+    }
     .table-modern tr:hover { background: var(--gray-50); }
     .table-modern tr:last-child td { border-bottom: none; }
+    
+    /* Tampilan Card untuk HP */
+    @media (max-width: 768px) {
+      .table-modern,
+      .table-modern thead,
+      .table-modern tbody,
+      .table-modern tr {
+        display: block;
+      }
+      .table-modern thead {
+        display: none;
+      }
+      .table-modern tr {
+        background: white;
+        border-radius: 16px;
+        margin-bottom: 16px;
+        padding: 16px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border: 1px solid var(--gray-200);
+      }
+      .table-modern td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--gray-100);
+        text-align: right;
+        font-size: 14px;
+      }
+      .table-modern td:last-child {
+        border-bottom: none;
+      }
+      .table-modern td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--gray-700);
+        text-align: left;
+        margin-right: 16px;
+        min-width: 100px;
+      }
+      .print-btn-modern {
+        width: 36px;
+        height: 36px;
+      }
+    }
+    
     .status-badge { padding: 6px 14px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; display: inline-block; }
     .status-success { background: rgba(16, 185, 129, 0.2); color: var(--success); }
     .status-failed { background: rgba(239, 68, 68, 0.2); color: var(--danger); }
@@ -730,26 +794,35 @@
         <div class="tab-content-modern active" id="tab-transaksi">
           <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;"><button class="btn-modern" id="tambahTransaksiBtn" style="width: auto; padding: 14px 28px; background: var(--primary);"><i class="fas fa-plus"></i> Transaksi Baru</button><button class="btn-modern" id="exportExcelBtn" style="width: auto; padding: 14px 28px; background: var(--success);"><i class="fas fa-file-excel"></i> Export Excel</button></div>
           <div class="filter-item-modern" style="margin-bottom: 20px;"><input type="text" id="searchTransaksi" placeholder="🔍 Cari transaksi..." style="width: 100%; padding: 14px; border: 2px solid var(--gray-200); border-radius: var(--radius-md);"></div>
-          <div style="overflow-x: auto;"><table class="table-modern"><thead> bon<th>ID</th><th>Tanggal</th><th>Pelanggan</th><th>Item</th><th>Total</th><th>Kasir</th><th>Aksi</th> </tr></thead><tbody id="transaksiTable"> <td colspan="7" style="text-align: center;">Belum ada transaksi</td> </tr></tbody></table></div>
+          <div style="overflow-x: auto;">
+            <table class="table-modern">
+              <thead>
+                <tr><th>ID</th><th>Tanggal</th><th>Pelanggan</th><th>Item</th><th>Total</th><th>Kasir</th><th>Aksi</th></tr>
+              </thead>
+              <tbody id="transaksiTable">
+                <tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         
         <div class="tab-content-modern" id="tab-laporan">
           <div class="stats-grid-modern" style="grid-template-columns: repeat(3, 1fr);"><div class="stat-card-modern"><div class="stat-value" id="laporanTotalTransaksi">0</div><div class="stat-label">Total Transaksi</div></div><div class="stat-card-modern"><div class="stat-value" id="laporanTotalPendapatan">Rp 0</div><div class="stat-label">Total Pendapatan</div></div><div class="stat-card-modern"><div class="stat-value" id="laporanRataRata">Rp 0</div><div class="stat-label">Rata-rata per Transaksi</div></div></div>
-          <table class="table-modern"><thead> <th>Tanggal</th><th>Jumlah Transaksi</th><th>Pendapatan</th> </tr></thead><tbody id="laporanTable"> <td colspan="3" style="text-align: center;">Belum ada data laporan</td> </tr></tbody></table>
+          <table class="table-modern"><thead><tr><th>Tanggal</th><th>Jumlah Transaksi</th><th>Pendapatan</th></tr></thead><tbody id="laporanTable"><tr><td colspan="3" style="text-align: center;">Belum ada data laporan</td></tr></tbody></table>
         </div>
         
         <div class="tab-content-modern" id="tab-loginLog">
           <div class="filter-item-modern" style="margin-bottom: 20px;"><input type="text" id="searchLogin" placeholder="🔍 Cari log login..." style="width: 100%; padding: 14px; border: 2px solid var(--gray-200); border-radius: var(--radius-md);"></div>
-          <table class="table-modern"><thead> <th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th><th>Browser</th> </tr></thead><tbody id="loginLogTable"> <td colspan="6" style="text-align: center;">Memuat log login...</td> </tr></tbody></table>
+          <table class="table-modern"><thead><tr><th>Waktu</th><th>Username</th><th>Role</th><th>IP</th><th>Status</th><th>Browser</th></tr></thead><tbody id="loginLogTable"><tr><td colspan="6" style="text-align: center;">Memuat log login...</td></tr></tbody></table>
         </div>
         
-        <div class="tab-content-modern" id="tab-users"><table class="table-modern"><thead> <th>Username</th><th>Role</th><th>Nama</th><th>Status</th> </tr></thead><tbody id="usersTable"> <td colspan="4" style="text-align: center;">Memuat data user...</td> </tr></tbody></table></div>
+        <div class="tab-content-modern" id="tab-users"><table class="table-modern"><thead><tr><th>Username</th><th>Role</th><th>Nama</th><th>Status</th></tr></thead><tbody id="usersTable"><tr><td colspan="4" style="text-align: center;">Memuat data user...</td></tr></tbody></table></div>
         
         <div class="tab-content-modern" id="tab-services"><div style="margin-bottom: 24px;"><button class="btn-modern" id="tambahLayananBtn" style="width: auto; padding: 12px 24px; background: var(--success);"><i class="fas fa-plus"></i> Tambah Layanan Baru</button></div><div class="service-list" id="serviceList" style="background: var(--gray-50); border-radius: var(--radius-lg); padding: 24px; max-height: 500px; overflow-y: auto;"></div></div>
         
         <div class="tab-content-modern" id="tab-diskon">
           <div class="diskon-section" style="margin-bottom: 28px;"><h3 style="margin-bottom: 20px; color: #92400e;"><i class="fas fa-tags"></i> Tambah Diskon / Promo</h3><div class="form-grid-modern"><div class="form-field"><input type="text" id="diskonKode" placeholder="Kode Promo (contoh: PROMO10)"></div><div class="form-field"><select id="diskonTipe"><option value="persen">Persen (%)</option><option value="nominal">Nominal (Rp)</option></select></div><div class="form-field"><input type="number" id="diskonNilai" placeholder="Nilai Diskon"></div><div class="form-field"><input type="number" id="diskonMinBelanja" placeholder="Min. Belanja (Rp)"></div><div class="form-field"><input type="date" id="diskonBerlaku"></div><div class="form-field"><button class="btn-modern" id="simpanDiskonBtn" style="padding: 14px; background: var(--primary);"><i class="fas fa-save"></i> Simpan Diskon</button></div></div></div>
-          <h3 style="margin-bottom: 20px; color: var(--primary);">Daftar Diskon Aktif</h3><table class="table-modern"><thead> <th>Kode</th><th>Tipe</th><th>Nilai</th><th>Min Belanja</th><th>Berlaku</th><th>Status</th><th>Aksi</th> </tr></thead><tbody id="diskonTable"> <td colspan="7" style="text-align: center;">Belum ada promo</td> </tr></tbody></table>
+          <h3 style="margin-bottom: 20px; color: var(--primary);">Daftar Diskon Aktif</h3><table class="table-modern"><thead><tr><th>Kode</th><th>Tipe</th><th>Nilai</th><th>Min Belanja</th><th>Berlaku</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="diskonTable"><tr><td colspan="7" style="text-align: center;">Belum ada promo</td></tr></tbody></table>
         </div>
       </div>
     </div>
@@ -812,7 +885,7 @@
     }
     
     // ============================================
-    // DATA LAYANAN LENGKAP
+    // DATA LAYANAN LENGKAP (SAMA SEPERTI SEBELUMNYA, TIDAK DIUBAH)
     // ============================================
     let serviceDB = [
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Original', jenis: 'Sparepart', harga: 850000, estimasi: '2-3 Jam', garansi: '30 Hari' },
@@ -1303,6 +1376,7 @@
       serviceList.innerHTML = html;
     }
     
+    // ===== FUNGSI LOAD ADMIN DATA DENGAN DATA-LABEL UNTUK HP =====
     function loadAdminData() {
       const totalTransaksi = document.getElementById('totalTransaksi');
       const totalPendapatan = document.getElementById('totalPendapatan');
@@ -1318,14 +1392,33 @@
       const loginLogTable = document.getElementById('loginLogTable');
       if (loginLogTable) {
         let logHtml = '';
-        loginLogs.slice(0, 50).forEach(log => { logHtml += ` <td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td>${log.username || '-'}</td><td>${log.role || '-'}</td><td>${log.ip || '-'}</td><td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td>${log.browser || 'Unknown'}</td> `; });
+        loginLogs.slice(0, 50).forEach(log => {
+          logHtml += `<tr>
+            <td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td>
+            <td data-label="Username">${log.username || '-'}</td>
+            <td data-label="Role">${log.role || '-'}</td>
+            <td data-label="IP">${log.ip || '-'}</td>
+            <td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td>
+            <td data-label="Browser">${log.browser || 'Unknown'}</td>
+          </tr>`;
+        });
         loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada log</td></tr>';
       }
       
       const transaksiTable = document.getElementById('transaksiTable');
       if (transaksiTable) {
         let transaksiHtml = '';
-        transactions.slice(0, 50).forEach(t => { transaksiHtml += ` <td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td> `; });
+        transactions.slice(0, 100).forEach(t => {
+          transaksiHtml += `<tr>
+            <td data-label="ID">${t.transaksi_id || t.id || '-'}</td>
+            <td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td>
+            <td data-label="Pelanggan">${t.nama_pelanggan || '-'}</td>
+            <td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'}</td>
+            <td data-label="Total">${formatRupiah(t.total || 0)}</td>
+            <td data-label="Kasir">${t.kasir || 'Admin'}</td>
+            <td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td>
+          </tr>`;
+        });
         transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>';
       }
       
@@ -1342,17 +1435,27 @@
       const laporanTable = document.getElementById('laporanTable');
       if (laporanTable) {
         let laporanHtml = '';
-        Object.entries(laporanByDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 30).forEach(([date, data]) => { laporanHtml += ` <td>${date}</td><td>${data.count} transaksi</td><td>${formatRupiah(data.total)}</td> `; });
+        Object.entries(laporanByDate).sort((a, b) => b[0].localeCompare(a[0])).slice(0, 30).forEach(([date, data]) => {
+          laporanHtml += `<tr><td data-label="Tanggal">${date}</td><td data-label="Jumlah">${data.count} transaksi</td><td data-label="Pendapatan">${formatRupiah(data.total)}</td></tr>`;
+        });
         laporanTable.innerHTML = laporanHtml || '<tr><td colspan="3" style="text-align: center;">Belum ada data laporan</td></tr>';
       }
       
       const usersTable = document.getElementById('usersTable');
-      if (usersTable) { let usersHtml = ''; users.forEach(u => { usersHtml += ` <td>${u.username}</td><td>${u.role === 'admin' ? 'Administrator' : 'Kasir'}</td><td>${u.name}</td><td><span class="status-badge status-success">Aktif</span></td> `; }); usersTable.innerHTML = usersHtml; }
+      if (usersTable) { let usersHtml = ''; users.forEach(u => { usersHtml += `<tr><td data-label="Username">${u.username}</td><td data-label="Role">${u.role === 'admin' ? 'Administrator' : 'Kasir'}</td><td data-label="Nama">${u.name}</td><td data-label="Status"><span class="status-badge status-success">Aktif</span></td></tr>`; }); usersTable.innerHTML = usersHtml; }
       
       const diskonTable = document.getElementById('diskonTable');
       if (diskonTable) {
         let diskonHtml = '';
-        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += ` <td><strong>${d.kode}</strong></td><td>${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td><td>${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td><td>${formatRupiah(d.minBelanja || 0)}</td><td>${new Date(d.berlaku).toLocaleDateString('id-ID')}</td><td><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td><td><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td> `; });
+        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += `<tr>
+          <td data-label="Kode"><strong>${d.kode}</strong></td>
+          <td data-label="Tipe">${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td>
+          <td data-label="Nilai">${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td>
+          <td data-label="Min Belanja">${formatRupiah(d.minBelanja || 0)}</td>
+          <td data-label="Berlaku">${new Date(d.berlaku).toLocaleDateString('id-ID')}</td>
+          <td data-label="Status"><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td>
+          <td data-label="Aksi"><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td>
+        </tr>`; });
         diskonTable.innerHTML = diskonHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada promo</td></tr>';
       }
       renderServiceList();
@@ -1536,9 +1639,9 @@
         loadAdminData(); renderPromoBanner(); renderDiskonInfo();
       });
       
-      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 50).forEach(t => { transaksiHtml += `<tr><td>${t.transaksi_id || t.id || '-'}</td><td>${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td>${t.nama_pelanggan || '-'}</td><td>${t.item ? t.item.substring(0, 30) + (t.item.length > 30 ? '...' : '') : '-'}</td><td>${formatRupiah(t.total || 0)}</td><td>${t.kasir || 'Admin'}</td><td><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`; }); transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Tidak ada hasil</td></tr>'; });
+      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 100).forEach(t => { transaksiHtml += `<tr><td data-label="ID">${t.transaksi_id || t.id || '-'} \\<td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'} \\<td data-label="Pelanggan">${t.nama_pelanggan || '-'} \\<td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'} \\<td data-label="Total">${formatRupiah(t.total || 0)} \\<td data-label="Kasir">${t.kasir || 'Admin'} \\<td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button> \\`; }); transaksiTable.innerHTML = transaksiHtml || '}<td colspan="7" style="text-align: center;">Tidak ada hasil</td>'; });
       
-      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `<tr><td>${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td>${log.username || '-'}</td><td>${log.role || '-'}</td><td>${log.ip || '-'}</td><td><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td>${log.browser || 'Unknown'}</td></tr>`; }); loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Tidak ada hasil</td></tr>'; });
+      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `}<td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td data-label="Username">${log.username || '-'}</td><td data-label="Role">${log.role || '-'}</td><td data-label="IP">${log.ip || '-'}</td><td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td data-label="Browser">${log.browser || 'Unknown'}</td>`; }); loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Tidak ada hasil</td></tr>'; });
       
       document.getElementById('closePrintModal')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
       document.getElementById('cancelPrint')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
