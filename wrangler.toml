@@ -8,16 +8,13 @@ binding = "DB"
 database_name = "malik-service-db"
 database_id = "fa471c71-a99f-4147-a2f5-d13f096ad89c"
 
-# Routes - WebSocket endpoint
+# Routes - API endpoint (tanpa zone_id)
+[[routes]]
+pattern = "malik-service-api.thumbtackid.workers.dev/api/*"
+
+# Routes - WebSocket endpoint (tanpa zone_id)
 [[routes]]
 pattern = "malik-service-ws.thumbtackid.workers.dev"
-# GANTI DENGAN ZONE ID ANDA (bisa cek di dashboard Cloudflare)
-zone_id = "your-zone-id-here"
-
-# Routes - API endpoint
-[[routes]]
-pattern = "malik-service-api.thumbtackid.workers.dev"
-zone_id = "your-zone-id-here"
 
 # Environment variables
 [vars]
