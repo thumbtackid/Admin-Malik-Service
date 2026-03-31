@@ -397,7 +397,7 @@
     @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     .garansi-info { background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(20, 184, 166, 0.1)); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 24px; border: 2px dashed var(--success); }
     .garansi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
-    .garansi-card { background: white; padding: 16px; border-radius: var(--radius-md); display: flex; align-items: center; gap: 12px; transition: all 0.3s ease; }
+    .garansi-card { background: white; padding: 16px; border-radius: var(--radius-md); display: flex; align-items: center; gap: 12px; transition: all 0.3s ease; cursor: pointer; }
     .garansi-card:hover { transform: translateY(-3px) scale(1.02); box-shadow: var(--shadow-md); }
     .garansi-card i { font-size: 32px; color: var(--success); animation: heartbeat 1.5s ease-in-out infinite; }
     .garansi-card .garansi-title { font-weight: 700; color: var(--success); }
@@ -615,6 +615,21 @@
     .toast-notification.success { border-left-color: var(--success); }
     .toast-notification.error { border-left-color: var(--danger); }
     .toast-notification.warning { border-left-color: var(--warning); }
+    /* Artikel Card Styles */
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+    .article-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: var(--shadow-sm);
+    }
+    .article-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); }
     @media (max-width: 768px) {
       body { padding: 12px; }
       .store-title { font-size: 28px; }
@@ -623,6 +638,7 @@
       .login-toggle-modern { position: relative; top: 0; right: 0; margin-bottom: 20px; }
       .login-modal-modern { width: calc(100% - 24px); right: 12px; }
       .modal-content-modern { padding: 24px; }
+      .articles-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
       .form-grid-modern { grid-template-columns: 1fr; }
@@ -735,7 +751,7 @@
           
           <div class="filter-modern">
             <div class="filter-grid">
-              <div class="filter-item-modern"><label><i class="fas fa-mobile-alt"></i> Kategori</label><select id="kategoriSelect"><option value="all">Semua Kategori</option><option value="Android">📱 ANDROID</option><option value="iPhone">📱 IPHONE</option><option value="Laptop">💻 LAPTOP</option><option value="Tablet">📱 TABLET</option><option value="Gaming">🎮 GAMING</option><option value="Printer">🖨️ PRINTER</option><option value="Smartwatch">⌚ SMARTWATCH</option><option value="Desktop">🖥️ DESKTOP</option></select></div>
+              <div class="filter-item-modern"><label><i class="fas fa-mobile-alt"></i> Kategori</label><select id="kategoriSelect"><option value="all">Semua Kategori</option><option value="Android">📱 ANDROID</option><option value="iPhone">📱 IPHONE</option><option value="Laptop">💻 LAPTOP</option><option value="Tablet">📱 TABLET</option><option value="Gaming">🎮 GAMING</option><option value="Printer">🖨️ PRINTER</option><option value="Smartwatch">⌚ SMARTWATCH</option><option value="Desktop">🖥️ DESKTOP</option><option value="Jasa Kecil">🔧 JASA KECIL</option><option value="Layanan Unik">✨ LAYANAN UNIK</option></select></div>
               <div class="filter-item-modern"><label><i class="fas fa-tools"></i> Tipe Masalah</label><select id="tipeSelect"><option value="all">Semua Tipe</option></select></div>
             </div>
             <div class="filter-item-modern" style="margin-top: 20px;"><label><i class="fas fa-list"></i> Pilih Layanan</label><select id="itemSelect" size="8"></select></div>
@@ -759,6 +775,14 @@
           <div class="total-modern"><div class="total-label-modern"><i class="fas fa-calculator"></i><span>Total Biaya</span></div><div class="total-value-modern" id="totalNominal">Rp 0</div></div>
           <button class="btn-modern" id="waButton"><i class="fab fa-whatsapp"></i> Pesan via WhatsApp</button>
         </div>
+      </div>
+      
+      <!-- ========== ARTIKEL & BLOG SECTION ========== -->
+      <div class="card" style="margin-top: 24px;">
+        <div class="modern-header" style="padding: 20px;">
+          <h3 style="color: white;"><i class="fas fa-newspaper"></i> Artikel & Tips Terbaru</h3>
+        </div>
+        <div style="padding: 24px;" id="articlesContainer"></div>
       </div>
     </div>
     
@@ -885,9 +909,10 @@
     }
     
     // ============================================
-    // DATA LAYANAN LENGKAP (SAMA SEPERTI SEBELUMNYA, TIDAK DIUBAH)
+    // DATA LAYANAN LENGKAP (ASLI + TAMBAHAN JASA KECIL + LAYANAN UNIK)
     // ============================================
     let serviceDB = [
+      // ===== DATA ASLI ANDROID =====
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Original', jenis: 'Sparepart', harga: 850000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Premium', jenis: 'Sparepart', harga: 550000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Standard', jenis: 'Sparepart', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
@@ -924,6 +949,7 @@
       { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Ganti Baterai Original', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'OPPO Reno/Find Series Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'Android', tipe: 'Layar', nama: 'Vivo V/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      // ===== DATA ASLI IPHONE =====
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Original', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12/11/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
@@ -942,6 +968,7 @@
       { kategori: 'iPhone', tipe: 'Audio', nama: 'Ganti Mic iPhone (Universal)', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'iPhone', tipe: 'Software', nama: 'Restore/Update iOS', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'iPhone', tipe: 'Software', nama: 'Unlock iCloud (Jasa Khusus)', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      // ===== DATA ASLI LAPTOP =====
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows 10/11 + Driver', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Laptop', tipe: 'Software', nama: 'Install Microsoft Office', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
@@ -972,6 +999,7 @@
       { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Original', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Original', jenis: 'Sparepart', harga: 2200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
       { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      // ===== DATA ASLI TABLET, GAMING, PRINTER, SMARTWATCH, DESKTOP =====
       { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 7-8 inch', jenis: 'Sparepart', harga: 700000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 10 inch', jenis: 'Sparepart', harga: 1000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
@@ -1000,7 +1028,45 @@
       { kategori: 'Desktop', tipe: 'SSD', nama: 'Upgrade SSD PC', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
       { kategori: 'Desktop', tipe: 'Motherboard', nama: 'Service Motherboard PC', jenis: 'Jasa', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
       { kategori: 'Desktop', tipe: 'VGA', nama: 'Service VGA Card Rusak', jenis: 'Jasa', harga: 500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'Software', nama: 'Rakit PC + Install Software', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '7 Hari' }
+      { kategori: 'Desktop', tipe: 'Software', nama: 'Rakit PC + Install Software', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      
+      // ========== TAMBAHAN JASA KECIL (HANYA JASA, TANPA SPAREPART) ==========
+      { kategori: 'Jasa Kecil', tipe: 'LCD', nama: '🔧 Hanya Lem LCD (Jasa Lem LCD) - Tanpa Ganti LCD', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Tombol', nama: '🔧 Hanya Ganti Tombol Power/Volume (Jasa Tukar Tombol)', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Switch Tombol', nama: '🔧 Hanya Ganti Switch Tombol (Micro Switch) - Jasa', jenis: 'Jasa', harga: 65000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Charger Port', nama: '🔧 Hanya Service Port Charger (Soldering Ulang) - Jasa', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Audio', nama: '🔧 Hanya Ganti Speaker/Mic (Jasa Tukar) - Tanpa Sparepart', jenis: 'Jasa', harga: 45000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Baterai', nama: '🔧 Hanya Service Baterai (Jumper/Reset BMS) - Jasa', jenis: 'Jasa', harga: 60000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Software', nama: '🔧 Hanya Flashing/Install Ulang (Jasa Software)', jenis: 'Jasa', harga: 50000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Konektor', nama: '🔧 Hanya Ganti Konektor Flexi (Soldering) - Jasa', jenis: 'Jasa', harga: 70000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Cleaning', nama: '🔧 Service Pembersihan Dalam (Deep Cleaning) - Jasa', jenis: 'Jasa', harga: 85000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Antenna', nama: '🔧 Hanya Service Antenna/Sinyal (Jasa) - Tanpa Ganti', jenis: 'Jasa', harga: 55000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Keyboard', nama: '🔧 Hanya Service Keyboard Laptop (Jasa Bersih/Bongkar)', jenis: 'Jasa', harga: 90000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Cooling', nama: '🔧 Hanya Ganti Pasta Thermal + Bersihkan Kipas (Jasa)', jenis: 'Jasa', harga: 70000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Jack Audio', nama: '🔧 Hanya Service Jack Audio (Soldering) - Jasa', jenis: 'Jasa', harga: 60000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Camera', nama: '🔧 Hanya Service Kamera (Jasa Bongkar Pasang)', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Vibrator', nama: '🔧 Hanya Ganti Motor Getar (Jasa) - Tanpa Sparepart', jenis: 'Jasa', harga: 40000, estimasi: '30 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Backup Data', nama: '🔧 Jasa Backup Data (Transfer File) - Jasa', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: 'Hanya Proses' },
+      { kategori: 'Jasa Kecil', tipe: 'Unlock', nama: '🔧 Jasa Unlock Pattern/FRP/iCloud (Software)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Soldering', nama: '🔧 Hanya Jasa Soldering (Per Titik) - Jasa', jenis: 'Jasa', harga: 30000, estimasi: '15-30 Menit', garansi: '3 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Water Damage', nama: '🔧 Hanya Service Water Damage (Cleaning + Ultrasonic)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Hari', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'IC', nama: '🔧 Hanya Reball IC (Jasa Reball) - Per IC', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      
+      // ========== TAMBAHAN LAYANAN UNIK & MODIFIKASI ==========
+      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Custom ROM / Install Custom Firmware', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Root / Unlock Bootloader + Magisk', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Pasang Custom Case / Skin HP (Bahan 3M)', jenis: 'Jasa', harga: 60000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Ganti Backdoor HP Transparan / Custom', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Gaming', nama: '🎮 Jasa Setting Emulator Game (PS2/PSP/GameCube)', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Gaming', nama: '🎮 Jasa Install + Setting Game Heavy (Genshin, PUBG, ML)', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Desain', nama: '🎨 Desain Grafis untuk Cetak Case (Custom Print)', jenis: 'Jasa', harga: 50000, estimasi: '1 Hari', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Konsultasi', nama: '💬 Jasa Cek IMEI / Keaslian HP (Original or Not)', jenis: 'Jasa', harga: 25000, estimasi: '15 Menit', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Antivirus', nama: '🛡️ Jasa Scan + Bersihkan Virus/Malware', jenis: 'Jasa', harga: 60000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Network', nama: '🌐 Jasa Setting WiFi / Jaringan Rumah', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Printer', nama: '🖨️ Jasa Isi Ulang Tinta + Reset Printer', jenis: 'Jasa', harga: 50000, estimasi: '30 Menit', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'IoT', nama: '📡 Jasa Pasang / Setting Smart Home Device', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Data Recovery', nama: '💾 Jasa Recovery Data (Foto/Dokumen Terhapus)', jenis: 'Jasa', harga: 200000, estimasi: '1-3 Hari', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Hardware', nama: '🖥️ Jasa Upgrade BIOS / Firmware', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' }
     ];
     
     // ============================================
@@ -1021,11 +1087,10 @@
     ];
     
     // ============================================
-    // API FUNCTIONS
+    // API FUNCTIONS (WebSocket & Storage)
     // ============================================
     async function loadDataFromAPI() {
       console.log('🔄 Loading data from API...');
-      
       try {
         const transRes = await fetch(`${API_BASE_URL}/api/transactions`);
         if (transRes.ok) {
@@ -1033,7 +1098,6 @@
           if (data && data.length > 0) {
             const currentIds = transactions.map(t => t.transaksi_id).join(',');
             const newIds = data.map(t => t.transaksi_id).join(',');
-            
             if (currentIds !== newIds) {
               transactions = data;
               saveTransactionsToStorage();
@@ -1044,14 +1108,12 @@
             }
           }
         }
-        
         const diskonRes = await fetch(`${API_BASE_URL}/api/diskon`);
         if (diskonRes.ok) {
           const data = await diskonRes.json();
           if (data && data.length > 0) {
             const currentCodes = diskonList.map(d => d.kode).join(',');
             const newCodes = data.map(d => d.kode).join(',');
-            
             if (currentCodes !== newCodes) {
               diskonList = data;
               saveDiskonToStorage();
@@ -1061,7 +1123,6 @@
             }
           }
         }
-        
         return true;
       } catch (error) {
         console.error('Error loading from API:', error);
@@ -1093,33 +1154,23 @@
       else if (successCount > 0) showToast(`${successCount} data disinkronkan`, 'warning');
     }
     
-    // ============================================
-    // WEBSOCKET
-    // ============================================
     function connectWebSocket() {
       if (socket && (socket.readyState === WebSocket.OPEN || socket.readyState === WebSocket.CONNECTING)) return;
-      
       try {
         socket = new WebSocket(WS_URL);
-        
         socket.onopen = function() {
-          console.log('✅ WebSocket terhubung - ID:', Math.random().toString(36).substring(2, 8));
+          console.log('✅ WebSocket terhubung');
           isConnected = true;
           updateRealtimeStatus('Terhubung', 'success');
           socket.send(JSON.stringify({ type: 'sync', client: 'web' }));
           setTimeout(processOfflineQueue, 1000);
         };
-        
         socket.onmessage = function(event) {
-          console.log('📨 WebSocket message diterima:', event.data.substring(0, 100));
           try {
             const data = JSON.parse(event.data);
             handleWebSocketMessage(data);
-          } catch (e) {
-            console.error('Error parsing WebSocket message:', e);
-          }
+          } catch (e) { console.error('Error parsing WebSocket message:', e); }
         };
-        
         socket.onclose = function() {
           console.log('❌ WebSocket terputus');
           isConnected = false;
@@ -1127,13 +1178,11 @@
           if (reconnectTimer) clearTimeout(reconnectTimer);
           reconnectTimer = setTimeout(connectWebSocket, 3000);
         };
-        
         socket.onerror = function(error) {
           console.error('WebSocket error:', error);
           isConnected = false;
           updateRealtimeStatus('Error', 'danger');
         };
-        
       } catch (e) {
         console.error('Gagal konek WebSocket:', e);
         updateRealtimeStatus('Gagal konek', 'danger');
@@ -1151,88 +1200,51 @@
     }
     
     function handleWebSocketMessage(data) {
-      console.log('📦 WebSocket message:', data);
-      
       switch(data.type) {
         case 'sync':
-          if (data.transactions) {
-            transactions = data.transactions;
-            saveTransactionsToStorage();
-          }
-          if (data.diskon) {
-            diskonList = data.diskon;
-            saveDiskonToStorage();
-          }
-          if (data.customItems) {
-            customItems = data.customItems;
-            saveCustomItemsToStorage();
-          }
-          if (data.loginLogs) {
-            loginLogs = data.loginLogs;
-            saveLoginLogsToStorage();
-          }
+          if (data.transactions) { transactions = data.transactions; saveTransactionsToStorage(); }
+          if (data.diskon) { diskonList = data.diskon; saveDiskonToStorage(); }
+          if (data.customItems) { customItems = data.customItems; saveCustomItemsToStorage(); }
+          if (data.loginLogs) { loginLogs = data.loginLogs; saveLoginLogsToStorage(); }
           refreshAllUI();
           if (currentUser) loadAdminData();
           showToast('Data diperbarui secara realtime', 'success');
           break;
-          
         case 'newTransaction':
-          if (data.transaction) {
-            const exists = transactions.some(t => t.transaksi_id === data.transaction.transaksi_id);
-            if (!exists) {
-              transactions.unshift(data.transaction);
-              saveTransactionsToStorage();
-              refreshAllUI();
-              if (currentUser) loadAdminData();
-              showToast('📱 Transaksi baru dari kasir lain!', 'success');
-            }
+          if (data.transaction && !transactions.some(t => t.transaksi_id === data.transaction.transaksi_id)) {
+            transactions.unshift(data.transaction);
+            saveTransactionsToStorage();
+            refreshAllUI();
+            if (currentUser) loadAdminData();
+            showToast('📱 Transaksi baru dari kasir lain!', 'success');
           }
           break;
-          
         case 'newDiskon':
-          if (data.diskon) {
-            const exists = diskonList.some(d => d.kode === data.diskon.kode);
-            if (!exists) {
-              diskonList.push(data.diskon);
-              saveDiskonToStorage();
-              refreshAllUI();
-              showToast('🏷️ Promo baru ditambahkan!', 'success');
-            }
-          }
-          break;
-          
-        case 'deleteDiskon':
-          if (data.kode) {
-            const index = diskonList.findIndex(d => d.kode === data.kode);
-            if (index !== -1) {
-              diskonList.splice(index, 1);
-              saveDiskonToStorage();
-              refreshAllUI();
-              showToast('🗑️ Promo dihapus!', 'warning');
-            }
-          }
-          break;
-          
-        case 'updateDiskon':
-          if (data.diskon) {
-            diskonList = data.diskon;
+          if (data.diskon && !diskonList.some(d => d.kode === data.diskon.kode)) {
+            diskonList.push(data.diskon);
             saveDiskonToStorage();
             refreshAllUI();
-            showToast('🏷️ Data promo diperbarui!', 'success');
+            showToast('🏷️ Promo baru ditambahkan!', 'success');
           }
           break;
-          
-        case 'ping':
-          socket.send(JSON.stringify({ type: 'pong' }));
+        case 'deleteDiskon':
+          const idx = diskonList.findIndex(d => d.kode === data.kode);
+          if (idx !== -1) { diskonList.splice(idx, 1); saveDiskonToStorage(); refreshAllUI(); showToast('🗑️ Promo dihapus!', 'warning'); }
           break;
+        case 'updateDiskon':
+          if (data.diskon) { diskonList = data.diskon; saveDiskonToStorage(); refreshAllUI(); showToast('🏷️ Data promo diperbarui!', 'success'); }
+          break;
+        case 'ping': socket.send(JSON.stringify({ type: 'pong' })); break;
       }
     }
     
     function refreshAllUI() {
-      if (document.getElementById('publicMode').style.display !== 'none') { renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); if (currentItem) { const updatedItem = [...serviceDB, ...customItems].find(i => i.nama === currentItem.nama && i.harga === currentItem.harga); if (updatedItem) { currentItem = updatedItem; updateDetail(currentItem); } } }
+      if (document.getElementById('publicMode').style.display !== 'none') { 
+        renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); 
+        if (currentItem) { const updatedItem = [...serviceDB, ...customItems].find(i => i.nama === currentItem.nama && i.harga === currentItem.harga); if (updatedItem) { currentItem = updatedItem; updateDetail(currentItem); } }
+      }
       if (currentUser) loadAdminData();
     }
-    function refreshAdminUI() { if (currentUser) loadAdminData(); }
     
     // ============================================
     // STORAGE MANAGEMENT
@@ -1305,8 +1317,59 @@
     function renderGaransiInfo() {
       const garansiGrid = document.getElementById('garansiGrid');
       if (!garansiGrid) return;
-      garansiGrid.innerHTML = `<div class="garansi-card"><i class="fas fa-shield-alt"></i><div><div class="garansi-title">Garansi Servis</div><div class="garansi-desc">30 hari untuk semua servis</div></div></div><div class="garansi-card"><i class="fas fa-clock"></i><div><div class="garansi-title">Estimasi Cepat</div><div class="garansi-desc">Rata-rata 2-4 jam selesai</div></div></div><div class="garansi-card"><i class="fas fa-tools"></i><div><div class="garansi-title">Free Konsultasi</div><div class="garansi-desc">Konsultasi gratis sebelum servis</div></div></div><div class="garansi-card"><i class="fas fa-truck"></i><div><div class="garansi-title">Gratis Pickup</div><div class="garansi-desc">Area Semarang dengan promo</div></div></div>`;
+      garansiGrid.innerHTML = `
+        <div class="garansi-card" onclick="showGaransiDetail('garansi30')">
+          <i class="fas fa-shield-alt"></i>
+          <div>
+            <div class="garansi-title">Garansi Servis 30 Hari</div>
+            <div class="garansi-desc">Untuk servis sparepart (LCD, Baterai, IC, dll)</div>
+          </div>
+        </div>
+        <div class="garansi-card" onclick="showGaransiDetail('garansi7')">
+          <i class="fas fa-clock"></i>
+          <div>
+            <div class="garansi-title">Garansi Jasa 7 Hari</div>
+            <div class="garansi-desc">Untuk servis software dan jasa kecil</div>
+          </div>
+        </div>
+        <div class="garansi-card" onclick="showGaransiDetail('konsultasi')">
+          <i class="fas fa-tools"></i>
+          <div>
+            <div class="garansi-title">Free Konsultasi</div>
+            <div class="garansi-desc">Konsultasi gratis sebelum servis</div>
+          </div>
+        </div>
+        <div class="garansi-card" onclick="showGaransiDetail('pickup')">
+          <i class="fas fa-truck"></i>
+          <div>
+            <div class="garansi-title">Layanan Pickup</div>
+            <div class="garansi-desc">Gratis jika ada promo, Rp25.000 jika tidak</div>
+          </div>
+        </div>
+      `;
     }
+    
+    window.showGaransiDetail = function(type) {
+      let title = '', content = '';
+      if (type === 'garansi30') {
+        title = '📋 Syarat & Ketentuan Garansi 30 Hari';
+        content = `<p><strong>Garansi 30 Hari berlaku untuk:</strong></p><ul><li>Servis penggantian sparepart (LCD, Baterai, IC, Charger Port, dll)</li><li>Kerusakan yang sama persis dengan saat servis</li><li>Tidak ada bekas jatuh / cairan / benturan baru</li></ul><p><strong>Garansi TIDAK berlaku jika:</strong></p><ul><li>HP/Laptop jatuh atau terkena air setelah servis</li><li>Dibuka / diservis di tempat lain</li><li>Kerusakan berbeda dari yang diservis</li></ul><p><strong>Garansi 30 Hari = 30 hari kalender sejak barang selesai diservis.</strong></p>`;
+      } else if (type === 'garansi7') {
+        title = '📋 Syarat & Ketentuan Garansi 7 Hari';
+        content = `<p><strong>Garansi 7 Hari berlaku untuk:</strong></p><ul><li>Servis software (Flashing, Unlock, Install Ulang)</li><li>Servis jasa kecil (Lem LCD, Ganti Tombol, Soldering, Cleaning)</li><li>Kerusakan software yang sama (bootloop, error system)</li></ul><p><strong>Garansi TIDAK berlaku jika:</strong></p><ul><li>User menginstall aplikasi berbahaya setelah servis</li><li>HP di-reset / di-flash ulang oleh user sendiri</li></ul><p><strong>Garansi 7 Hari = 7 hari kalender sejak barang selesai diservis.</strong></p>`;
+      } else if (type === 'konsultasi') {
+        title = '💬 Free Konsultasi - Mencakup Apa Saja?';
+        content = `<p><strong>Free Konsultasi mencakup:</strong></p><ul><li>Diagnosa awal kerusakan (tanpa bongkar)</li><li>Rekomendasi solusi perbaikan</li><li>Estimasi biaya servis</li><li>Rekomendasi pembelian HP/Laptop baru</li><li>Tips perawatan HP/Laptop</li><li>Informasi tentang spesifikasi dan harga sparepart</li></ul><p><strong>Konsultasi GRATIS, tanpa biaya apapun!</strong> Cukup datang ke toko atau chat via WhatsApp.</p>`;
+      } else if (type === 'pickup') {
+        title = '🚚 Layanan Pickup & Antar';
+        content = `<p><strong>Layanan antar jemput (pickup) tersedia untuk area Semarang (max 7km dari toko).</strong></p><ul><li>Biaya pickup: <strong>Rp25.000</strong> (pulang pergi)</li><li><strong>GRATIS</strong> jika ada promo pickup aktif</li><li>Teknisi akan datang ke rumah/kantor Anda</li><li>Barang diambil, diservis, lalu diantar kembali</li><li>Estimasi waktu antar tergantung antrian servis</li></ul><p><strong>Syarat:</strong> Area Semarang, jarak max 7km dari toko.</p>`;
+      }
+      let modal = document.createElement('div');
+      modal.className = 'modal-modern';
+      modal.style.display = 'flex';
+      modal.innerHTML = `<div class="modal-content-modern" style="max-width: 500px;"><div class="modal-header-modern"><h3>${title}</h3><button class="modal-close" onclick="this.closest('.modal-modern').remove()">&times;</button></div><div style="padding: 10px 0;">${content}</div><button class="btn-modern" onclick="this.closest('.modal-modern').remove()" style="margin-top: 20px; padding: 12px;">Tutup</button></div>`;
+      document.body.appendChild(modal);
+    };
     
     function renderTipeOptions() {
       const kategoriSelect = document.getElementById('kategoriSelect');
@@ -1376,7 +1439,47 @@
       serviceList.innerHTML = html;
     }
     
-    // ===== FUNGSI LOAD ADMIN DATA DENGAN DATA-LABEL UNTUK HP =====
+    // ===== DATA ARTIKEL =====
+    const articlesData = [
+      { title: '🏆 Sejarah Malik Service', category: 'Tentang Kami', excerpt: 'Perjalanan Malik Service dari toko kecil menjadi pusat servis terpercaya di Semarang...', content: '<p><strong>Malik Service</strong> didirikan pada tahun 2018 oleh seorang teknisi muda bernama Malik. Berawal dari servis kecil-kecilan di rumah, dengan ketekunan dan kualitas pelayanan, kini Malik Service telah berkembang menjadi salah satu pusat servis HP dan laptop terpercaya di Semarang.</p><p>Dengan motto <strong>"One Stop Service"</strong>, kami berkomitmen memberikan solusi lengkap untuk semua kebutuhan servis elektronik Anda. Hingga saat ini, sudah ribuan pelanggan yang puas dengan layanan kami.</p><p>Visi kami: Menjadi pusat servis terbaik di Jawa Tengah dengan pelayanan profesional dan harga terjangkau.</p>' },
+      { title: '🔋 Tips Memperpanjang Umur Baterai HP', category: 'Tips & Trik', excerpt: 'Jangan biarkan baterai HP Anda cepat habis! Simak 5 tips berikut...', content: '<p><strong>1. Hindari overcharging</strong> - Jangan isi daya hingga 100% dan jangan biarkan sampai 0% (cukup 20-80%)</p><p><strong>2. Gunakan charger original</strong> - Charger KW dapat merusak baterai dan IC power</p><p><strong>3. Matikan fitur yang tidak digunakan</strong> - Bluetooth, GPS, NFC, dan WiFi jika tidak perlu</p><p><strong>4. Kurangi kecerahan layar</strong> - Setel ke 40-60% untuk hemat daya</p><p><strong>5. Update aplikasi secara berkala</strong> - Versi terbaru biasanya lebih hemat baterai</p><p><strong>6. Aktifkan Power Saving Mode</strong> - Mode hemat daya bawaan HP</p>' },
+      { title: '📱 Perbedaan LCD Original vs Premium vs Standard', category: 'Edukasi', excerpt: 'Kenali kualitas layar HP sebelum ganti LCD...', content: '<p><strong>Original:</strong> Kualitas terbaik, sesuai standar pabrik, garansi panjang, warna akurat, touch response sempurna, harga paling mahal.</p><p><strong>Premium:</strong> Kualitas bagus, warna cerah, harga lebih terjangkau, cocok untuk penggunaan normal, garansi 30 hari.</p><p><strong>Standard:</strong> Kualitas standar, cocok untuk penggunaan normal, harga paling ekonomis, warna sedikit kurang cerah.</p><p><strong>Rekomendasi:</strong> Pilih Original untuk performa terbaik, Premium untuk value terbaik, Standard untuk budget terbatas.</p>' },
+      { title: '🔄 Cara Mengatasi HP Bootloop Tanpa Kehilangan Data', category: 'Tips & Trik', excerpt: 'Bootloop? Jangan panik! Ikuti langkah-langkah ini...', content: '<p><strong>Langkah 1:</strong> Force restart (tekan tombol power 10-15 detik)</p><p><strong>Langkah 2:</strong> Masuk ke recovery mode (Volume Up + Power untuk Android)</p><p><strong>Langkah 3:</strong> Pilih "Wipe cache partition" (data aman, hanya hapus cache)</p><p><strong>Langkah 4:</strong> Jika masih bermasalah, pilih "Reboot system now"</p><p><strong>Langkah 5:</strong> Jika tetap bootloop, bawa ke teknisi profesional (bisa jadi kerusakan IC atau software)</p><p><strong>⚠️ Jangan pilih "Wipe data/factory reset" jika ingin menyimpan data!</strong></p>' },
+      { title: '💻 Panduan Memilih Laptop untuk Mahasiswa', category: 'Tips & Trik', excerpt: 'Laptop apa yang cocok untuk kuliah? Simak rekomendasinya...', content: '<p><strong>Rekomendasi spesifikasi laptop untuk mahasiswa:</strong></p><ul><li>✅ RAM minimal 8GB (16GB lebih baik untuk multitasking)</li><li>✅ SSD 256GB ke atas (lebih cepat dari HDD, booting 10 detik)</li><li>✅ Prosesor Intel i3/i5 atau Ryzen 3/5 (generasi terbaru)</li><li>✅ Baterai tahan lama minimal 6 jam</li><li>✅ Berat ringan sekitar 1.5kg untuk mobilitas</li><li>✅ Garansi minimal 1 tahun resmi</li></ul><p><strong>Budget 4-6 juta:</strong> Axioo, Advan, Lenovo IdeaPad<br><strong>Budget 6-10 juta:</strong> ASUS, Acer, HP<br><strong>Budget 10-15 juta:</strong> Lenovo ThinkPad, Dell XPS, MacBook Air</p>' },
+      { title: '🔧 Syarat & Ketentuan Garansi Servis', category: 'Info Penting', excerpt: 'Baca selengkapnya tentang garansi servis 30 hari dan 7 hari...', content: '<p><strong>Garansi 30 Hari (Servis Sparepart):</strong></p><ul><li>Berlaku untuk penggantian LCD, Baterai, IC, Charger Port, Speaker, Kamera</li><li>Kerusakan yang sama persis dengan saat servis</li><li>Tidak ada bekas jatuh / cairan / benturan baru</li></ul><p><strong>Garansi 7 Hari (Servis Jasa & Software):</strong></p><ul><li>Berlaku untuk Flashing, Unlock, Install Ulang, Jasa Kecil</li><li>Kerusakan software yang sama (bootloop, error system)</li></ul><p><strong>Garansi TIDAK berlaku jika:</strong> HP jatuh/terkena air, dibuka di tempat lain, kerusakan berbeda.</p>' },
+      { title: '💬 Free Konsultasi - Mencakup Apa Saja?', category: 'Info Penting', excerpt: 'Konsultasi gratis sebelum servis, tanpa biaya apapun...', content: '<p><strong>Free Konsultasi mencakup:</strong></p><ul><li>Diagnosa awal kerusakan (tanpa bongkar)</li><li>Rekomendasi solusi perbaikan</li><li>Estimasi biaya servis (transparan)</li><li>Rekomendasi pembelian HP/Laptop baru</li><li>Tips perawatan HP/Laptop</li><li>Informasi spesifikasi dan harga sparepart</li><li>Cek IMEI / keaslian HP</li></ul><p><strong>Cara konsultasi:</strong> Datang langsung ke toko atau chat via WhatsApp 0857-1308-7659</p>' }
+    ];
+    
+    function renderArticles() {
+      const container = document.getElementById('articlesContainer');
+      if (!container) return;
+      let html = '<div class="articles-grid">';
+      articlesData.forEach((article, idx) => {
+        html += `<div class="article-card" onclick="openArticle(${idx})">
+          <div style="height: 120px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); display: flex; align-items: center; justify-content: center;">
+            <i class="fas fa-newspaper" style="font-size: 48px; color: white;"></i>
+          </div>
+          <div style="padding: 16px;">
+            <div style="font-size: 11px; color: var(--primary); font-weight: 600; margin-bottom: 8px;">${article.category}</div>
+            <div style="font-weight: 700; margin-bottom: 8px;">${article.title}</div>
+            <div style="font-size: 13px; color: var(--gray-600);">${article.excerpt}</div>
+          </div>
+        </div>`;
+      });
+      html += '</div>';
+      container.innerHTML = html;
+    }
+    
+    window.openArticle = function(idx) {
+      const article = articlesData[idx];
+      let modal = document.createElement('div');
+      modal.className = 'modal-modern';
+      modal.style.display = 'flex';
+      modal.innerHTML = `<div class="modal-content-modern" style="max-width: 600px;"><div class="modal-header-modern"><h3>${article.title}</h3><button class="modal-close" onclick="this.closest('.modal-modern').remove()">&times;</button></div><div style="padding: 10px 0; line-height: 1.6;">${article.content}</div><button class="btn-modern" onclick="this.closest('.modal-modern').remove()" style="margin-top: 20px; padding: 12px;">Tutup</button></div>`;
+      document.body.appendChild(modal);
+    };
+    
+    // ===== FUNGSI LOAD ADMIN DATA =====
     function loadAdminData() {
       const totalTransaksi = document.getElementById('totalTransaksi');
       const totalPendapatan = document.getElementById('totalPendapatan');
@@ -1393,14 +1496,7 @@
       if (loginLogTable) {
         let logHtml = '';
         loginLogs.slice(0, 50).forEach(log => {
-          logHtml += `<tr>
-            <td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td>
-            <td data-label="Username">${log.username || '-'}</td>
-            <td data-label="Role">${log.role || '-'}</td>
-            <td data-label="IP">${log.ip || '-'}</td>
-            <td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td>
-            <td data-label="Browser">${log.browser || 'Unknown'}</td>
-          </tr>`;
+          logHtml += `<tr><td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td data-label="Username">${log.username || '-'}</td><td data-label="Role">${log.role || '-'}</td><td data-label="IP">${log.ip || '-'}</td><td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td data-label="Browser">${log.browser || 'Unknown'}</td></tr>`;
         });
         loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Belum ada log</td></tr>';
       }
@@ -1409,15 +1505,7 @@
       if (transaksiTable) {
         let transaksiHtml = '';
         transactions.slice(0, 100).forEach(t => {
-          transaksiHtml += `<tr>
-            <td data-label="ID">${t.transaksi_id || t.id || '-'}</td>
-            <td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td>
-            <td data-label="Pelanggan">${t.nama_pelanggan || '-'}</td>
-            <td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'}</td>
-            <td data-label="Total">${formatRupiah(t.total || 0)}</td>
-            <td data-label="Kasir">${t.kasir || 'Admin'}</td>
-            <td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td>
-          </tr>`;
+          transaksiHtml += `<tr><td data-label="ID">${t.transaksi_id || t.id || '-'}</td><td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td data-label="Pelanggan">${t.nama_pelanggan || '-'}</td><td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'}</td><td data-label="Total">${formatRupiah(t.total || 0)}</td><td data-label="Kasir">${t.kasir || 'Admin'}</td><td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`;
         });
         transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada transaksi</td></tr>';
       }
@@ -1447,15 +1535,7 @@
       const diskonTable = document.getElementById('diskonTable');
       if (diskonTable) {
         let diskonHtml = '';
-        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += `<tr>
-          <td data-label="Kode"><strong>${d.kode}</strong></td>
-          <td data-label="Tipe">${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td>
-          <td data-label="Nilai">${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td>
-          <td data-label="Min Belanja">${formatRupiah(d.minBelanja || 0)}</td>
-          <td data-label="Berlaku">${new Date(d.berlaku).toLocaleDateString('id-ID')}</td>
-          <td data-label="Status"><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td>
-          <td data-label="Aksi"><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td>
-        </tr>`; });
+        diskonList.forEach((d, index) => { const status = new Date(d.berlaku) >= new Date() ? 'Aktif' : 'Kadaluarsa'; diskonHtml += `<tr><td data-label="Kode"><strong>${d.kode}</strong></td><td data-label="Tipe">${d.tipe === 'persen' ? 'Persen' : d.tipe === 'nominal' ? 'Nominal' : 'Pickup Gratis'}</td><td data-label="Nilai">${d.tipe === 'persen' ? d.nilai + '%' : formatRupiah(d.nilai)}</td><td data-label="Min Belanja">${formatRupiah(d.minBelanja || 0)}</td><td data-label="Berlaku">${new Date(d.berlaku).toLocaleDateString('id-ID')}</td><td data-label="Status"><span class="status-badge ${status === 'Aktif' ? 'status-success' : 'status-failed'}">${status}</span></td><td data-label="Aksi"><button class="print-btn-modern" onclick="hapusDiskon(${index})" style="background: var(--danger); color: white;"><i class="fas fa-trash"></i></button></td></tr>`; });
         diskonTable.innerHTML = diskonHtml || '<tr><td colspan="7" style="text-align: center;">Belum ada promo</td></tr>';
       }
       renderServiceList();
@@ -1487,7 +1567,7 @@
     // ============================================
     // MULTI ITEM FUNCTIONS
     // ============================================
-    function getItemRowHTML(index) { return `<div class="item-row-modern" data-index="${index}"><div class="item-header-modern"><span><i class="fas fa-cog"></i> Item #${index}</span><button class="hapusItemBtn" onclick="hapusItem(this)"><i class="fas fa-trash"></i></button></div><div class="item-grid-modern"><select class="itemKategori" onchange="loadTipe(this)"><option value="Android">Android</option><option value="iPhone">iPhone</option><option value="Laptop">Laptop</option><option value="Tablet">Tablet</option><option value="Gaming">Gaming</option><option value="Printer">Printer</option><option value="Smartwatch">Smartwatch</option><option value="Desktop">Desktop</option></select><select class="itemTipe" onchange="loadNama(this)"><option value="">Pilih Tipe</option></select><select class="itemNama" onchange="updateHarga(this)"><option value="">Pilih Item</option></select><input type="text" class="itemHarga" placeholder="Harga" readonly></div></div>`; }
+    function getItemRowHTML(index) { return `<div class="item-row-modern" data-index="${index}"><div class="item-header-modern"><span><i class="fas fa-cog"></i> Item #${index}</span><button class="hapusItemBtn" onclick="hapusItem(this)"><i class="fas fa-trash"></i></button></div><div class="item-grid-modern"><select class="itemKategori" onchange="loadTipe(this)"><option value="Android">Android</option><option value="iPhone">iPhone</option><option value="Laptop">Laptop</option><option value="Tablet">Tablet</option><option value="Gaming">Gaming</option><option value="Printer">Printer</option><option value="Smartwatch">Smartwatch</option><option value="Desktop">Desktop</option><option value="Jasa Kecil">Jasa Kecil</option><option value="Layanan Unik">Layanan Unik</option></select><select class="itemTipe" onchange="loadNama(this)"><option value="">Pilih Tipe</option></select><select class="itemNama" onchange="updateHarga(this)"><option value="">Pilih Item</option></select><input type="text" class="itemHarga" placeholder="Harga" readonly></div></div>`; }
     function initItemContainer() { const container = document.getElementById('itemContainer'); if (!container) return; container.innerHTML = getItemRowHTML(1); const firstRow = container.querySelector('.item-row-modern'); if (firstRow) { const kategoriSelect = firstRow.querySelector('.itemKategori'); const tipeSelect = firstRow.querySelector('.itemTipe'); if (kategoriSelect && tipeSelect) loadTipeOptionsForItem(kategoriSelect, tipeSelect); } updateTotalItemCount(); hitungGrandTotal(); }
     function loadTipeOptionsForItem(kategoriSelect, tipeSelect) { const kategori = kategoriSelect.value; const allItems = [...serviceDB, ...customItems]; const tipeList = [...new Set(allItems.filter(item => item.kategori === kategori).map(item => item.tipe))].sort(); tipeSelect.innerHTML = '<option value="">Pilih Tipe</option>'; tipeList.forEach(tipe => { const option = document.createElement('option'); option.value = tipe; option.textContent = tipe; tipeSelect.appendChild(option); }); }
     window.loadTipe = function(select) { const row = select.closest('.item-row-modern'); if (!row) return; const tipeSelect = row.querySelector('.itemTipe'); if (tipeSelect) loadTipeOptionsForItem(select, tipeSelect); };
@@ -1507,21 +1587,12 @@
       await loadDataFromAPI();
       connectWebSocket();
       startAutoRefresh();
-      renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); startCountdown();
+      renderTipeOptions(); renderItemOptions(); renderPromoBanner(); renderDiskonInfo(); renderGaransiInfo(); renderArticles(); startCountdown();
       
       const savedUser = sessionStorage.getItem('currentUser');
       if (savedUser) { try { currentUser = JSON.parse(savedUser); document.getElementById('userName').textContent = currentUser.name; document.getElementById('publicMode').style.display = 'none'; document.getElementById('adminMode').style.display = 'block'; document.getElementById('adminToggleBtn').classList.add('active'); document.getElementById('userModeBtn').classList.remove('active'); loadAdminData(); } catch(e) { console.error('Error parsing saved user', e); } }
       
-      // Tombol refresh manual
-      document.getElementById('manualRefreshBtn')?.addEventListener('click', async () => {
-        showToast('🔄 Menyegarkan data...', 'warning');
-        await loadDataFromAPI();
-        if (socket && isConnected) {
-          socket.send(JSON.stringify({ type: 'sync', client: 'web' }));
-        }
-        showToast('✅ Data berhasil disegarkan!', 'success');
-      });
-      
+      document.getElementById('manualRefreshBtn')?.addEventListener('click', async () => { showToast('🔄 Menyegarkan data...', 'warning'); await loadDataFromAPI(); if (socket && isConnected) { socket.send(JSON.stringify({ type: 'sync', client: 'web' })); } showToast('✅ Data berhasil disegarkan!', 'success'); });
       document.getElementById('kategoriSelect')?.addEventListener('change', () => { renderTipeOptions(); renderItemOptions(); });
       document.getElementById('tipeSelect')?.addEventListener('change', renderItemOptions);
       document.getElementById('itemSelect')?.addEventListener('change', function() { const idx = parseInt(this.value); if (!isNaN(idx) && filteredItems[idx]) updateDetail(filteredItems[idx]); });
@@ -1562,16 +1633,7 @@
         } else alert('Username atau password salah');
       });
       
-      document.getElementById('logoutBtn')?.addEventListener('click', () => { 
-        currentUser = null; 
-        sessionStorage.removeItem('currentUser'); 
-        stopAutoRefresh();
-        document.getElementById('publicMode').style.display = 'block'; 
-        document.getElementById('adminMode').style.display = 'none'; 
-        document.getElementById('userModeBtn').classList.add('active'); 
-        document.getElementById('adminToggleBtn').classList.remove('active'); 
-        showToast('Berhasil logout'); 
-      });
+      document.getElementById('logoutBtn')?.addEventListener('click', () => { currentUser = null; sessionStorage.removeItem('currentUser'); stopAutoRefresh(); document.getElementById('publicMode').style.display = 'block'; document.getElementById('adminMode').style.display = 'none'; document.getElementById('userModeBtn').classList.add('active'); document.getElementById('adminToggleBtn').classList.remove('active'); showToast('Berhasil logout'); });
       
       document.querySelectorAll('.tab-modern').forEach(tab => { tab.addEventListener('click', function() { document.querySelectorAll('.tab-modern').forEach(t => t.classList.remove('active')); this.classList.add('active'); document.querySelectorAll('.tab-content-modern').forEach(c => c.classList.remove('active')); const tabId = this.dataset.tab; const tabContent = document.getElementById(`tab-${tabId}`); if (tabContent) tabContent.classList.add('active'); if (tabId === 'services') renderServiceList(); }); });
       
@@ -1596,16 +1658,13 @@
         const totalAkhir = subtotal - diskonValue + finalPickupBiaya;
         const idTransaksi = 'TRX-' + Date.now().toString().slice(-6);
         const transData = { transaksi_id: idTransaksi, item: items.join(', '), subtotal: subtotal, diskon: diskonValue, total: totalAkhir, kasir: currentUser?.name || 'Admin', nama_pelanggan: transNama.value, no_hp: document.getElementById('transNoHp')?.value || '', alamat: document.getElementById('transAlamat')?.value || '', tanggal: new Date().toISOString(), pickup: pickupYa };
-        
         transactions.unshift(transData);
         saveTransactionsToStorage();
-        
         try {
           const response = await fetch(`${API_BASE_URL}/api/transactions`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(transData) });
           if (response.ok) { if (socket && isConnected) socket.send(JSON.stringify({ type: 'newTransaction', transaction: transData })); showToast('Transaksi berhasil disimpan!', 'success'); }
           else throw new Error('API error');
         } catch(error) { addToOfflineQueue('newTransaction', transData); showToast('Disimpan lokal, akan sync saat online', 'warning'); }
-        
         document.getElementById('tambahTransaksiModal')?.classList.remove('active');
         loadAdminData();
         window.previewPrint(items.join(', '), totalAkhir, transNama.value, idTransaksi);
@@ -1613,7 +1672,7 @@
       });
       
       document.getElementById('tambahLayananBtn')?.addEventListener('click', () => {
-        const kategori = prompt('Masukkan kategori (Android/iPhone/Laptop/dll):', 'Android'); if (!kategori) return;
+        const kategori = prompt('Masukkan kategori (Android/iPhone/Laptop/Jasa Kecil/Layanan Unik/dll):', 'Jasa Kecil'); if (!kategori) return;
         const tipe = prompt('Masukkan tipe (Layar/Baterai/Software/dll):', 'Custom'); if (!tipe) return;
         const nama = prompt('Masukkan nama layanan:'); if (!nama) return;
         const harga = prompt('Masukkan harga (angka):'); if (!harga || isNaN(harga)) return;
@@ -1639,9 +1698,9 @@
         loadAdminData(); renderPromoBanner(); renderDiskonInfo();
       });
       
-      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 100).forEach(t => { transaksiHtml += `<tr><td data-label="ID">${t.transaksi_id || t.id || '-'} \\<td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'} \\<td data-label="Pelanggan">${t.nama_pelanggan || '-'} \\<td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'} \\<td data-label="Total">${formatRupiah(t.total || 0)} \\<td data-label="Kasir">${t.kasir || 'Admin'} \\<td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button> \\`; }); transaksiTable.innerHTML = transaksiHtml || '}<td colspan="7" style="text-align: center;">Tidak ada hasil</td>'; });
+      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 100).forEach(t => { transaksiHtml += `}<td data-label="ID">${t.transaksi_id || t.id || '-'} \\<td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'} \\<td data-label="Pelanggan">${t.nama_pelanggan || '-'} \\<td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'} \\<td data-label="Total">${formatRupiah(t.total || 0)} \\<td data-label="Kasir">${t.kasir || 'Admin'} \\<td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button> \\`; }); transaksiTable.innerHTML = transaksiHtml || '}<td colspan="7" style="text-align: center;">Tidak ada hasil</td>'; });
       
-      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `}<td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td data-label="Username">${log.username || '-'}</td><td data-label="Role">${log.role || '-'}</td><td data-label="IP">${log.ip || '-'}</td><td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td data-label="Browser">${log.browser || 'Unknown'}</td>`; }); loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Tidak ada hasil</td></tr>'; });
+      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `}<td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'} \\<td data-label="Username">${log.username || '-'} \\<td data-label="Role">${log.role || '-'} \\<td data-label="IP">${log.ip || '-'} \\<td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span> \\<td data-label="Browser">${log.browser || 'Unknown'} \\`; }); loginLogTable.innerHTML = logHtml || '}<td colspan="6" style="text-align: center;">Tidak ada hasil</td>'; });
       
       document.getElementById('closePrintModal')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
       document.getElementById('cancelPrint')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
