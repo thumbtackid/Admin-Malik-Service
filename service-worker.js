@@ -1,67 +1,112 @@
 // ============================================
-// SERVICE WORKER - MALIK SERVICE
+// SERVICE WORKER - MALIK SERVICE (OPTIMIZED)
+// ============================================
+// Tips: Ganti CACHE_NAME menjadi 'malik-service-v5' setiap kali deploy update besar
 // ============================================
 
-const CACHE_NAME = 'malik-service-v3';
+const CACHE_NAME = 'malik-service-v4';
 const urlsToCache = [
   '/',
   '/index.html',
-  '/manifest.json',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
-  'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js'
+  '/manifest.json'
 ];
 
-// Install service worker
+// ============================================
+// INSTALL - Simpan file inti untuk offline
+// ============================================
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        console.log('Service worker installed successfully');
+        console.log('Service Worker: Installed successfully');
         return cache.addAll(urlsToCache);
       })
   );
+  // Force waiting service worker to become active
+  self.skipWaiting();
 });
 
-// Intercept fetch requests
+// ============================================
+// FETCH - Strategi Cerdas Campuran
+// ============================================
 self.addEventListener('fetch', event => {
-  // Only cache GET requests
+  // Abaikan request non-GET (POST, PUT, DELETE)
   if (event.request.method !== 'GET') return;
   
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        // Return cached response if found
-        if (response) return response;
-        
-        // Otherwise fetch from network
-        return fetch(event.request)
-          .then(response => {
-            // Check if valid response
-            if (!response || response.status !== 200 || response.type !== 'basic') {
+  const url = event.request.url;
+  
+  // --- STRATEGI 1: HTML Utama -> NETWORK FIRST (Biar selalu update) ---
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(response => {
+          // Update cache diam-diam
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+          return response;
+        })
+        .catch(() => {
+          // Kalau offline, tampilkan index.html dari cache
+          return caches.match('/index.html');
+        })
+    );
+    return;
+  }
+  
+  // --- STRATEGI 2: Aset Statis & Library -> CACHE FIRST (Hemat kuota & cepat) ---
+  if (url.includes('/images/') || 
+      url.includes('/css/') || 
+      url.includes('font-awesome') || 
+      url.includes('fonts.googleapis.com') || 
+      url.includes('fonts.gstatic.com') ||
+      url.includes('cdnjs.cloudflare.com')) {
+    event.respondWith(
+      caches.match(event.request)
+        .then(cachedResponse => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // Kalau belum ada di cache, ambil dari network lalu simpan
+          return fetch(event.request).then(response => {
+            if (!response || response.status !== 200) {
               return response;
             }
-            
-            // Clone response to cache
-            const responseToCache = response.clone();
-            caches.open(CACHE_NAME)
-              .then(cache => {
-                cache.put(event.request, responseToCache);
-              });
-            
+            const responseClone = response.clone();
+            caches.open(CACHE_NAME).then(cache => {
+              cache.put(event.request, responseClone);
+            });
             return response;
-          })
-          .catch(() => {
-            // Fallback to index.html for navigation requests
-            if (event.request.mode === 'navigate') {
-              return caches.match('/index.html');
-            }
           });
+        })
+    );
+    return;
+  }
+  
+  // --- STRATEGI 3: File JS & Data -> NETWORK FIRST (Biar fungsi kasir selalu fresh) ---
+  event.respondWith(
+    fetch(event.request)
+      .then(response => {
+        // Cache JS file untuk offline cadangan
+        if (url.endsWith('.js')) {
+          const responseClone = response.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(event.request, responseClone);
+          });
+        }
+        return response;
+      })
+      .catch(() => {
+        // Fallback ke cache kalau network gagal
+        return caches.match(event.request);
       })
   );
 });
 
-// Activate and clean old caches
+// ============================================
+// ACTIVATE - Bersihkan cache lama
+// ============================================
 self.addEventListener('activate', event => {
   const cacheWhitelist = [CACHE_NAME];
   event.waitUntil(
@@ -69,11 +114,13 @@ self.addEventListener('activate', event => {
       return Promise.all(
         cacheNames.map(cacheName => {
           if (cacheWhitelist.indexOf(cacheName) === -1) {
-            console.log('Deleting old cache:', cacheName);
+            console.log('Service Worker: Deleting old cache ->', cacheName);
             return caches.delete(cacheName);
           }
         })
       );
     })
   );
+  // Ambil alih halaman yang sedang terbuka
+  return self.clients.claim();
 });
