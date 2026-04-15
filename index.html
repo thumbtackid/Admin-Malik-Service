@@ -446,7 +446,6 @@
     .tab-modern.active { background: var(--primary); color: white; animation: pulse-glow 2s ease-in-out infinite; }
     .tab-content-modern { display: none; animation: slideIn 0.3s ease-out; }
     .tab-content-modern.active { display: block; }
-    /* ===== TABEL RESPONSIF TANPA SCROLL ===== */
     .table-modern {
       width: 100%;
       border-collapse: collapse;
@@ -471,17 +470,9 @@
     .table-modern tr:hover { background: var(--gray-50); }
     .table-modern tr:last-child td { border-bottom: none; }
     
-    /* Tampilan Card untuk HP */
     @media (max-width: 768px) {
-      .table-modern,
-      .table-modern thead,
-      .table-modern tbody,
-      .table-modern tr {
-        display: block;
-      }
-      .table-modern thead {
-        display: none;
-      }
+      .table-modern, .table-modern thead, .table-modern tbody, .table-modern tr { display: block; }
+      .table-modern thead { display: none; }
       .table-modern tr {
         background: white;
         border-radius: 16px;
@@ -499,9 +490,7 @@
         text-align: right;
         font-size: 14px;
       }
-      .table-modern td:last-child {
-        border-bottom: none;
-      }
+      .table-modern td:last-child { border-bottom: none; }
       .table-modern td::before {
         content: attr(data-label);
         font-weight: 600;
@@ -510,10 +499,7 @@
         margin-right: 16px;
         min-width: 100px;
       }
-      .print-btn-modern {
-        width: 36px;
-        height: 36px;
-      }
+      .print-btn-modern { width: 36px; height: 36px; }
     }
     
     .status-badge { padding: 6px 14px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; display: inline-block; }
@@ -615,7 +601,6 @@
     .toast-notification.success { border-left-color: var(--success); }
     .toast-notification.error { border-left-color: var(--danger); }
     .toast-notification.warning { border-left-color: var(--warning); }
-    /* Artikel Card Styles */
     .articles-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -777,7 +762,6 @@
         </div>
       </div>
       
-      <!-- ========== ARTIKEL & BLOG SECTION ========== -->
       <div class="card" style="margin-top: 24px;">
         <div class="modern-header" style="padding: 20px;">
           <h3 style="color: white;"><i class="fas fa-newspaper"></i> Artikel & Tips Terbaru</h3>
@@ -1565,17 +1549,219 @@
     };
     
     // ============================================
-    // MULTI ITEM FUNCTIONS
+    // MULTI ITEM FUNCTIONS (DENGAN FITUR MANUAL ENTRY)
     // ============================================
-    function getItemRowHTML(index) { return `<div class="item-row-modern" data-index="${index}"><div class="item-header-modern"><span><i class="fas fa-cog"></i> Item #${index}</span><button class="hapusItemBtn" onclick="hapusItem(this)"><i class="fas fa-trash"></i></button></div><div class="item-grid-modern"><select class="itemKategori" onchange="loadTipe(this)"><option value="Android">Android</option><option value="iPhone">iPhone</option><option value="Laptop">Laptop</option><option value="Tablet">Tablet</option><option value="Gaming">Gaming</option><option value="Printer">Printer</option><option value="Smartwatch">Smartwatch</option><option value="Desktop">Desktop</option><option value="Jasa Kecil">Jasa Kecil</option><option value="Layanan Unik">Layanan Unik</option></select><select class="itemTipe" onchange="loadNama(this)"><option value="">Pilih Tipe</option></select><select class="itemNama" onchange="updateHarga(this)"><option value="">Pilih Item</option></select><input type="text" class="itemHarga" placeholder="Harga" readonly></div></div>`; }
-    function initItemContainer() { const container = document.getElementById('itemContainer'); if (!container) return; container.innerHTML = getItemRowHTML(1); const firstRow = container.querySelector('.item-row-modern'); if (firstRow) { const kategoriSelect = firstRow.querySelector('.itemKategori'); const tipeSelect = firstRow.querySelector('.itemTipe'); if (kategoriSelect && tipeSelect) loadTipeOptionsForItem(kategoriSelect, tipeSelect); } updateTotalItemCount(); hitungGrandTotal(); }
-    function loadTipeOptionsForItem(kategoriSelect, tipeSelect) { const kategori = kategoriSelect.value; const allItems = [...serviceDB, ...customItems]; const tipeList = [...new Set(allItems.filter(item => item.kategori === kategori).map(item => item.tipe))].sort(); tipeSelect.innerHTML = '<option value="">Pilih Tipe</option>'; tipeList.forEach(tipe => { const option = document.createElement('option'); option.value = tipe; option.textContent = tipe; tipeSelect.appendChild(option); }); }
-    window.loadTipe = function(select) { const row = select.closest('.item-row-modern'); if (!row) return; const tipeSelect = row.querySelector('.itemTipe'); if (tipeSelect) loadTipeOptionsForItem(select, tipeSelect); };
-    window.loadNama = function(select) { const row = select.closest('.item-row-modern'); if (!row) return; const kategoriSelect = row.querySelector('.itemKategori'); const tipeSelect = row.querySelector('.itemTipe'); const namaSelect = row.querySelector('.itemNama'); const hargaInput = row.querySelector('.itemHarga'); if (!kategoriSelect || !tipeSelect || !namaSelect || !hargaInput) return; const kategori = kategoriSelect.value; const tipe = tipeSelect.value; if (!tipe) return; const allItems = [...serviceDB, ...customItems]; const filtered = allItems.filter(item => item.kategori === kategori && item.tipe === tipe); namaSelect.innerHTML = '<option value="">Pilih Item</option>'; filtered.forEach((item, index) => { const option = document.createElement('option'); option.value = allItems.indexOf(item); option.setAttribute('data-harga', item.harga); option.textContent = `${item.nama} - ${formatRupiah(item.harga)}`; namaSelect.appendChild(option); }); hargaInput.value = ''; };
-    window.updateHarga = function(select) { const row = select.closest('.item-row-modern'); if (!row) return; const hargaInput = row.querySelector('.itemHarga'); if (!hargaInput) return; const selectedOption = select.options[select.selectedIndex]; if (selectedOption && selectedOption.value) { const allItems = [...serviceDB, ...customItems]; const itemIndex = parseInt(selectedOption.value); if (!isNaN(itemIndex) && allItems[itemIndex]) hargaInput.value = formatRupiah(allItems[itemIndex].harga); } hitungGrandTotal(); };
-    window.hapusItem = function(btn) { const row = btn.closest('.item-row-modern'); if (!row) return; if (document.querySelectorAll('.item-row-modern').length > 1) { row.remove(); updateTotalItemCount(); hitungGrandTotal(); } else alert('Minimal harus ada 1 item'); };
-    function updateTotalItemCount() { const count = document.querySelectorAll('.item-row-modern').length; const totalItemCount = document.getElementById('totalItemCount'); if (totalItemCount) totalItemCount.textContent = count; }
-    function hitungGrandTotal() { let subtotal = 0; document.querySelectorAll('.item-row-modern').forEach(row => { const hargaInput = row.querySelector('.itemHarga'); if (hargaInput && hargaInput.value) subtotal += parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0; }); const pickupCheckbox = document.getElementById('transPickupCheckbox'); const pickupBiaya = pickupCheckbox && pickupCheckbox.checked ? 25000 : 0; const diskonPickup = diskonList.find(d => d.tipe === 'pickup' && new Date(d.berlaku) >= new Date()); const finalPickupBiaya = diskonPickup ? 0 : pickupBiaya; const diskonValue = hitungDiskon(subtotal); const setelahDiskon = subtotal - diskonValue; const subtotalEl = document.getElementById('subtotal'); const diskonTransaksi = document.getElementById('diskonTransaksi'); const pickupBiayaEl = document.getElementById('pickupBiaya'); const grandTotalEl = document.getElementById('grandTotal'); if (subtotalEl) subtotalEl.textContent = subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); if (diskonTransaksi) diskonTransaksi.textContent = diskonValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); if (pickupBiayaEl) pickupBiayaEl.textContent = finalPickupBiaya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); const grandTotal = setelahDiskon + finalPickupBiaya; if (grandTotalEl) grandTotalEl.textContent = grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); return grandTotal; }
+    function getItemRowHTML(index) {
+      return `<div class="item-row-modern" data-index="${index}">
+        <div class="item-header-modern">
+          <span><i class="fas fa-cog"></i> Item #${index}</span>
+          <button class="hapusItemBtn" onclick="hapusItem(this)"><i class="fas fa-trash"></i></button>
+        </div>
+        
+        <!-- PILIHAN MODE INPUT -->
+        <div style="margin-bottom: 16px; display: flex; gap: 16px;">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="radio" name="modeItem${index}" value="database" checked onchange="toggleModeItem(this)"> 
+            <i class="fas fa-database"></i> Dari Database
+          </label>
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+            <input type="radio" name="modeItem${index}" value="manual" onchange="toggleModeItem(this)"> 
+            <i class="fas fa-pen"></i> Input Manual
+          </label>
+        </div>
+        
+        <!-- MODE DATABASE -->
+        <div class="mode-database" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px;">
+          <select class="itemKategori" onchange="loadTipe(this)">
+            <option value="Android">Android</option>
+            <option value="iPhone">iPhone</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Tablet">Tablet</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Printer">Printer</option>
+            <option value="Smartwatch">Smartwatch</option>
+            <option value="Desktop">Desktop</option>
+            <option value="Jasa Kecil">Jasa Kecil</option>
+            <option value="Layanan Unik">Layanan Unik</option>
+          </select>
+          <select class="itemTipe" onchange="loadNama(this)"><option value="">Pilih Tipe</option></select>
+          <select class="itemNama" onchange="updateHarga(this)"><option value="">Pilih Item</option></select>
+          <input type="text" class="itemHarga" placeholder="Harga" readonly>
+        </div>
+        
+        <!-- MODE MANUAL (SEMULA TERSEMBUNYI) -->
+        <div class="mode-manual" style="display: none; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <input type="text" class="itemManualNama" placeholder="Nama Item (contoh: Samsung A54 5G)" style="grid-column: 1 / -1;">
+          <input type="number" class="itemManualHarga" placeholder="Harga Jual (Rp)" min="0" oninput="updateHargaManual(this)">
+          <input type="text" class="itemManualEstimasi" placeholder="Estimasi (opsional)" value="-">
+        </div>
+      </div>`;
+    }
+    
+    // Toggle antara mode database dan manual
+    window.toggleModeItem = function(radio) {
+      const row = radio.closest('.item-row-modern');
+      if (!row) return;
+      
+      const modeDatabase = row.querySelector('.mode-database');
+      const modeManual = row.querySelector('.mode-manual');
+      const hargaInput = row.querySelector('.itemHarga');
+      
+      if (radio.value === 'database') {
+        modeDatabase.style.display = 'grid';
+        modeManual.style.display = 'none';
+        if (hargaInput) hargaInput.readOnly = true;
+      } else {
+        modeDatabase.style.display = 'none';
+        modeManual.style.display = 'grid';
+        if (hargaInput) hargaInput.readOnly = false;
+      }
+      
+      hitungGrandTotal();
+    };
+    
+    // Update harga manual ke field readonly
+    window.updateHargaManual = function(input) {
+      const row = input.closest('.item-row-modern');
+      if (!row) return;
+      
+      const hargaInput = row.querySelector('.itemHarga');
+      const manualHarga = row.querySelector('.itemManualHarga');
+      
+      if (hargaInput && manualHarga) {
+        const nilai = parseInt(manualHarga.value) || 0;
+        hargaInput.value = formatRupiah(nilai);
+      }
+      
+      hitungGrandTotal();
+    };
+    
+    function initItemContainer() { 
+      const container = document.getElementById('itemContainer'); 
+      if (!container) return; 
+      container.innerHTML = getItemRowHTML(1); 
+      const firstRow = container.querySelector('.item-row-modern'); 
+      if (firstRow) { 
+        const kategoriSelect = firstRow.querySelector('.itemKategori'); 
+        const tipeSelect = firstRow.querySelector('.itemTipe'); 
+        if (kategoriSelect && tipeSelect) loadTipeOptionsForItem(kategoriSelect, tipeSelect); 
+      } 
+      updateTotalItemCount(); 
+      hitungGrandTotal(); 
+    }
+    
+    function loadTipeOptionsForItem(kategoriSelect, tipeSelect) { 
+      const kategori = kategoriSelect.value; 
+      const allItems = [...serviceDB, ...customItems]; 
+      const tipeList = [...new Set(allItems.filter(item => item.kategori === kategori).map(item => item.tipe))].sort(); 
+      tipeSelect.innerHTML = '<option value="">Pilih Tipe</option>'; 
+      tipeList.forEach(tipe => { 
+        const option = document.createElement('option'); 
+        option.value = tipe; 
+        option.textContent = tipe; 
+        tipeSelect.appendChild(option); 
+      }); 
+    }
+    
+    window.loadTipe = function(select) { 
+      const row = select.closest('.item-row-modern'); 
+      if (!row) return; 
+      const tipeSelect = row.querySelector('.itemTipe'); 
+      if (tipeSelect) loadTipeOptionsForItem(select, tipeSelect); 
+    };
+    
+    window.loadNama = function(select) { 
+      const row = select.closest('.item-row-modern'); 
+      if (!row) return; 
+      const kategoriSelect = row.querySelector('.itemKategori'); 
+      const tipeSelect = row.querySelector('.itemTipe'); 
+      const namaSelect = row.querySelector('.itemNama'); 
+      const hargaInput = row.querySelector('.itemHarga'); 
+      if (!kategoriSelect || !tipeSelect || !namaSelect || !hargaInput) return; 
+      const kategori = kategoriSelect.value; 
+      const tipe = tipeSelect.value; 
+      if (!tipe) return; 
+      const allItems = [...serviceDB, ...customItems]; 
+      const filtered = allItems.filter(item => item.kategori === kategori && item.tipe === tipe); 
+      namaSelect.innerHTML = '<option value="">Pilih Item</option>'; 
+      filtered.forEach((item, index) => { 
+        const option = document.createElement('option'); 
+        option.value = allItems.indexOf(item); 
+        option.setAttribute('data-harga', item.harga); 
+        option.textContent = `${item.nama} - ${formatRupiah(item.harga)}`; 
+        namaSelect.appendChild(option); 
+      }); 
+      hargaInput.value = ''; 
+    };
+    
+    window.updateHarga = function(select) { 
+      const row = select.closest('.item-row-modern'); 
+      if (!row) return; 
+      const hargaInput = row.querySelector('.itemHarga'); 
+      if (!hargaInput) return; 
+      const selectedOption = select.options[select.selectedIndex]; 
+      if (selectedOption && selectedOption.value) { 
+        const allItems = [...serviceDB, ...customItems]; 
+        const itemIndex = parseInt(selectedOption.value); 
+        if (!isNaN(itemIndex) && allItems[itemIndex]) hargaInput.value = formatRupiah(allItems[itemIndex].harga); 
+      } 
+      hitungGrandTotal(); 
+    };
+    
+    window.hapusItem = function(btn) { 
+      const row = btn.closest('.item-row-modern'); 
+      if (!row) return; 
+      if (document.querySelectorAll('.item-row-modern').length > 1) { 
+        row.remove(); 
+        updateTotalItemCount(); 
+        hitungGrandTotal(); 
+      } else alert('Minimal harus ada 1 item'); 
+    };
+    
+    function updateTotalItemCount() { 
+      const count = document.querySelectorAll('.item-row-modern').length; 
+      const totalItemCount = document.getElementById('totalItemCount'); 
+      if (totalItemCount) totalItemCount.textContent = count; 
+    }
+    
+    function hitungGrandTotal() { 
+      let subtotal = 0; 
+      document.querySelectorAll('.item-row-modern').forEach(row => { 
+        // Cek mode manual atau database
+        const modeManualRadio = row.querySelector('input[value="manual"]');
+        const isManual = modeManualRadio && modeManualRadio.checked;
+        
+        if (isManual) {
+          // Ambil dari input manual
+          const manualHarga = row.querySelector('.itemManualHarga');
+          if (manualHarga && manualHarga.value) {
+            subtotal += parseInt(manualHarga.value) || 0;
+          }
+        } else {
+          // Ambil dari field harga database
+          const hargaInput = row.querySelector('.itemHarga');
+          if (hargaInput && hargaInput.value) {
+            subtotal += parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0;
+          }
+        }
+      }); 
+      const pickupCheckbox = document.getElementById('transPickupCheckbox'); 
+      const pickupBiaya = pickupCheckbox && pickupCheckbox.checked ? 25000 : 0; 
+      const diskonPickup = diskonList.find(d => d.tipe === 'pickup' && new Date(d.berlaku) >= new Date()); 
+      const finalPickupBiaya = diskonPickup ? 0 : pickupBiaya; 
+      const diskonValue = hitungDiskon(subtotal); 
+      const setelahDiskon = subtotal - diskonValue; 
+      const subtotalEl = document.getElementById('subtotal'); 
+      const diskonTransaksi = document.getElementById('diskonTransaksi'); 
+      const pickupBiayaEl = document.getElementById('pickupBiaya'); 
+      const grandTotalEl = document.getElementById('grandTotal'); 
+      if (subtotalEl) subtotalEl.textContent = subtotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
+      if (diskonTransaksi) diskonTransaksi.textContent = diskonValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
+      if (pickupBiayaEl) pickupBiayaEl.textContent = finalPickupBiaya.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
+      const grandTotal = setelahDiskon + finalPickupBiaya; 
+      if (grandTotalEl) grandTotalEl.textContent = grandTotal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.'); 
+      return grandTotal; 
+    }
     
     function startCountdown() { const countdownEl = document.getElementById('countdown'); if (!countdownEl) return; const endDate = new Date(); endDate.setHours(23, 59, 59, 999); function updateCountdown() { const now = new Date(); const diff = endDate - now; if (diff <= 0) { countdownEl.textContent = '00:00:00'; return; } const hours = Math.floor(diff / (1000 * 60 * 60)); const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)); const seconds = Math.floor((diff % (1000 * 60)) / 1000); countdownEl.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`; } updateCountdown(); setInterval(updateCountdown, 1000); }
     
@@ -1649,7 +1835,27 @@
         const transNama = document.getElementById('transNama');
         if (!transNama?.value) { alert('Nama pelanggan harus diisi'); return; }
         let items = [], subtotal = 0;
-        document.querySelectorAll('.item-row-modern').forEach(row => { const namaSelect = row.querySelector('.itemNama'); const hargaInput = row.querySelector('.itemHarga'); if (namaSelect?.value) { const selectedText = namaSelect.options[namaSelect.selectedIndex]?.text || ''; items.push(selectedText.split(' - ')[0]); if (hargaInput?.value) subtotal += parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0; } });
+        document.querySelectorAll('.item-row-modern').forEach(row => { 
+          const modeManualRadio = row.querySelector('input[value="manual"]');
+          const isManual = modeManualRadio && modeManualRadio.checked;
+          
+          if (isManual) {
+            const manualNama = row.querySelector('.itemManualNama');
+            const manualHarga = row.querySelector('.itemManualHarga');
+            if (manualNama?.value) {
+              items.push(manualNama.value);
+              subtotal += parseInt(manualHarga?.value) || 0;
+            }
+          } else {
+            const namaSelect = row.querySelector('.itemNama'); 
+            const hargaInput = row.querySelector('.itemHarga'); 
+            if (namaSelect?.value) { 
+              const selectedText = namaSelect.options[namaSelect.selectedIndex]?.text || ''; 
+              items.push(selectedText.split(' - ')[0]); 
+              if (hargaInput?.value) subtotal += parseInt(hargaInput.value.replace(/[^0-9]/g, '')) || 0; 
+            } 
+          }
+        });
         const pickupYa = document.getElementById('transPickupCheckbox')?.checked;
         const pickupBiaya = pickupYa ? 25000 : 0;
         const diskonPickup = diskonList.find(d => d.tipe === 'pickup' && new Date(d.berlaku) >= new Date());
@@ -1698,9 +1904,9 @@
         loadAdminData(); renderPromoBanner(); renderDiskonInfo();
       });
       
-      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 100).forEach(t => { transaksiHtml += `}<td data-label="ID">${t.transaksi_id || t.id || '-'} \\<td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'} \\<td data-label="Pelanggan">${t.nama_pelanggan || '-'} \\<td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'} \\<td data-label="Total">${formatRupiah(t.total || 0)} \\<td data-label="Kasir">${t.kasir || 'Admin'} \\<td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button> \\`; }); transaksiTable.innerHTML = transaksiHtml || '}<td colspan="7" style="text-align: center;">Tidak ada hasil</td>'; });
+      document.getElementById('searchTransaksi')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = transactions.filter(t => (t.nama_pelanggan && t.nama_pelanggan.toLowerCase().includes(keyword)) || (t.item && t.item.toLowerCase().includes(keyword)) || (t.transaksi_id && t.transaksi_id.toLowerCase().includes(keyword))); const transaksiTable = document.getElementById('transaksiTable'); if (!transaksiTable) return; let transaksiHtml = ''; filtered.slice(0, 100).forEach(t => { transaksiHtml += `<tr><td data-label="ID">${t.transaksi_id || t.id || '-'}</td><td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td data-label="Pelanggan">${t.nama_pelanggan || '-'}</td><td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'}</td><td data-label="Total">${formatRupiah(t.total || 0)}</td><td data-label="Kasir">${t.kasir || 'Admin'}</td><td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`; }); transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="7" style="text-align: center;">Tidak ada hasil</td>'; });
       
-      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `}<td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'} \\<td data-label="Username">${log.username || '-'} \\<td data-label="Role">${log.role || '-'} \\<td data-label="IP">${log.ip || '-'} \\<td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span> \\<td data-label="Browser">${log.browser || 'Unknown'} \\`; }); loginLogTable.innerHTML = logHtml || '}<td colspan="6" style="text-align: center;">Tidak ada hasil</td>'; });
+      document.getElementById('searchLogin')?.addEventListener('input', function() { const keyword = this.value.toLowerCase(); const filtered = loginLogs.filter(l => (l.username && l.username.toLowerCase().includes(keyword)) || (l.role && l.role.toLowerCase().includes(keyword)) || (l.status && l.status.toLowerCase().includes(keyword))); const loginLogTable = document.getElementById('loginLogTable'); if (!loginLogTable) return; let logHtml = ''; filtered.slice(0, 50).forEach(log => { logHtml += `<tr><td data-label="Waktu">${log.timestamp ? new Date(log.timestamp).toLocaleString('id-ID') : '-'}</td><td data-label="Username">${log.username || '-'}</td><td data-label="Role">${log.role || '-'}</td><td data-label="IP">${log.ip || '-'}</td><td data-label="Status"><span class="status-badge ${log.status === 'Sukses' ? 'status-success' : 'status-failed'}">${log.status || '-'}</span></td><td data-label="Browser">${log.browser || 'Unknown'}</td></tr>`; }); loginLogTable.innerHTML = logHtml || '<tr><td colspan="6" style="text-align: center;">Tidak ada hasil</td>'; });
       
       document.getElementById('closePrintModal')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
       document.getElementById('cancelPrint')?.addEventListener('click', () => { document.getElementById('printResiModal')?.classList.remove('active'); });
