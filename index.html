@@ -2220,63 +2220,67 @@
       renderServiceList();
     }
     
-    window.updateStatus = async function(transaksiId, newStatus) {
+   window.updateStatus = async function(transaksiId, newStatus) {
     if (!newStatus) return;
     
     const transaction = transactions.find(t => (t.transaksi_id === transaksiId) || (t.id === transaksiId));
-    if (transaction) {
-        // Simpan status lama untuk rollback jika gagal
-        const oldStatus = transaction.status;
-        transaction.status = newStatus;
+    if (!transaction) {
+        showToast('Transaksi tidak ditemukan', 'error');
+        return;
+    }
+    
+    // Simpan status lama untuk rollback
+    const oldStatus = transaction.status;
+    
+    // Optimistic update (update UI dulu)
+    transaction.status = newStatus;
+    saveTransactionsToStorage();
+    loadAdminData();
+    showToast(`Mengupdate status menjadi ${getStatusLabel(newStatus)}...`, 'warning');
+    
+    // 🔥 KIRIM KE API (INI YANG SELAMA INI MISSING!) 🔥
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/transactions`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                transaksi_id: transaksiId,
+                status: newStatus
+            })
+        });
         
-        // Update UI dulu (optimistic update)
-        saveTransactionsToStorage();
-        loadAdminData();
-        showToast(`Mengupdate status menjadi ${getStatusLabel(newStatus)}...`, 'warning');
-        
-        // 🔥 KIRIM KE API (INI YANG KURANG!) 🔥
-        try {
-            const response = await fetch(`${API_BASE_URL}/api/transactions`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    transaksi_id: transaksiId,
-                    status: newStatus
-                })
-            });
+        if (response.ok) {
+            showToast(`✅ Status berhasil diupdate menjadi ${getStatusLabel(newStatus)}`, 'success');
             
-            if (response.ok) {
-                showToast(`✅ Status berhasil diupdate menjadi ${getStatusLabel(newStatus)}`, 'success');
-                
-                // Kirim via WebSocket untuk sync realtime
-                if (socket && isConnected) {
-                    socket.send(JSON.stringify({ 
-                        type: 'updateStatus', 
-                        transaksiId, 
-                        status: newStatus 
-                    }));
-                }
-                
-                // Ambil data terbaru dari API
-                await loadDataFromAPI();
-            } else {
-                // Rollback jika gagal
-                transaction.status = oldStatus;
-                saveTransactionsToStorage();
-                loadAdminData();
-                showToast(`❌ Gagal update status: ${response.status}`, 'error');
+            // Kirim via WebSocket untuk sync realtime ke device lain
+            if (socket && isConnected) {
+                socket.send(JSON.stringify({ 
+                    type: 'updateStatus', 
+                    transaksiId, 
+                    status: newStatus 
+                }));
             }
-        } catch(error) {
-            // Rollback jika error
+            
+            // Ambil data terbaru dari API untuk memastikan sinkron
+            await loadDataFromAPI();
+        } else {
+            // Rollback jika gagal
             transaction.status = oldStatus;
             saveTransactionsToStorage();
             loadAdminData();
-            showToast(`❌ Error: ${error.message}`, 'error');
-            console.error('Update status error:', error);
+            const errorText = await response.text();
+            showToast(`❌ Gagal update status: ${response.status}`, 'error');
+            console.error('Update status error:', errorText);
         }
+    } catch(error) {
+        // Rollback jika error
+        transaction.status = oldStatus;
+        saveTransactionsToStorage();
+        loadAdminData();
+        showToast(`❌ Error: ${error.message}`, 'error');
+        console.error('Update status error:', error);
     }
-};
-    
+};    
     window.previewPrint = function(item, total, nama, id) {
       const modal = document.getElementById('printResiModal');
       const preview = document.getElementById('printPreviewContent');
