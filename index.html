@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
   <title>Malik Service • One Stop Service Semarang</title>
   
   <!-- PWA Enhanced -->
@@ -154,6 +154,31 @@
       animation: slideIn 0.5s ease-out;
     }
     .store-title { font-size: 42px; font-weight: 800; letter-spacing: -0.5px; line-height: 1.2; margin-bottom: 12px; animation: slideIn 0.6s ease-out; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+    @media (max-width: 768px) {
+      .store-title { font-size: 28px; }
+      .modern-header { padding: 20px; }
+      .store-address { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .detail-grid-modern { grid-template-columns: 1fr; }
+      .login-toggle-modern { position: relative; top: 0; right: 0; margin-bottom: 20px; justify-content: center; }
+      .login-modal-modern { width: calc(100% - 24px); right: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+      .modal-content-modern { padding: 24px; }
+      .articles-grid { grid-template-columns: 1fr; }
+      .track-menu-btn { bottom: 30px; left: 30px; width: 50px; height: 50px; font-size: 20px; }
+      .floating-btn { bottom: 30px; right: 30px; width: 50px; height: 50px; font-size: 24px; }
+      .total-value-modern { font-size: 28px; padding: 10px 20px; }
+      .promo-banner { flex-direction: column; text-align: center; }
+      .pickup-options-modern { flex-direction: column; }
+      .form-grid-modern { grid-template-columns: 1fr; }
+      .stats-grid-modern { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 12px; }
+      .section { padding: 20px; }
+      .content { padding: 16px; }
+      .track-status { gap: 10px; }
+      .status-step span { font-size: 10px; }
+      .status-step { min-width: 60px; }
+    }
     .store-address {
       display: flex;
       align-items: center;
@@ -208,12 +233,16 @@
       width: 100%;
       z-index: 1;
     }
+    @media (max-width: 768px) {
+      #map { height: 250px; }
+    }
     .maps-actions {
       display: flex;
       gap: 12px;
       padding: 16px;
       background: white;
       border-top: 1px solid var(--gray-200);
+      flex-wrap: wrap;
     }
     .maps-btn {
       flex: 1;
@@ -249,6 +278,7 @@
       display: flex;
       gap: 12px;
       margin-top: 16px;
+      flex-wrap: wrap;
     }
     .track-input {
       flex: 1;
@@ -257,6 +287,7 @@
       border-radius: var(--radius-md);
       font-size: 16px;
       transition: all 0.3s ease;
+      min-width: 200px;
     }
     .track-input:focus {
       outline: none;
@@ -288,19 +319,20 @@
       border-radius: var(--radius-md);
       display: none;
     }
-    .track-result.show {
-      display: block;
-    }
+    .track-result.show { display: block; }
     .track-status {
       display: flex;
       align-items: center;
       gap: 20px;
       margin: 16px 0;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
     .status-step {
       flex: 1;
       text-align: center;
       position: relative;
+      min-width: 70px;
     }
     .status-step::before {
       content: '';
@@ -312,12 +344,8 @@
       background: var(--gray-300);
       z-index: 0;
     }
-    .status-step:first-child::before {
-      display: none;
-    }
-    .status-step.completed::before {
-      background: var(--success);
-    }
+    .status-step:first-child::before { display: none; }
+    .status-step.completed::before { background: var(--success); }
     .status-icon {
       width: 35px;
       height: 35px;
@@ -330,20 +358,11 @@
       position: relative;
       z-index: 1;
     }
-    .status-step.completed .status-icon {
-      background: var(--success);
-      color: white;
-    }
-    .status-step.active .status-icon {
-      background: var(--primary);
-      color: white;
-      animation: pulse-glow 2s ease-in-out infinite;
-    }
+    .status-step.completed .status-icon { background: var(--success); color: white; }
+    .status-step.active .status-icon { background: var(--primary); color: white; animation: pulse-glow 2s ease-in-out infinite; }
     
     /* Sparepart Section */
-    .sparepart-section {
-      margin: 24px 0;
-    }
+    .sparepart-section { margin: 24px 0; }
     .sparepart-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -358,15 +377,8 @@
       transition: all 0.3s ease;
       cursor: pointer;
     }
-    .sparepart-card:hover {
-      border-color: var(--primary);
-      transform: translateY(-5px);
-      box-shadow: var(--shadow-lg);
-    }
-    .sparepart-card.selected {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-    }
+    .sparepart-card:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: var(--shadow-lg); }
+    .sparepart-card.selected { border-color: var(--primary); background: var(--primary-soft); }
     .sparepart-icon {
       width: 60px;
       height: 60px;
@@ -377,33 +389,14 @@
       justify-content: center;
       margin-bottom: 16px;
     }
-    .sparepart-icon i {
-      font-size: 30px;
-      color: var(--primary);
-    }
-    .sparepart-name {
-      font-weight: 700;
-      font-size: 18px;
-      margin-bottom: 8px;
-    }
-    .sparepart-price {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 20px;
-      margin-bottom: 8px;
-    }
-    .sparepart-stock {
-      font-size: 13px;
-      color: var(--success);
-    }
-    .sparepart-stock.low {
-      color: var(--warning);
-    }
+    .sparepart-icon i { font-size: 30px; color: var(--primary); }
+    .sparepart-name { font-weight: 700; font-size: 18px; margin-bottom: 8px; }
+    .sparepart-price { color: var(--primary); font-weight: 700; font-size: 20px; margin-bottom: 8px; }
+    .sparepart-stock { font-size: 13px; color: var(--success); }
+    .sparepart-stock.low { color: var(--warning); }
     
     /* Layanan Tambahan */
-    .additional-services {
-      margin: 24px 0;
-    }
+    .additional-services { margin: 24px 0; }
     .service-checkbox-group {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -421,21 +414,10 @@
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    .service-checkbox:hover {
-      border-color: var(--primary);
-      transform: translateX(5px);
-    }
-    .service-checkbox.selected {
-      border-color: var(--primary);
-      background: var(--primary-soft);
-    }
-    .service-checkbox input {
-      display: none;
-    }
-    .service-checkbox i {
-      color: var(--primary);
-      font-size: 20px;
-    }
+    .service-checkbox:hover { border-color: var(--primary); transform: translateX(5px); }
+    .service-checkbox.selected { border-color: var(--primary); background: var(--primary-soft); }
+    .service-checkbox input { display: none; }
+    .service-checkbox i { color: var(--primary); font-size: 20px; }
     
     /* Beli Sparepart Saja Toggle */
     .buy-sparepart-toggle {
@@ -447,6 +429,7 @@
       border-radius: var(--radius-lg);
       margin: 20px 0;
       border: 2px solid var(--warning);
+      flex-wrap: wrap;
     }
     .buy-sparepart-toggle label {
       display: flex;
@@ -455,11 +438,7 @@
       cursor: pointer;
       font-weight: 600;
     }
-    .buy-sparepart-toggle input {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-    }
+    .buy-sparepart-toggle input { width: 20px; height: 20px; cursor: pointer; }
     
     .login-toggle-modern { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; gap: 12px; }
     .toggle-btn {
@@ -912,30 +891,6 @@
       box-shadow: var(--shadow-glow);
     }
     
-    @media (max-width: 768px) {
-      body { padding: 12px; }
-      .store-title { font-size: 28px; }
-      .total-value-modern { font-size: 28px; padding: 10px 20px; }
-      .detail-grid-modern { grid-template-columns: 1fr; }
-      .login-toggle-modern { position: relative; top: 0; right: 0; margin-bottom: 20px; }
-      .login-modal-modern { width: calc(100% - 24px); right: 12px; }
-      .modal-content-modern { padding: 24px; }
-      .articles-grid { grid-template-columns: 1fr; }
-      .track-menu-btn { bottom: 30px; left: 30px; }
-      .floating-btn { bottom: 30px; right: 30px; }
-    }
-    @media (max-width: 480px) {
-      .form-grid-modern { grid-template-columns: 1fr; }
-      .pickup-options-modern { flex-direction: column; }
-      .stats-grid-modern { grid-template-columns: 1fr; }
-      .promo-banner { flex-direction: column; text-align: center; }
-    }
-    .loading-spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top: 4px solid var(--primary); border-radius: 50%; animation: rotate 1s linear infinite; }
-    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    ::-webkit-scrollbar { width: 10px; }
-    ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
     .realtime-badge {
       position: fixed;
       top: 20px;
@@ -955,6 +910,12 @@
       gap: 8px;
     }
     .realtime-badge i { font-size: 14px; animation: pulse-glow 2s ease-in-out infinite; }
+    .loading-spinner { display: inline-block; width: 40px; height: 40px; border: 4px solid var(--gray-200); border-top: 4px solid var(--primary); border-radius: 50%; animation: rotate 1s linear infinite; }
+    @keyframes rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--primary-dark); }
   </style>
 </head>
 <body>
@@ -1297,7 +1258,8 @@
     // MAPS FUNCTIONS
     // ============================================
     function initMap() {
-      const storeLocation = [-7,0335471, 110,3418655]; // Koordinat Semarang (contoh)
+      // PERBAIKAN: Koordinat yang benar untuk Semarang
+      const storeLocation = [-7.0335471, 110.3418655];
       
       map = L.map('map').setView(storeLocation, 15);
       
@@ -1332,7 +1294,7 @@
     };
     
     window.getDirections = function() {
-      window.open('https://www.google.com/maps/dir/?api=1&destination=Malik+Service+Semarang&destination_place_id=ChIJxxx', '_blank');
+      window.open('https://www.google.com/maps/dir/?api=1&destination=Malik+Service+Semarang', '_blank');
     };
     
     // ============================================
