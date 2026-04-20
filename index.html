@@ -2220,22 +2220,62 @@
       renderServiceList();
     }
     
-    window.updateStatus = function(transaksiId, newStatus) {
-      if (!newStatus) return;
-      
-      const transaction = transactions.find(t => (t.transaksi_id === transaksiId) || (t.id === transaksiId));
-      if (transaction) {
+    window.updateStatus = async function(transaksiId, newStatus) {
+    if (!newStatus) return;
+    
+    const transaction = transactions.find(t => (t.transaksi_id === transaksiId) || (t.id === transaksiId));
+    if (transaction) {
+        // Simpan status lama untuk rollback jika gagal
+        const oldStatus = transaction.status;
         transaction.status = newStatus;
+        
+        // Update UI dulu (optimistic update)
         saveTransactionsToStorage();
         loadAdminData();
-        showToast(`Status transaksi ${transaksiId} diupdate menjadi ${getStatusLabel(newStatus)}`, 'success');
+        showToast(`Mengupdate status menjadi ${getStatusLabel(newStatus)}...`, 'warning');
         
-        // Kirim update via WebSocket
-        if (socket && isConnected) {
-          socket.send(JSON.stringify({ type: 'updateStatus', transaksiId, status: newStatus }));
+        // 🔥 KIRIM KE API (INI YANG KURANG!) 🔥
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/transactions`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    transaksi_id: transaksiId,
+                    status: newStatus
+                })
+            });
+            
+            if (response.ok) {
+                showToast(`✅ Status berhasil diupdate menjadi ${getStatusLabel(newStatus)}`, 'success');
+                
+                // Kirim via WebSocket untuk sync realtime
+                if (socket && isConnected) {
+                    socket.send(JSON.stringify({ 
+                        type: 'updateStatus', 
+                        transaksiId, 
+                        status: newStatus 
+                    }));
+                }
+                
+                // Ambil data terbaru dari API
+                await loadDataFromAPI();
+            } else {
+                // Rollback jika gagal
+                transaction.status = oldStatus;
+                saveTransactionsToStorage();
+                loadAdminData();
+                showToast(`❌ Gagal update status: ${response.status}`, 'error');
+            }
+        } catch(error) {
+            // Rollback jika error
+            transaction.status = oldStatus;
+            saveTransactionsToStorage();
+            loadAdminData();
+            showToast(`❌ Error: ${error.message}`, 'error');
+            console.error('Update status error:', error);
         }
-      }
-    };
+    }
+};
     
     window.previewPrint = function(item, total, nama, id) {
       const modal = document.getElementById('printResiModal');
