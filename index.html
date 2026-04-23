@@ -1177,7 +1177,7 @@
             <tbody id="statusTable">
               <tr><td colspan="4" style="text-align: center;">Memuat data...</td></tr>
             </tbody>
-          </table>
+           </table>
         </div>
       </div>
     </div>
@@ -1586,161 +1586,456 @@
     // DATA LAYANAN LENGKAP (ASLI + TAMBAHAN)
     // ============================================
     let serviceDB = [
-      // ===== DATA ASLI ANDROID =====
-      { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Original', jenis: 'Sparepart', harga: 850000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Premium', jenis: 'Sparepart', harga: 550000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Ganti LCD Android (Universal) - Standard', jenis: 'Sparepart', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Ganti Baterai Android (Universal) - Original', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Ganti Baterai Android (Universal) - Premium', jenis: 'Sparepart', harga: 280000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Ganti Baterai Android (Universal) - Standard', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Charger', nama: 'Ganti Port Charger Android (Universal)', jenis: 'Sparepart', harga: 250000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Charger', nama: 'Ganti Fleksibel Charger Android', jenis: 'Sparepart', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Tombol', nama: 'Ganti Tombol Power/Volume Android', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Tombol', nama: 'Service Tombol Macet Android', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Audio', nama: 'Ganti Speaker Android (Universal)', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Audio', nama: 'Ganti Mic Android (Universal)', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Audio', nama: 'Service Jack Audio Rusak', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Kamera', nama: 'Ganti Kamera Belakang Android (Universal)', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Kamera', nama: 'Ganti Kamera Depan Android (Universal)', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Kamera', nama: 'Service Kamera Buram/Fokus Error', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Getar', nama: 'Ganti Motor Getar Android', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'IC Power', nama: 'Service IC Power (Tidak Bisa Hidup)', jenis: 'Jasa', harga: 450000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'IC Charging', nama: 'Service IC Charging (Tidak Bisa Cas)', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'IC RF', nama: 'Service IC RF (No Signal/IMEI)', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'IC EMMC', nama: 'Service IC EMMC (Bootloop/Mati Total)', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Software', nama: 'Flashing/Install Ulang Android', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Android', tipe: 'Software', nama: 'Unlock Pattern/FRP Android', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Android', tipe: 'Software', nama: 'Upgrade OS Android', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Android', tipe: 'Software', nama: 'Root/Unlock Bootloader', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung Galaxy S Series Ganti LCD Original', jenis: 'Sparepart', harga: 6000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung Galaxy S Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung A Series Ganti LCD Original', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Samsung A Series Ganti LCD Premium', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung Galaxy S Series Ganti Baterai Original', jenis: 'Sparepart', harga: 650000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Samsung A Series Ganti Baterai Original', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi Flagship (Mi/POCO F) Ganti LCD Original', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Xiaomi Midrange (Redmi Note) Ganti LCD Original', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Baterai', nama: 'Xiaomi Ganti Baterai Original', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'OPPO Reno/Find Series Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Android', tipe: 'Layar', nama: 'Vivo V/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      // ===== DATA ASLI IPHONE =====
-      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Original', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 15/14/13 Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12/11/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 12/11/X Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Layar', nama: 'iPhone 8/7/SE Series Ganti LCD Original', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 15/14/13 Series Ganti Baterai Original', jenis: 'Sparepart', harga: 950000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 12/11/X Series Ganti Baterai Original', jenis: 'Sparepart', harga: 800000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Baterai', nama: 'iPhone 8/7/SE Series Ganti Baterai Original', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Charger', nama: 'Ganti Port Charger iPhone (Universal)', jenis: 'Sparepart', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'IC Power', nama: 'Service IC Power iPhone (Tidak Bisa Hidup)', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'IC Charging', nama: 'Service IC Charging iPhone (Tidak Bisa Cas)', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'IC Baseband', nama: 'Service IC Baseband (No Service/IMEI)', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'IC NAND', nama: 'Service IC NAND (Bootloop/Error 53)', jenis: 'Jasa', harga: 1800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Face ID', nama: 'Service Face ID iPhone', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Audio', nama: 'Ganti Speaker iPhone (Universal)', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Audio', nama: 'Ganti Mic iPhone (Universal)', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'iPhone', tipe: 'Software', nama: 'Restore/Update iOS', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'iPhone', tipe: 'Software', nama: 'Unlock iCloud (Jasa Khusus)', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
-      // ===== DATA ASLI LAPTOP =====
-      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang Windows 10/11 + Driver', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
-      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Ulang MacOS', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '7 Hari' },
-      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Microsoft Office', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Laptop', tipe: 'Software', nama: 'Install Adobe Photoshop/Corel', jenis: 'Jasa', harga: 150000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM Laptop DDR3 4GB', jenis: 'Sparepart', harga: 350000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM Laptop DDR3 8GB', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM Laptop DDR4 8GB', jenis: 'Sparepart', harga: 800000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'RAM', nama: 'Upgrade RAM Laptop DDR4 16GB', jenis: 'Sparepart', harga: 1400000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 120GB', jenis: 'Sparepart', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 240GB', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD SATA 480GB', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 256GB', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 512GB', jenis: 'Sparepart', harga: 850000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'SSD', nama: 'Upgrade SSD NVMe 1TB', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 14 inch (Universal)', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Layar', nama: 'Ganti LCD Laptop 15.6 inch (Universal)', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Baterai', nama: 'Ganti Baterai Laptop Universal', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'Ganti Keyboard Laptop Universal', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop Universal 45W/65W', jenis: 'Sparepart', harga: 300000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Charger', nama: 'Charger Laptop Original (per merk)', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'DC Jack', nama: 'Service DC Jack (Port Charger Rusak)', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Ganti Kipas/Fan Laptop Universal', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Cooling', nama: 'Bersihkan Cooling + Ganti Pasta', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Laptop', tipe: 'IC Power', nama: 'Service IC Power Laptop (Tidak Hidup)', jenis: 'Jasa', harga: 800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'IC Charging', nama: 'Service IC Charging (Tidak Cas)', jenis: 'Jasa', harga: 700000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Air Ganti LCD Original', jenis: 'Sparepart', harga: 4000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Layar', nama: 'MacBook Pro Ganti LCD Original', jenis: 'Sparepart', harga: 5500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Air Ganti Baterai Original', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Baterai', nama: 'MacBook Pro Ganti Baterai Original', jenis: 'Sparepart', harga: 2200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Laptop', tipe: 'Keyboard', nama: 'MacBook Ganti Keyboard', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      // ===== DATA ASLI TABLET, GAMING, PRINTER, SMARTWATCH, DESKTOP =====
-      { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 7-8 inch', jenis: 'Sparepart', harga: 700000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Tablet', tipe: 'Layar', nama: 'Ganti LCD Tablet Android 10 inch', jenis: 'Sparepart', harga: 1000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Mini Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Tablet', tipe: 'Layar', nama: 'iPad Air/Pro Ganti LCD Original', jenis: 'Sparepart', harga: 3800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Tablet', tipe: 'Baterai', nama: 'Ganti Baterai Tablet Android', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Tablet', tipe: 'Baterai', nama: 'Ganti Baterai iPad Original', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Ganti Optical Lens', jenis: 'Sparepart', harga: 600000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Service HDMI Rusak', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'PlayStation', nama: 'PS4/PS5 Service IC Power', jenis: 'Jasa', harga: 900000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'Xbox', nama: 'Xbox One/Series Service', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Ganti LCD', jenis: 'Sparepart', harga: 1300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Gaming', tipe: 'Nintendo', nama: 'Nintendo Switch Ganti Joycon', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Printer', tipe: 'Printer', nama: 'Service Printer (Tidak Ngeprint/Macet)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Flushing (Tinta Tidak Keluar)', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Printer', tipe: 'Epson', nama: 'Epson Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Printer', tipe: 'Canon', nama: 'Canon Ganti Printhead', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Printer', tipe: 'HP', nama: 'HP Ganti Cartridge Original', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Ganti LCD', jenis: 'Sparepart', harga: 2500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: 'Apple Watch Ganti Baterai', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Ganti LCD', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: 'Samsung Watch Ganti Baterai', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'Power', nama: 'Ganti Power Supply PC 450W', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'Power', nama: 'Ganti Power Supply PC 600W', jenis: 'Sparepart', harga: 750000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'RAM', nama: 'Upgrade RAM PC DDR3/DDR4', jenis: 'Sparepart', harga: 400000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'SSD', nama: 'Upgrade SSD PC', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'Motherboard', nama: 'Service Motherboard PC', jenis: 'Jasa', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'VGA', nama: 'Service VGA Card Rusak', jenis: 'Jasa', harga: 500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
-      { kategori: 'Desktop', tipe: 'Software', nama: 'Rakit PC + Install Software', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      // ============================================
+      // ========== SMARTPHONE ANDROID (LENGKAP) ==========
+      // ============================================
       
-      // ========== TAMBAHAN JASA KECIL ==========
-      { kategori: 'Jasa Kecil', tipe: 'LCD', nama: '🔧 Hanya Lem LCD (Jasa Lem LCD) - Tanpa Ganti LCD', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Tombol', nama: '🔧 Hanya Ganti Tombol Power/Volume (Jasa Tukar Tombol)', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Switch Tombol', nama: '🔧 Hanya Ganti Switch Tombol (Micro Switch) - Jasa', jenis: 'Jasa', harga: 65000, estimasi: '30-60 Menit', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Charger Port', nama: '🔧 Hanya Service Port Charger (Soldering Ulang) - Jasa', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Audio', nama: '🔧 Hanya Ganti Speaker/Mic (Jasa Tukar) - Tanpa Sparepart', jenis: 'Jasa', harga: 45000, estimasi: '30-60 Menit', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Baterai', nama: '🔧 Hanya Service Baterai (Jumper/Reset BMS) - Jasa', jenis: 'Jasa', harga: 60000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Software', nama: '🔧 Hanya Flashing/Install Ulang (Jasa Software)', jenis: 'Jasa', harga: 50000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Konektor', nama: '🔧 Hanya Ganti Konektor Flexi (Soldering) - Jasa', jenis: 'Jasa', harga: 70000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Cleaning', nama: '🔧 Service Pembersihan Dalam (Deep Cleaning) - Jasa', jenis: 'Jasa', harga: 85000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Antenna', nama: '🔧 Hanya Service Antenna/Sinyal (Jasa) - Tanpa Ganti', jenis: 'Jasa', harga: 55000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Keyboard', nama: '🔧 Hanya Service Keyboard Laptop (Jasa Bersih/Bongkar)', jenis: 'Jasa', harga: 90000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Cooling', nama: '🔧 Hanya Ganti Pasta Thermal + Bersihkan Kipas (Jasa)', jenis: 'Jasa', harga: 70000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Jack Audio', nama: '🔧 Hanya Service Jack Audio (Soldering) - Jasa', jenis: 'Jasa', harga: 60000, estimasi: '1 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Camera', nama: '🔧 Hanya Service Kamera (Jasa Bongkar Pasang)', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Vibrator', nama: '🔧 Hanya Ganti Motor Getar (Jasa) - Tanpa Sparepart', jenis: 'Jasa', harga: 40000, estimasi: '30 Menit', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Backup Data', nama: '🔧 Jasa Backup Data (Transfer File) - Jasa', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: 'Hanya Proses' },
-      { kategori: 'Jasa Kecil', tipe: 'Unlock', nama: '🔧 Jasa Unlock Pattern/FRP/iCloud (Software)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Soldering', nama: '🔧 Hanya Jasa Soldering (Per Titik) - Jasa', jenis: 'Jasa', harga: 30000, estimasi: '15-30 Menit', garansi: '3 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'Water Damage', nama: '🔧 Hanya Service Water Damage (Cleaning + Ultrasonic)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Hari', garansi: '7 Hari' },
-      { kategori: 'Jasa Kecil', tipe: 'IC', nama: '🔧 Hanya Reball IC (Jasa Reball) - Per IC', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      // ----- LAYAR LCD -----
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Ganti LCD Android - Original Samsung', jenis: 'Sparepart', harga: 850000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Ganti LCD Android - Premium', jenis: 'Sparepart', harga: 550000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Ganti LCD Android - Standard', jenis: 'Sparepart', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Ganti LCD Android (Touchscreen Rusak) - Original', jenis: 'Sparepart', harga: 750000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Service LCD Garis/Fliker (Tanpa Ganti)', jenis: 'Jasa', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Service LCD Hitam Tapi Masih Ada Suara', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Samsung Galaxy S Series Ganti LCD Original', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Samsung Galaxy S Series Ganti LCD Premium', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Samsung Galaxy A Series Ganti LCD Original', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Samsung Galaxy A Series Ganti LCD Premium', jenis: 'Sparepart', harga: 700000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Xiaomi Flagship (Mi/POCO F) Ganti LCD Original', jenis: 'Sparepart', harga: 1800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Xiaomi Midrange (Redmi Note) Ganti LCD Original', jenis: 'Sparepart', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 OPPO Reno/Find Series Ganti LCD Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Layar', nama: '📱 Vivo V/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 1900000, estimasi: '2-4 Jam', garansi: '30 Hari' },
       
-      // ========== TAMBAHAN LAYANAN UNIK ==========
-      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Custom ROM / Install Custom Firmware', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      // ----- BATTERY -----
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Ganti Baterai Android - Original', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Ganti Baterai Android - Premium', jenis: 'Sparepart', harga: 280000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Ganti Baterai Android - Standard', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Service Baterai Drop/Cepat Habis', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Service Baterai Kembung/Menggelembung', jenis: 'Jasa', harga: 80000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Samsung Galaxy S Series Ganti Baterai Original', jenis: 'Sparepart', harga: 650000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Samsung A Series Ganti Baterai Original', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Baterai', nama: '🔋 Xiaomi Ganti Baterai Original', jenis: 'Sparepart', harga: 400000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- CHARGING PORT -----
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Ganti Port Charger Android (USB-C)', jenis: 'Sparepart', harga: 250000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Ganti Port Charger Android (Micro USB)', jenis: 'Sparepart', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Ganti Fleksibel Charger Android', jenis: 'Sparepart', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Service Port Charger Longgar/Macet', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Service IC Charging (Tidak Bisa Cas)', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Charger', nama: '⚡ Service Wireless Charging Tidak Berfungsi', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- TOMBOL -----
+      { kategori: 'Android', tipe: 'Tombol', nama: '🔘 Ganti Tombol Power Android', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Tombol', nama: '🔘 Ganti Tombol Volume Android', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Tombol', nama: '🔘 Service Tombol Macet/Tidak Berfungsi', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Tombol', nama: '🔘 Ganti Fleksibel Tombol Power/Volume', jenis: 'Sparepart', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- AUDIO (SPEAKER & MIC) -----
+      { kategori: 'Android', tipe: 'Audio', nama: '🔊 Ganti Speaker Android (Earpiece)', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🔊 Ganti Speaker Android (Loudspeaker)', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🎤 Ganti Mic Android (Bicara)', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🎤 Ganti Mic Android (Rekam Suara)', jenis: 'Sparepart', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🔊 Service Speaker Suara Pecah/Serak', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🎧 Service Jack Audio 3.5mm Rusak', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Audio', nama: '🎧 Ganti Jack Audio 3.5mm', jenis: 'Sparepart', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- KAMERA -----
+      { kategori: 'Android', tipe: 'Kamera', nama: '📷 Ganti Kamera Belakang Android', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Kamera', nama: '📷 Ganti Kamera Depan Android (Selfie)', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Kamera', nama: '📷 Service Kamera Buram/Tidak Fokus', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Kamera', nama: '📷 Service Kamera Error/Cannot Connect', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Kamera', nama: '📷 Service Kamera Hitam/Gelap', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- GETAR / VIBRATOR -----
+      { kategori: 'Android', tipe: 'Getar', nama: '📳 Ganti Motor Getar Android', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Getar', nama: '📳 Service Getar Tidak Berfungsi', jenis: 'Jasa', harga: 80000, estimasi: '1 Jam', garansi: '30 Hari' },
+      
+      // ----- SENSOR -----
+      { kategori: 'Android', tipe: 'Sensor', nama: '📡 Ganti Sensor Proximity (Call Mati)', jenis: 'Sparepart', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Sensor', nama: '📡 Ganti Sensor Light (Otomatis Terang/Gelap)', jenis: 'Sparepart', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Sensor', nama: '📡 Ganti Fingerprint Sensor', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Sensor', nama: '📡 Ganti Gyroscope/Accelerometer', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- IC / MOTHERBOARD -----
+      { kategori: 'Android', tipe: 'IC Power', nama: '🔧 Service IC Power (Tidak Bisa Hidup)', jenis: 'Jasa', harga: 450000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC Charging', nama: '🔧 Service IC Charging (Tidak Bisa Cas)', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC RF', nama: '🔧 Service IC RF (No Signal/IMEI Hilang)', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC EMMC', nama: '🔧 Service IC EMMC (Bootloop/Mati Total)', jenis: 'Jasa', harga: 650000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC Audio', nama: '🔧 Service IC Audio (Suara Tidak Keluar)', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC Wifi', nama: '🔧 Service IC Wifi/Bluetooth', jenis: 'Jasa', harga: 380000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'IC Display', nama: '🔧 Service IC Display (LCD Tidak Nyala)', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- SOFTWARE ANDROID -----
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Flashing/Install Ulang Android', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Unlock Pattern/FRP Android', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Upgrade OS Android ke Versi Terbaru', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Root/Unlock Bootloader', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Install Custom ROM', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Fix Bootloop (Tanpa Kehilangan Data)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Install GApps/Google Play Store', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Android', tipe: 'Software', nama: '💻 Bypass FRP (Factory Reset Protection)', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      
+      // ----- KERUSAKAN AIR / WATER DAMAGE -----
+      { kategori: 'Android', tipe: 'Water Damage', nama: '💧 Service Water Damage (HP Kena Air)', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Hari', garansi: '30 Hari' },
+      { kategori: 'Android', tipe: 'Water Damage', nama: '💧 Service HP Kemasukan Air (Cleaning + Ultrasonic)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Hari', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== IPHONE / iOS (LENGKAP) ==========
+      // ============================================
+      
+      // ----- LAYAR LCD IPHONE -----
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 15/14/13 Series Ganti LCD Original', jenis: 'Sparepart', harga: 4500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 15/14/13 Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 12/11/X Series Ganti LCD Original', jenis: 'Sparepart', harga: 3500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 12/11/X Series Ganti LCD Premium', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 8/7/SE Series Ganti LCD Original', jenis: 'Sparepart', harga: 1500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 iPhone 6/6s/6 Plus Ganti LCD Original', jenis: 'Sparepart', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Layar', nama: '📱 Service LCD iPhone Garis/Fliker', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      
+      // ----- BATTERY IPHONE -----
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 iPhone 15/14/13 Series Ganti Baterai Original', jenis: 'Sparepart', harga: 950000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 iPhone 12/11/X Series Ganti Baterai Original', jenis: 'Sparepart', harga: 800000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 iPhone 8/7/SE Series Ganti Baterai Original', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 iPhone Ganti Baterai Premium', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 Service Baterai iPhone (Health Dibawah 80%)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- CHARGING IPHONE -----
+      { kategori: 'iPhone', tipe: 'Charger', nama: '⚡ Ganti Port Charger iPhone (Lightning)', jenis: 'Sparepart', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Charger', nama: '⚡ Ganti Port Charger iPhone (USB-C)', jenis: 'Sparepart', harga: 450000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Charger', nama: '⚡ Service Port Charger iPhone Longgar', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Charger', nama: '⚡ Service IC Charging iPhone (Tidak Bisa Cas)', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- TOMBOL IPHONE -----
+      { kategori: 'iPhone', tipe: 'Tombol', nama: '🔘 Ganti Tombol Power iPhone', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Tombol', nama: '🔘 Ganti Tombol Volume iPhone', jenis: 'Sparepart', harga: 220000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Tombol', nama: '🔘 Ganti Tombol Home iPhone (Touch ID)', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Tombol', nama: '🔘 Ganti Tombol Silent/Mute iPhone', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- IC / MOTHERBOARD IPHONE -----
+      { kategori: 'iPhone', tipe: 'IC Power', nama: '🔧 Service IC Power iPhone (Tidak Bisa Hidup)', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'IC Charging', nama: '🔧 Service IC Charging iPhone (Tidak Bisa Cas)', jenis: 'Jasa', harga: 1000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'IC Baseband', nama: '🔧 Service IC Baseband (No Service/IMEI)', jenis: 'Jasa', harga: 1500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'IC NAND', nama: '🔧 Service IC NAND (Bootloop/Error 53)', jenis: 'Jasa', harga: 1800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'IC Audio', nama: '🔧 Service IC Audio iPhone (Suara Tidak Keluar)', jenis: 'Jasa', harga: 800000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'IC Wifi', nama: '🔧 Service IC Wifi iPhone (Tidak Bisa Konek)', jenis: 'Jasa', harga: 750000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- AUDIO IPHONE -----
+      { kategori: 'iPhone', tipe: 'Audio', nama: '🔊 Ganti Speaker iPhone (Earpiece)', jenis: 'Sparepart', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Audio', nama: '🔊 Ganti Speaker iPhone (Loudspeaker)', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Audio', nama: '🎤 Ganti Mic iPhone (Bicara)', jenis: 'Sparepart', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- KAMERA IPHONE -----
+      { kategori: 'iPhone', tipe: 'Kamera', nama: '📷 Ganti Kamera Belakang iPhone', jenis: 'Sparepart', harga: 800000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Kamera', nama: '📷 Ganti Kamera Depan iPhone (Selfie)', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Kamera', nama: '📷 Service Kamera iPhone (Tidak Fokus/Hitam)', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- FACE ID / TOUCH ID -----
+      { kategori: 'iPhone', tipe: 'Face ID', nama: '😀 Service Face ID iPhone Tidak Berfungsi', jenis: 'Jasa', harga: 1200000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'iPhone', tipe: 'Face ID', nama: '😀 Ganti Modul Face ID iPhone', jenis: 'Sparepart', harga: 2000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- SOFTWARE IPHONE -----
+      { kategori: 'iPhone', tipe: 'Software', nama: '💻 Restore/Update iOS (DFU Mode)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'iPhone', tipe: 'Software', nama: '💻 Unlock iCloud (Jasa Khusus)', jenis: 'Jasa', harga: 2500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      { kategori: 'iPhone', tipe: 'Software', nama: '💻 Bypass Activation Lock iPhone', jenis: 'Jasa', harga: 2000000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      { kategori: 'iPhone', tipe: 'Software', nama: '💻 Fix iPhone Bootloop / Recovery Mode', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'iPhone', tipe: 'Software', nama: '💻 Jailbreak iPhone', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      
+      // ----- BATTERY HEALTH -----
+      { kategori: 'iPhone', tipe: 'Baterai', nama: '🔋 Service Battery Health iPhone (Show Health)', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
+      
+      // ============================================
+      // ========== LAPTOP (SUPER LENGKAP) ==========
+      // ============================================
+      
+      // ----- SOFTWARE LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Ulang Windows 10/11 + Driver', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Ulang Windows 7/8/8.1', jenis: 'Jasa', harga: 120000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Ulang MacOS (MacBook)', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Linux (Ubuntu/Mint/Fedora)', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Microsoft Office', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Adobe Photoshop/Corel Draw', jenis: 'Jasa', harga: 150000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install AutoCAD / SolidWorks', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Install Antivirus + Setting Firewall', jenis: 'Jasa', harga: 80000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Fix Blue Screen (BSOD) Error', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Fix Laptop Lemot / Lambat', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Remove Virus/Malware/Ransomware', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Fix Windows Update Error', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Fix Driver Error (Sound, VGA, Wifi)', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Setting BIOS/UEFI', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Bypass BIOS Password', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'Software', nama: '💻 Fix Laptop Restart Sendiri / Shutdown', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      
+      // ----- USB PORT LAPTOP (YANG ANDA MINTA) -----
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Service USB Port Laptop (Tidak Berfungsi)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Ganti Modul USB Port Laptop', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Service USB 3.0 Port Rusak', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Ganti USB Type-C Port Laptop', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Service USB Port Longgar/Macet', jenis: 'Jasa', harga: 120000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'USB Port', nama: '🔌 Service USB Port (Data Tidak Terbaca)', jenis: 'Jasa', harga: 130000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- AUDIO LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🎧 Service Jack Audio Laptop Rusak', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🎧 Ganti Jack Audio Laptop', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🔊 Service Speaker Laptop Rusak/Suara Putus', jenis: 'Jasa', harga: 130000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🔊 Ganti Speaker Laptop (Kiri/Kanan)', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🎤 Service Mic Laptop Tidak Berfungsi', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🔊 Service Sound Card Laptop (No Audio)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Audio', nama: '🔊 Service Suara Berdengung / Pecah', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- LCD LAPTOP -----
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Service LCD Laptop Garis/Fliker', jenis: 'Jasa', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop 11.6 inch', jenis: 'Sparepart', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop 13.3 inch', jenis: 'Sparepart', harga: 900000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop 14 inch', jenis: 'Sparepart', harga: 1000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop 15.6 inch', jenis: 'Sparepart', harga: 1200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop 17.3 inch', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD Laptop Touchscreen', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Service LCD Laptop Retina MacBook', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD MacBook Air 13 inch', jenis: 'Sparepart', harga: 4000000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Ganti LCD MacBook Pro 13/15 inch', jenis: 'Sparepart', harga: 5500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Service LCD Laptop (Backlight Mati)', jenis: 'Jasa', harga: 180000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'LCD', nama: '🖥️ Service LCD Laptop (Ghosting/Shadow)', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      
+      // ----- KEYBOARD LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Service Keyboard Laptop (Beberapa Tombol Rusak)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Ganti Keyboard Laptop Fullset', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Ganti Keyboard Laptop Backlit', jenis: 'Sparepart', harga: 450000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Service Keyboard Laptop Kemasukan Air', jenis: 'Jasa', harga: 200000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Service Keyboard Laptop (Tombol Double Click)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Keyboard', nama: '⌨️ Ganti Keyboard MacBook (Butterfly/Scissor)', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      
+      // ----- TOUCHPAD LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: '🖱️ Service Touchpad Laptop Tidak Berfungsi', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: '🖱️ Ganti Touchpad Laptop', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: '🖱️ Service Touchpad Laptop Macet/Susah Klik', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Touchpad', nama: '🖱️ Service Touchpad Laptop (Cursor Lompat)', jenis: 'Jasa', harga: 110000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- BATTERY LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Service Baterai Laptop (Tidak Mengecas)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Ganti Baterai Laptop Asli', jenis: 'Sparepart', harga: 750000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Ganti Baterai Laptop Premium', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Ganti Baterai Laptop Standar', jenis: 'Sparepart', harga: 350000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Service Baterai Laptop Cepat Habis', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Ganti Baterai MacBook Original', jenis: 'Sparepart', harga: 1500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Baterai', nama: '🔋 Ganti Baterai MacBook Pro Original', jenis: 'Sparepart', harga: 2200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- CHARGER / DC JACK LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Service DC Jack Laptop (Port Charger Rusak)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti DC Jack Laptop', jenis: 'Sparepart', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Service IC Charging Laptop', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger Laptop 45W', jenis: 'Sparepart', harga: 250000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger Laptop 65W', jenis: 'Sparepart', harga: 300000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger Laptop 90W', jenis: 'Sparepart', harga: 400000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger Laptop 120W (Gaming)', jenis: 'Sparepart', harga: 550000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger MacBook (Magsafe 1/2)', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Charger', nama: '⚡ Ganti Charger MacBook (USB-C)', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
+      
+      // ----- RAM LAPTOP -----
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Upgrade RAM Laptop 2GB ke 4GB', jenis: 'Sparepart', harga: 250000, estimasi: '30 Menit', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Upgrade RAM Laptop 4GB ke 8GB', jenis: 'Sparepart', harga: 400000, estimasi: '30 Menit', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Upgrade RAM Laptop 8GB ke 16GB', jenis: 'Sparepart', harga: 700000, estimasi: '30 Menit', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Upgrade RAM Laptop 16GB ke 32GB', jenis: 'Sparepart', harga: 1400000, estimasi: '30 Menit', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Service RAM Laptop (Not Detect/Error)', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'RAM', nama: '💾 Ganti Slot RAM Laptop Rusak', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- SSD / HDD LAPTOP -----
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD Laptop 120GB', jenis: 'Sparepart', harga: 300000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD Laptop 240GB', jenis: 'Sparepart', harga: 450000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD Laptop 480GB', jenis: 'Sparepart', harga: 700000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD Laptop 1TB', jenis: 'Sparepart', harga: 1200000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD NVMe 256GB', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD NVMe 512GB', jenis: 'Sparepart', harga: 850000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Upgrade SSD NVMe 1TB', jenis: 'Sparepart', harga: 1500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'SSD', nama: '💾 Clone Hardisk ke SSD (Migrasi OS)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'HDD', nama: '💾 Ganti HDD Laptop 500GB', jenis: 'Sparepart', harga: 400000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'HDD', nama: '💾 Ganti HDD Laptop 1TB', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'HDD', nama: '💾 Service HDD Laptop (Bad Sector)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Laptop', tipe: 'HDD', nama: '💾 Recovery Data HDD/SSD Rusak', jenis: 'Jasa', harga: 350000, estimasi: '1-3 Hari', garansi: 'Hanya Proses' },
+      
+      // ----- KIPAS / FAN LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Kipas', nama: '🌀 Service Kipas Laptop (Berisik/Macet)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Kipas', nama: '🌀 Ganti Kipas Laptop', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Kipas', nama: '🌀 Bersihkan Kipas Laptop + Ganti Thermal Paste', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Kipas', nama: '🌀 Service Kipas Laptop (Tidak Berputar)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- MOTHERBOARD LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Motherboard', nama: '🔧 Service Motherboard Laptop (Tidak Hidup)', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Motherboard', nama: '🔧 Service Motherboard Laptop (Blue Screen)', jenis: 'Jasa', harga: 400000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Motherboard', nama: '🔧 Service Motherboard Laptop (Overheat)', jenis: 'Jasa', harga: 350000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Motherboard', nama: '🔧 Service Motherboard Laptop (Tidak Bisa Cas)', jenis: 'Jasa', harga: 450000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Motherboard', nama: '🔧 Service Motherboard Laptop (No Display)', jenis: 'Jasa', harga: 480000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- VGA / GPU LAPTOP -----
+      { kategori: 'Laptop', tipe: 'VGA', nama: '🎮 Service VGA Laptop (Layar Artifak)', jenis: 'Jasa', harga: 450000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'VGA', nama: '🎮 Service VGA Laptop (Tidak Keluar Display)', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'VGA', nama: '🎮 Reball VGA Laptop', jenis: 'Jasa', harga: 600000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'VGA', nama: '🎮 Service VGA Laptop (Driver Error/Code 43)', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- IC LAPTOP -----
+      { kategori: 'Laptop', tipe: 'IC Power', nama: '🔧 Service IC Power Laptop (Tidak Bisa Hidup)', jenis: 'Jasa', harga: 550000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'IC Charging', nama: '🔧 Service IC Charging Laptop (Tidak Bisa Cas)', jenis: 'Jasa', harga: 450000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'IC Audio', nama: '🔧 Service IC Audio Laptop (No Sound)', jenis: 'Jasa', harga: 300000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'IC LAN', nama: '🔧 Service IC LAN/Ethernet Laptop', jenis: 'Jasa', harga: 250000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'IC USB', nama: '🔧 Service IC USB Controller Laptop', jenis: 'Jasa', harga: 280000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ----- WEBCAM LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Webcam', nama: '📹 Service Webcam Laptop Tidak Berfungsi', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Webcam', nama: '📹 Ganti Webcam Laptop', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- WIFI / BLUETOOTH LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Wifi', nama: '📡 Service Wifi Laptop (Tidak Terdeteksi)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Wifi', nama: '📡 Ganti Modul Wifi Laptop', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Wifi', nama: '📡 Service Wifi Laptop (Lemot/Putus-putus)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Bluetooth', nama: '📡 Service Bluetooth Laptop Tidak Berfungsi', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- HDMI / VGA PORT LAPTOP -----
+      { kategori: 'Laptop', tipe: 'HDMI', nama: '📺 Service Port HDMI Laptop Rusak', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'HDMI', nama: '📺 Ganti Port HDMI Laptop', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'HDMI', nama: '📺 Service Port VGA Laptop Rusak', jenis: 'Jasa', harga: 130000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Ethernet', nama: '🌐 Service Port LAN/Ethernet Laptop', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- CARD READER LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Card Reader', nama: '💳 Service Card Reader Laptop', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Card Reader', nama: '💳 Ganti Card Reader Laptop', jenis: 'Sparepart', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- HINGE / ENGSEl LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Hinge', nama: '🔄 Service Hinge Laptop (Engsel Rusak)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Hinge', nama: '🔄 Ganti Hinge Laptop (Engsel)', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Hinge', nama: '🔄 Service Laptop (Tutup Longgar/Kendor)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ----- BODY / CASING LAPTOP -----
+      { kategori: 'Laptop', tipe: 'Casing', nama: '🛡️ Ganti Casing Laptop (Palmrest)', jenis: 'Sparepart', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: '🛡️ Ganti Casing Laptop (Back Cover)', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Laptop', tipe: 'Casing', nama: '🛡️ Ganti Casing Laptop (Bottom Cover)', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== TABLET (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Tablet', tipe: 'Layar', nama: '📱 Ganti LCD Tablet Android 7-8 inch', jenis: 'Sparepart', harga: 700000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: '📱 Ganti LCD Tablet Android 10 inch', jenis: 'Sparepart', harga: 1000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: '📱 Ganti LCD iPad Mini Original', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Layar', nama: '📱 Ganti LCD iPad Air/Pro Original', jenis: 'Sparepart', harga: 3800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Baterai', nama: '🔋 Ganti Baterai Tablet Android', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Baterai', nama: '🔋 Ganti Baterai iPad Original', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Charger', nama: '⚡ Ganti Port Charger Tablet', jenis: 'Sparepart', harga: 300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Software', nama: '💻 Flashing/Install Ulang Tablet Android', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Tablet', tipe: 'Software', nama: '💻 Restore/Update iPadOS', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Tablet', tipe: 'Tombol', nama: '🔘 Ganti Tombol Power/Volume Tablet', jenis: 'Sparepart', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'Audio', nama: '🔊 Ganti Speaker Tablet', jenis: 'Sparepart', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Tablet', tipe: 'IC Power', nama: '🔧 Service IC Power Tablet (Tidak Hidup)', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== GAMING (PS, XBOX, SWITCH) ==========
+      // ============================================
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Bersihkan + Ganti Pasta Thermal', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Ganti Optical Lens (Blue Ray)', jenis: 'Sparepart', harga: 600000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Service HDMI Rusak', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Service IC Power', jenis: 'Jasa', harga: 900000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Service Overheating (Panas Berlebih)', jenis: 'Jasa', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'PlayStation', nama: '🎮 PS4/PS5 Ganti Kipas', jenis: 'Sparepart', harga: 350000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Xbox', nama: '🎮 Xbox One/Series Service (Tidak Hidup)', jenis: 'Jasa', harga: 800000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Xbox', nama: '🎮 Xbox One/Series Bersihkan + Ganti Pasta', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: '🎮 Nintendo Switch Ganti LCD', jenis: 'Sparepart', harga: 1300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: '🎮 Nintendo Switch Ganti Joycon (Drift)', jenis: 'Sparepart', harga: 600000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: '🎮 Nintendo Switch Service Joycon (Drift)', jenis: 'Jasa', harga: 200000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Gaming', tipe: 'Nintendo', nama: '🎮 Nintendo Switch Ganti Baterai', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== PRINTER (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Printer', tipe: 'Printer', nama: '🖨️ Service Printer (Tidak Ngeprint/Macet)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Epson', nama: '🖨️ Epson Flushing (Tinta Tidak Keluar)', jenis: 'Jasa', harga: 300000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Epson', nama: '🖨️ Epson Ganti Printhead', jenis: 'Sparepart', harga: 1000000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Epson', nama: '🖨️ Epson Reset Waste Ink Counter', jenis: 'Jasa', harga: 150000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Canon', nama: '🖨️ Canon Ganti Printhead', jenis: 'Sparepart', harga: 900000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'HP', nama: '🖨️ HP Ganti Cartridge Original', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'HP', nama: '🖨️ HP Reset Cartridge (Refill)', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Printer', nama: '🖨️ Service Printer Paper Jam (Kertas Macet)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Printer', nama: '🖨️ Service Printer (Tarik Kertas Terus)', jenis: 'Jasa', harga: 180000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Printer', nama: '🖨️ Service Printer (Hasil Cetak Bergaris/Pudar)', jenis: 'Jasa', harga: 200000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Printer', tipe: 'Printer', nama: '🖨️ Service Printer (Error Light Blinking)', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== SMARTWATCH (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: '⌚ Apple Watch Ganti LCD', jenis: 'Sparepart', harga: 2500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: '⌚ Apple Watch Ganti Baterai', jenis: 'Sparepart', harga: 700000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Apple Watch', nama: '⌚ Apple Watch Ganti Layar Pecah', jenis: 'Sparepart', harga: 2000000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: '⌚ Samsung Watch Ganti LCD', jenis: 'Sparepart', harga: 1500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Samsung Watch', nama: '⌚ Samsung Watch Ganti Baterai', jenis: 'Sparepart', harga: 500000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Smartwatch', nama: '⌚ Ganti Strap Smartwatch (Tali)', jenis: 'Sparepart', harga: 100000, estimasi: '15 Menit', garansi: '7 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Smartwatch', nama: '⌚ Service Smartwatch (Tidak Bisa Cas)', jenis: 'Jasa', harga: 250000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Smartwatch', tipe: 'Smartwatch', nama: '⌚ Service Smartwatch (Tidak Hidup)', jenis: 'Jasa', harga: 300000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== DESKTOP PC (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Desktop', tipe: 'Power', nama: '🖥️ Ganti Power Supply PC 450W', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Power', nama: '🖥️ Ganti Power Supply PC 600W', jenis: 'Sparepart', harga: 750000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Power', nama: '🖥️ Ganti Power Supply PC 750W (Gaming)', jenis: 'Sparepart', harga: 1000000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'RAM', nama: '💾 Upgrade RAM PC DDR3/DDR4 8GB', jenis: 'Sparepart', harga: 400000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'RAM', nama: '💾 Upgrade RAM PC DDR4 16GB', jenis: 'Sparepart', harga: 700000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'RAM', nama: '💾 Upgrade RAM PC DDR4 32GB', jenis: 'Sparepart', harga: 1300000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'SSD', nama: '💾 Upgrade SSD PC 240GB', jenis: 'Sparepart', harga: 500000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'SSD', nama: '💾 Upgrade SSD PC 480GB', jenis: 'Sparepart', harga: 700000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'SSD', nama: '💾 Upgrade SSD PC 1TB', jenis: 'Sparepart', harga: 1200000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'HDD', nama: '💾 Ganti HDD PC 1TB', jenis: 'Sparepart', harga: 600000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'HDD', nama: '💾 Ganti HDD PC 2TB', jenis: 'Sparepart', harga: 900000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Motherboard', nama: '🔧 Service Motherboard PC (Tidak Hidup)', jenis: 'Jasa', harga: 400000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Motherboard', nama: '🔧 Service Motherboard PC (Blue Screen)', jenis: 'Jasa', harga: 350000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'VGA', nama: '🎮 Service VGA Card Rusak (Tidak Display)', jenis: 'Jasa', harga: 500000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'VGA', nama: '🎮 Service VGA Card (Artifak/Glitch)', jenis: 'Jasa', harga: 450000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'VGA', nama: '🎮 Reball VGA Card', jenis: 'Jasa', harga: 600000, estimasi: '2-3 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Software', nama: '💻 Rakit PC + Install Windows + Driver', jenis: 'Jasa', harga: 500000, estimasi: '2-4 Jam', garansi: '7 Hari' },
+      { kategori: 'Desktop', tipe: 'Software', nama: '💻 Install Windows + Software (PC Baru)', jenis: 'Jasa', harga: 200000, estimasi: '2-3 Jam', garansi: '7 Hari' },
+      { kategori: 'Desktop', tipe: 'Cooling', nama: '🌀 Service Kipas PC (Berisik/Tidak Berputar)', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Cooling', nama: '🌀 Ganti Kipas PC (Case/CPU)', jenis: 'Sparepart', harga: 150000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Cooling', nama: '🌀 Ganti Thermal Paste CPU + Bersihkan', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'USB', nama: '🔌 Service USB Port PC (Tidak Berfungsi)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '30 Hari' },
+      { kategori: 'Desktop', tipe: 'Audio', nama: '🎧 Service Jack Audio PC Rusak', jenis: 'Jasa', harga: 100000, estimasi: '1 Jam', garansi: '30 Hari' },
+      
+      // ============================================
+      // ========== JASA KECIL (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Jasa Kecil', tipe: 'LCD', nama: '🔧 Jasa Ganti LCD (Tanpa Sparepart)', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Baterai', nama: '🔧 Jasa Ganti Baterai (Tanpa Sparepart)', jenis: 'Jasa', harga: 50000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Charger', nama: '🔧 Jasa Ganti Port Charger (Tanpa Sparepart)', jenis: 'Jasa', harga: 60000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Tombol', nama: '🔧 Jasa Ganti Tombol (Tanpa Sparepart)', jenis: 'Jasa', harga: 40000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Audio', nama: '🔧 Jasa Ganti Speaker/Mic (Tanpa Sparepart)', jenis: 'Jasa', harga: 40000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Software', nama: '🔧 Jasa Install Ulang OS (Tanpa Lisensi)', jenis: 'Jasa', harga: 50000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Cleaning', nama: '🔧 Jasa Cleaning HP/Laptop (Deep Clean)', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Data Recovery', nama: '🔧 Jasa Recovery Data HP/Laptop', jenis: 'Jasa', harga: 150000, estimasi: '1-3 Hari', garansi: 'Hanya Proses' },
+      { kategori: 'Jasa Kecil', tipe: 'Unlock', nama: '🔧 Jasa Unlock HP (Pattern/FRP)', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Soldering', nama: '🔧 Jasa Soldering (Per Titik) - Jasa', jenis: 'Jasa', harga: 30000, estimasi: '15-30 Menit', garansi: '3 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Water Damage', nama: '🔧 Jasa Service Water Damage (Cleaning)', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Hari', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'IC', nama: '🔧 Jasa Reball IC (Per IC) - Jasa', jenis: 'Jasa', harga: 150000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Lem LCD', nama: '🔧 Jasa Lem LCD (Hanya Lem) - Tanpa Ganti', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Switch Tombol', nama: '🔧 Jasa Ganti Switch Tombol (Micro Switch)', jenis: 'Jasa', harga: 65000, estimasi: '30-60 Menit', garansi: '7 Hari' },
+      { kategori: 'Jasa Kecil', tipe: 'Backup Data', nama: '🔧 Jasa Backup Data (Transfer File)', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: 'Hanya Proses' },
+      
+      // ============================================
+      // ========== LAYANAN UNIK (LENGKAP) ==========
+      // ============================================
+      { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Install Custom ROM / Custom Firmware', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Root / Unlock Bootloader + Magisk', jenis: 'Jasa', harga: 120000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Pasang Custom Case / Skin HP (Bahan 3M)', jenis: 'Jasa', harga: 60000, estimasi: '30-60 Menit', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Modifikasi', nama: '✨ Ganti Backdoor HP Transparan / Custom', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Gaming', nama: '🎮 Jasa Setting Emulator Game (PS2/PSP/GameCube)', jenis: 'Jasa', harga: 75000, estimasi: '1-2 Jam', garansi: '7 Hari' },
-      { kategori: 'Layanan Unik', tipe: 'Gaming', nama: '🎮 Jasa Install + Setting Game Heavy (Genshin, PUBG, ML)', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Gaming', nama: '🎮 Jasa Install + Setting Game Heavy', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Desain', nama: '🎨 Desain Grafis untuk Cetak Case (Custom Print)', jenis: 'Jasa', harga: 50000, estimasi: '1 Hari', garansi: 'Hanya Proses' },
-      { kategori: 'Layanan Unik', tipe: 'Konsultasi', nama: '💬 Jasa Cek IMEI / Keaslian HP (Original or Not)', jenis: 'Jasa', harga: 25000, estimasi: '15 Menit', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Konsultasi', nama: '💬 Jasa Cek IMEI / Keaslian HP', jenis: 'Jasa', harga: 25000, estimasi: '15 Menit', garansi: 'Hanya Proses' },
       { kategori: 'Layanan Unik', tipe: 'Antivirus', nama: '🛡️ Jasa Scan + Bersihkan Virus/Malware', jenis: 'Jasa', harga: 60000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Network', nama: '🌐 Jasa Setting WiFi / Jaringan Rumah', jenis: 'Jasa', harga: 100000, estimasi: '1-2 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Printer', nama: '🖨️ Jasa Isi Ulang Tinta + Reset Printer', jenis: 'Jasa', harga: 50000, estimasi: '30 Menit', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'IoT', nama: '📡 Jasa Pasang / Setting Smart Home Device', jenis: 'Jasa', harga: 150000, estimasi: '2-3 Jam', garansi: '7 Hari' },
       { kategori: 'Layanan Unik', tipe: 'Data Recovery', nama: '💾 Jasa Recovery Data (Foto/Dokumen Terhapus)', jenis: 'Jasa', harga: 200000, estimasi: '1-3 Hari', garansi: 'Hanya Proses' },
-      { kategori: 'Layanan Unik', tipe: 'Hardware', nama: '🖥️ Jasa Upgrade BIOS / Firmware', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' }
+      { kategori: 'Layanan Unik', tipe: 'Hardware', nama: '🖥️ Jasa Upgrade BIOS / Firmware', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Joki Service', nama: '✨ Joki Service / Antri Servis (Skip Antri)', jenis: 'Jasa', harga: 50000, estimasi: 'Sesuai Antrian', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Kurir', nama: '✨ Layanan Kurir Instant (Dalam Kota)', jenis: 'Jasa', harga: 30000, estimasi: '1-2 Jam', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'Rental', nama: '✨ Rental HP/Laptop Sementara (Selama Servis)', jenis: 'Jasa', harga: 50000, estimasi: 'Per Hari', garansi: 'Hanya Proses' },
+      { kategori: 'Layanan Unik', tipe: 'VPN', nama: '✨ Setting VPN / Proxy', jenis: 'Jasa', harga: 50000, estimasi: '1 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Cloud', nama: '✨ Setting Cloud Storage / Backup Online', jenis: 'Jasa', harga: 60000, estimasi: '1-2 Jam', garansi: '7 Hari' },
+      { kategori: 'Layanan Unik', tipe: 'Printer', nama: '✨ Setting Printer Sharing Network', jenis: 'Jasa', harga: 80000, estimasi: '1-2 Jam', garansi: '7 Hari' },
     ];
     
     // ============================================
@@ -2174,7 +2469,7 @@
           const status = t.status || 'pending';
           transaksiHtml += `<tr><td data-label="ID">${t.transaksi_id || t.id || '-'}</td><td data-label="Tanggal">${t.tanggal ? new Date(t.tanggal).toLocaleString('id-ID') : '-'}</td><td data-label="Pelanggan">${t.nama_pelanggan || '-'}</td><td data-label="Item">${t.item ? t.item.substring(0, 35) + (t.item.length > 35 ? '...' : '') : '-'}</td><td data-label="Total">${formatRupiah(t.total || 0)}</td><td data-label="Status"><span class="status-badge status-${getStatusClass(status)}">${getStatusLabel(status)}</span></td><td data-label="Kasir">${t.kasir || 'Admin'}</td><td data-label="Aksi"><button class="print-btn-modern" onclick="window.previewPrint('${(t.item || '').replace(/'/g, "\\'")}', ${t.total || 0}, '${(t.nama_pelanggan || '').replace(/'/g, "\\'")}', '${t.transaksi_id || ''}')"><i class="fas fa-print"></i></button></td></tr>`;
         });
-        transaksiTable.innerHTML = transaksiHtml || '<tr><td colspan="8" style="text-align: center;">Belum ada transaksi</td></tr>';
+        transaksiTable.innerHTML = transaksiHtml || '<td><td colspan="8" style="text-align: center;">Belum ada transaksi</td></tr>';
       }
       
       const laporanTotalTransaksi = document.getElementById('laporanTotalTransaksi');
